@@ -48,32 +48,17 @@
   /* Top brand bar */
   .brand-bar {
     background: var(--green-100);
-    padding: 16px 24px;
+    padding: 14px 24px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 12px;
   }
 
-  .brand-bar .logo-text {
-    font-size: 18px;
-    font-weight: 700;
+  .brand-bar .logo-svg {
+    height: 24px;
+    width: auto;
     color: #fff;
-    letter-spacing: -0.3px;
-  }
-
-  .logo-mark {
-    width: 32px;
-    height: 32px;
-    background: var(--saffron);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 16px;
-    color: var(--green-100);
-    letter-spacing: -1px;
   }
 
   .container {
@@ -1136,8 +1121,7 @@
 
 <!-- Brand bar -->
 <div class="brand-bar">
-  <div class="logo-mark">BP</div>
-  <div class="logo-text">Base Power Company</div>
+  <svg class="logo-svg" viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#bp)"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.1091 9.75295C14.7055 9.22349 15.0977 8.52569 15.0977 7.70842C15.0977 5.83223 13.6551 4.58325 11.1811 4.58325H5.15301C4.81185 4.58325 4.53516 4.86292 4.53516 5.20774V14.7896C4.53516 15.1344 4.81185 15.4141 5.15301 15.4141H11.5921C13.6417 15.4141 15.5087 14.3715 15.5087 12.2889C15.5087 11.1078 14.9795 10.2634 14.1064 9.75023L14.1091 9.75295ZM7.42024 6.77169C7.42024 6.71467 7.46591 6.66851 7.52232 6.66851H11.2321C11.8983 6.66851 12.3657 7.08393 12.3657 7.71114C12.3657 8.33834 11.952 8.75377 11.2321 8.75377H7.52232C7.46591 8.75377 7.42024 8.70761 7.42024 8.65059V6.7744V6.77169ZM11.13 13.3316H7.52232C7.46591 13.3316 7.42024 13.2854 7.42024 13.2284V10.9368C7.42024 10.8797 7.46591 10.8336 7.52232 10.8336H11.13C12.0998 10.8336 12.7794 11.2517 12.7794 12.0826C12.7794 12.9134 12.1804 13.3316 11.13 13.3316Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M26.3827 4.58325H21.1686C19.4869 4.58325 18.0175 5.72634 17.585 7.36631L15.6697 14.6294C15.5649 15.0258 15.8604 15.4168 16.2687 15.4168H17.9745C18.2539 15.4168 18.5011 15.2267 18.5709 14.9525L19.0867 12.9949C19.0974 12.9487 19.1404 12.9188 19.1861 12.9188H24.016C24.0724 12.9188 24.1181 12.965 24.1181 13.022V14.7923C24.1181 15.1371 24.3948 15.4168 24.736 15.4168H26.3853C26.7265 15.4168 27.0032 15.1371 27.0032 14.7923V5.20774C27.0032 4.86292 26.7265 4.58325 26.3853 4.58325H26.3827ZM24.1154 10.7277C24.1154 10.7847 24.0698 10.8309 24.0133 10.8309H19.7878C19.7206 10.8309 19.6696 10.7657 19.6884 10.7005L20.4271 7.9012C20.6205 7.17082 21.2733 6.66308 22.0201 6.66308H24.0133C24.0698 6.66308 24.1154 6.70924 24.1154 6.76625V10.725V10.7277Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M27.9922 12.6528C27.9922 13.3859 28.422 14.1814 29.2413 14.7136C30.0606 15.2403 30.8612 15.4141 31.8793 15.4141H34.4098C36.137 15.4141 37.1041 15.2023 37.816 14.662C38.5305 14.1162 38.8878 13.3044 38.8878 12.2971C38.8878 10.391 37.3163 9.53302 33.8295 8.86509C32.2043 8.55556 30.6892 8.41165 30.6436 7.55637C30.6167 7.07035 30.9417 6.66036 31.9142 6.66036H34.8342C35.3365 6.66036 35.6911 6.78255 35.9786 7.19797C36.0699 7.33373 36.1102 7.55909 36.1263 7.76273C36.1451 8.01795 36.3546 8.21616 36.6072 8.21616H38.1222C38.4285 8.21616 38.6756 7.96636 38.6783 7.65683C38.6783 7.57538 38.6783 7.48306 38.6783 7.3826C38.6783 6.58977 38.2162 5.78608 37.3969 5.25933C36.583 4.72716 35.3365 4.58325 34.3184 4.58325H32.4783C30.7456 4.58325 29.7651 4.83576 29.056 5.38151C28.3468 5.92455 27.9922 6.69838 27.9922 7.70842C27.9922 11.526 36.1236 10.4345 36.1236 12.4871C36.1236 13.0953 35.4762 13.3316 34.7429 13.3316H31.8121C31.0707 13.3316 30.657 12.984 30.657 12.46C30.657 12.46 30.7027 11.8246 30.0338 11.8246H28.5483C28.242 11.8246 27.9922 12.0771 27.9922 12.3867C27.9922 12.4654 27.9922 12.555 27.9922 12.6528Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M49.4663 5.20774V6.0413C49.4663 6.38613 49.1896 6.66579 48.8484 6.66579H42.9735C42.9171 6.66579 42.8714 6.71195 42.8714 6.76897V8.64516C42.8714 8.70218 42.9171 8.74834 42.9735 8.74834H48.0237C48.3649 8.74834 48.6416 9.028 48.6416 9.37283V10.2064C48.6416 10.5512 48.3649 10.8309 48.0237 10.8309H42.9735C42.9171 10.8309 42.8714 10.877 42.8714 10.9341V13.2257C42.8714 13.2827 42.9171 13.3288 42.9735 13.3288H48.8484C49.1896 13.3288 49.4663 13.6085 49.4663 13.9533V14.7869C49.4663 15.1317 49.1896 15.4114 48.8484 15.4114H40.6042C40.263 15.4114 39.9863 15.1317 39.9863 14.7869V5.20774C39.9863 4.86292 40.263 4.58325 40.6042 4.58325H48.8484C49.1896 4.58325 49.4663 4.86292 49.4663 5.20774Z" fill="currentColor"/><path d="M48.8477 0H5.15232C2.30753 0 0 2.33234 0 5.20771V14.7923C0 17.6677 2.30753 20 5.15232 20H48.8477C51.6925 20 54 17.6677 54 14.7923V5.20771C54 2.33234 51.6925 0 48.8477 0ZM51.9396 14.7923C51.9396 16.5164 50.5535 17.9175 48.8477 17.9175H5.15232C3.44384 17.9175 2.06039 16.5191 2.06039 14.7923V5.20771C2.06039 3.48086 3.44384 2.08254 5.15232 2.08254H48.8477C50.5535 2.08254 51.9396 3.48357 51.9396 5.20771V14.7896V14.7923Z" fill="currentColor"/></g><defs><clipPath id="bp"><rect width="54" height="20" fill="currentColor"/></clipPath></defs></svg>
 </div>
 
 <div class="container">
@@ -1159,36 +1143,9 @@
 
     <!-- Equity Inputs -->
     <div class="card">
-      <div class="card-title">Your Equity Details</div>
+      <div class="card-title">Your RSU Details</div>
       <div class="form-grid">
-        <div class="form-group full-width">
-          <label>Equity Type</label>
-          <div class="toggle-row" style="margin-top:4px;">
-            <span class="toggle-label active" id="label-options" onclick="setEquityType(false)">Stock Options</span>
-            <label class="toggle">
-              <input type="checkbox" id="equityTypeToggle" onchange="handleEquityTypeChange()">
-              <span class="toggle-slider"></span>
-            </label>
-            <span class="toggle-label" id="label-rsus" onclick="setEquityType(true)">RSUs</span>
-          </div>
-        </div>
-        <!-- Options: number of shares -->
-        <div class="form-group" id="numSharesGroup">
-          <label>Number of Options
-            <span class="tooltip-trigger">?<span class="tooltip-text">The total number of stock options granted in your offer. Check your offer letter for this number.</span></span>
-          </label>
-          <input type="text" id="numShares" value="10,000" oninput="handleSharesInput(this)" inputmode="numeric">
-        </div>
-        <div class="form-group" id="strikePriceGroup">
-          <label>Strike Price
-            <span class="tooltip-trigger">?<span class="tooltip-text">The price you pay to exercise (buy) each option. This is set when your options are granted, typically at the current fair market value.</span></span>
-          </label>
-          <div class="input-prefix">
-            <input type="number" id="strikePrice" value="2.50" step="0.01" min="0" oninput="recalculate()">
-          </div>
-        </div>
-        <!-- RSUs: dollar amount -->
-        <div class="form-group" id="rsuDollarGroup" style="display:none;">
+        <div class="form-group">
           <label>RSU Grant Value
             <span class="tooltip-trigger">?<span class="tooltip-text">The total dollar value of RSUs in your offer letter. The number of shares you receive is determined by dividing this amount by the share price at the time of grant.</span></span>
           </label>
@@ -1196,83 +1153,53 @@
             <input type="text" id="rsuDollar" value="50,000" oninput="handleRsuDollarInput(this)" inputmode="numeric">
           </div>
         </div>
-        <div class="form-group" id="grantValuationGroup" style="display:none;">
+        <div class="form-group">
           <label>Grant-Time Valuation
             <span class="tooltip-trigger">?<span class="tooltip-text">The company's valuation when your RSUs were granted. This determines how many shares your dollar grant converts to. Ask your recruiter for the current valuation.</span></span>
           </label>
           <select id="grantValuation" onchange="recalculate()" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:8px;background:var(--input-bg);font-size:14px;font-family:inherit;color:var(--text-primary);cursor:pointer;">
             <option value="1">$1B</option>
-            <option value="2" selected>$2B</option>
-            <option value="3">$3B</option>
+            <option value="2">$2B</option>
+            <option value="4" selected>$4B</option>
             <option value="5">$5B</option>
-            <option value="7.5">$7.5B</option>
             <option value="10">$10B</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Vesting Period (years)</label>
-          <input type="number" id="vestingYears" value="5" min="1" max="10" step="1" oninput="recalculate()">
-        </div>
-        <div class="form-group">
-          <label>Cliff (years)
-            <span class="tooltip-trigger">?<span class="tooltip-text">The cliff is the minimum time before any equity vests. Typically 1 year — if you leave before the cliff, you receive nothing.</span></span>
-          </label>
-          <input type="number" id="cliffYears" value="1" min="0" max="4" step="1" oninput="recalculate()">
-        </div>
         <div class="form-group full-width">
-          <div class="vesting-visual">
+          <div style="display:flex;gap:24px;font-size:13px;color:var(--text-secondary);">
+            <span><strong>Vesting:</strong> 5 years</span>
+            <span><strong>Cliff:</strong> 1 year</span>
+          </div>
+          <div class="vesting-visual" style="margin-top:8px;">
             <div class="vesting-bar-container" id="vestingBarContainer"></div>
             <div class="vesting-labels" id="vestingLabels"></div>
           </div>
         </div>
       </div>
     </div>
+    <!-- Hidden inputs for JS compatibility -->
+    <input type="hidden" id="strikePrice" value="11.50">
+    <input type="hidden" id="vestingYears" value="5">
+    <input type="hidden" id="cliffYears" value="1">
+    <input type="hidden" id="numShares" value="0">
+    <input type="hidden" id="equityTypeToggle" value="on">
+    <input type="hidden" id="totalShares" value="100000000">
+    <input type="hidden" id="liqPrefToggle" value="">
 
     <!-- Valuation Slider -->
     <div class="card slider-section">
       <div class="card-title">Company Valuation</div>
-      <div class="valuation-display" id="valuationDisplay">$5B</div>
+      <div class="valuation-display" id="valuationDisplay">$4B</div>
       <div class="slider-wrapper">
-        <input type="range" id="valuationSlider" min="1" max="50" value="5" step="0.1" oninput="recalculate()">
+        <input type="range" id="valuationSlider" min="1" max="100" value="4" step="0.5" oninput="recalculate()">
       </div>
       <div class="slider-markers">
         <span class="slider-marker" onclick="setValuation(1)">$1B</span>
-        <span class="slider-marker" onclick="setValuation(5)">$5B</span>
+        <span class="slider-marker" onclick="setValuation(4)">$4B</span>
         <span class="slider-marker" onclick="setValuation(10)">$10B</span>
         <span class="slider-marker" onclick="setValuation(25)">$25B</span>
         <span class="slider-marker" onclick="setValuation(50)">$50B</span>
-      </div>
-    </div>
-
-    <!-- Key Assumptions -->
-    <div class="card">
-      <div class="collapsible-header" id="assumptionsHeader" onclick="toggleCollapsible('assumptions')">
-        <div class="card-title" style="margin-bottom:0;">Key Assumptions</div>
-        <span class="chevron">&#9660;</span>
-      </div>
-      <div class="collapsible-body" id="assumptionsBody">
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Total Shares Outstanding
-              <span class="tooltip-trigger">?<span class="tooltip-text">The total number of shares the company has issued. This determines what fraction of the company each share represents. Ask your recruiter for the current count.</span></span>
-            </label>
-            <input type="text" id="totalShares" value="100,000,000" oninput="handleTotalSharesInput(this)" inputmode="numeric">
-            <div class="assumption-note">Ask your recruiter for the current share count</div>
-          </div>
-          <div class="form-group">
-            <label>Liquidation Preference
-              <span class="tooltip-trigger">?<span class="tooltip-text">Investors with liquidation preferences get paid first in an exit. A "1x preference" means investors get their money back before common shareholders. "None" means all shares are treated equally.</span></span>
-            </label>
-            <div class="toggle-row" style="margin-top:4px;">
-              <span class="toggle-label active" id="label-nopref" onclick="setLiqPref(false)">None</span>
-              <label class="toggle">
-                <input type="checkbox" id="liqPrefToggle" onchange="handleLiqPrefChange()">
-                <span class="toggle-slider"></span>
-              </label>
-              <span class="toggle-label" id="label-1xpref" onclick="setLiqPref(true)">1x Pref</span>
-            </div>
-          </div>
-        </div>
+        <span class="slider-marker" onclick="setValuation(100)">$100B</span>
       </div>
     </div>
 
@@ -1280,25 +1207,22 @@
     <div class="card">
       <div class="card-title">Your Equity Value</div>
       <div class="results-grid">
-        <div class="result-item">
-          <div class="result-label">Price/Share</div>
-          <div class="result-value accent" id="pricePerShare">$0.05</div>
-        </div>
-        <div class="result-item">
-          <div class="result-value highlight" id="fullyVestedValue">$250</div>
-          <div class="result-label" style="margin-top:4px;">Fully Vested Value</div>
-        </div>
-        <div class="result-item" id="netGainItem">
-          <div class="result-label">Net Gain</div>
-          <div class="result-value" id="netGainValue" style="color:var(--success);">$0</div>
-          <div class="result-sub" id="netGainSub">over exercise cost</div>
-        </div>
-        <div class="result-item" id="rsuGrantItem" style="display:none;">
+        <div class="result-item" id="rsuGrantItem">
           <div class="result-label">RSU Grant</div>
           <div class="result-value accent" id="rsuGrantValue">$50,000</div>
           <div class="result-sub" id="rsuGrantSub">0 shares at $0/share</div>
         </div>
+        <div class="result-item">
+          <div class="result-value highlight" id="fullyVestedValue">$0</div>
+          <div class="result-label" style="margin-top:4px;">Projected Fully Vested Value</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Price/Share</div>
+          <div class="result-value accent" id="pricePerShare">$0</div>
+        </div>
       </div>
+      <!-- Hidden elements for JS compatibility -->
+      <div id="netGainItem" style="display:none;"><div id="netGainValue"></div><div id="netGainSub"></div></div>
       <div style="overflow-x:auto;">
         <table class="vesting-table">
           <thead><tr><th>Year</th><th>% Vested</th><th>Shares Vested</th><th>Value</th></tr></thead>
@@ -1513,14 +1437,13 @@ function switchTab(tab) {
 // ═══════════════════════════════════════════════════════════
 
 let eqState = {
-  numShares: 10000,
-  strikePrice: 2.50,
   rsuDollar: 50000,
-  grantValuationB: 2,
-  isRSU: false,
+  grantValuationB: 4,
+  strikePrice: 11.50,
+  isRSU: true,
   vestingYears: 5,
   cliffYears: 1,
-  valuationB: 5,
+  valuationB: 4,
   totalShares: 100000000,
   liqPref: false,
   showTax: false,
@@ -1554,17 +1477,6 @@ function fmtDollar(n) {
 function fmtShares(n) { return Math.round(n).toLocaleString('en-US'); }
 function formatWithCommas(n) { return n.toLocaleString('en-US'); }
 
-function handleSharesInput(el) {
-  const raw = el.value.replace(/[^0-9]/g, '');
-  const num = parseInt(raw, 10) || 0;
-  const pos = el.selectionStart;
-  const oldLen = el.value.length;
-  el.value = num > 0 ? formatWithCommas(num) : '';
-  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
-  eqState.numShares = num;
-  recalculate();
-}
-
 function handleRsuDollarInput(el) {
   const raw = el.value.replace(/[^0-9]/g, '');
   const num = parseInt(raw, 10) || 0;
@@ -1574,47 +1486,6 @@ function handleRsuDollarInput(el) {
   el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
   eqState.rsuDollar = num;
   recalculate();
-}
-
-function handleTotalSharesInput(el) {
-  const raw = el.value.replace(/[^0-9]/g, '');
-  const num = parseInt(raw, 10) || 0;
-  const pos = el.selectionStart;
-  const oldLen = el.value.length;
-  el.value = num > 0 ? formatWithCommas(num) : '';
-  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
-  eqState.totalShares = num;
-  recalculate();
-}
-
-function handleEquityTypeChange() {
-  eqState.isRSU = document.getElementById('equityTypeToggle').checked;
-  document.getElementById('label-options').classList.toggle('active', !eqState.isRSU);
-  document.getElementById('label-rsus').classList.toggle('active', eqState.isRSU);
-  document.getElementById('numSharesGroup').style.display = eqState.isRSU ? 'none' : 'flex';
-  document.getElementById('strikePriceGroup').style.display = eqState.isRSU ? 'none' : 'flex';
-  document.getElementById('rsuDollarGroup').style.display = eqState.isRSU ? 'flex' : 'none';
-  document.getElementById('grantValuationGroup').style.display = eqState.isRSU ? 'flex' : 'none';
-  document.getElementById('netGainItem').style.display = eqState.isRSU ? 'none' : 'flex';
-  document.getElementById('rsuGrantItem').style.display = eqState.isRSU ? 'flex' : 'none';
-  recalculate();
-}
-
-function setEquityType(isRSU) {
-  document.getElementById('equityTypeToggle').checked = isRSU;
-  handleEquityTypeChange();
-}
-
-function handleLiqPrefChange() {
-  eqState.liqPref = document.getElementById('liqPrefToggle').checked;
-  document.getElementById('label-nopref').classList.toggle('active', !eqState.liqPref);
-  document.getElementById('label-1xpref').classList.toggle('active', eqState.liqPref);
-  recalculate();
-}
-
-function setLiqPref(pref) {
-  document.getElementById('liqPrefToggle').checked = pref;
-  handleLiqPrefChange();
 }
 
 function setValuation(v) {
@@ -1656,42 +1527,26 @@ function animateValue(el, text) {
 }
 
 function recalculate() {
-  eqState.strikePrice = parseFloat(document.getElementById('strikePrice').value) || 0;
-  eqState.vestingYears = parseInt(document.getElementById('vestingYears').value) || 5;
-  eqState.cliffYears = parseInt(document.getElementById('cliffYears').value) || 0;
   eqState.valuationB = parseFloat(document.getElementById('valuationSlider').value);
+  eqState.grantValuationB = parseFloat(document.getElementById('grantValuation').value) || 4;
 
   const v = eqState.valuationB;
 
-  // For RSUs, derive share count from dollar grant at grant-time valuation
-  let effectiveShares = eqState.numShares;
-  if (eqState.isRSU) {
-    eqState.grantValuationB = parseFloat(document.getElementById('grantValuation').value) || 2;
-    const grantValDollars = eqState.grantValuationB * 1e9;
-    const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
-    effectiveShares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
-  }
+  // Derive share count from RSU dollar grant at grant-time valuation
+  const grantValDollars = eqState.grantValuationB * 1e9;
+  const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
+  const effectiveShares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
 
-  const { pricePerShare, totalValue, exerciseTotal, netGain } =
-    calcEquityValue(v, effectiveShares, eqState.strikePrice, eqState.isRSU, eqState.totalShares, eqState.liqPref);
+  const { pricePerShare, totalValue } =
+    calcEquityValue(v, effectiveShares, 0, true, eqState.totalShares, false);
 
   const valDisplay = document.getElementById('valuationDisplay');
   valDisplay.textContent = v >= 10 ? `$${Math.round(v)}B` : `$${v.toFixed(1).replace(/\.0$/, '')}B`;
 
   animateValue(document.getElementById('pricePerShare'), fmtDollar(pricePerShare));
   animateValue(document.getElementById('fullyVestedValue'), fmt(totalValue));
-
-  if (eqState.isRSU) {
-    const grantPPS = eqState.totalShares > 0 ? (eqState.grantValuationB * 1e9) / eqState.totalShares : 0;
-    animateValue(document.getElementById('rsuGrantValue'), fmt(eqState.rsuDollar));
-    document.getElementById('rsuGrantSub').textContent = `${fmtShares(effectiveShares)} shares at ${fmtDollar(grantPPS)}/share`;
-  } else {
-    const ngEl = document.getElementById('netGainValue');
-    animateValue(ngEl, fmt(netGain));
-    ngEl.style.color = netGain > 0 ? 'var(--success)' : netGain < 0 ? 'var(--danger)' : 'var(--text-muted)';
-    document.getElementById('netGainSub').textContent =
-      netGain > 0 ? `over ${fmt(exerciseTotal)} exercise cost` : 'over exercise cost';
-  }
+  animateValue(document.getElementById('rsuGrantValue'), fmt(eqState.rsuDollar));
+  document.getElementById('rsuGrantSub').textContent = `${fmtShares(effectiveShares)} shares at ${fmtDollar(grantPPS)}/share`;
 
   renderVestingTable(pricePerShare, effectiveShares);
   renderVestingBar();
@@ -1740,17 +1595,11 @@ function renderVestingTable(pps, effectiveShares) {
 }
 
 function renderComparisonChart() {
-  const ms = [2, 5, 10, 25, 50];
-  const vals = ms.map(v => {
-    let shares = eqState.numShares;
-    if (eqState.isRSU) {
-      // Share count is fixed at grant time, not at each future valuation
-      const grantValDollars = eqState.grantValuationB * 1e9;
-      const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
-      shares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
-    }
-    return calcEquityValue(v, shares, eqState.strikePrice, eqState.isRSU, eqState.totalShares, eqState.liqPref).totalValue;
-  });
+  const ms = [1, 4, 10, 25, 50, 100];
+  const grantValDollars = eqState.grantValuationB * 1e9;
+  const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
+  const shares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
+  const vals = ms.map(v => calcEquityValue(v, shares, 0, true, eqState.totalShares, false).totalValue);
   const max = Math.max(...vals, 1);
   const c = document.getElementById('comparisonChart');
   let h = '';
