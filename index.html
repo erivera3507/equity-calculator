@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offer Explorer — Base Power Company</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --green-100: #084D41;
+    --green-90: #0a6354;
+    --green-80: #0d7a68;
+    --green-70: #10917c;
+    --green-60: #14a890;
+    --saffron: #f7c33c;
+    --saffron-dark: #e0a820;
+    --lime: #d0f585;
+    --lime-dark: #a8d45e;
+    --cream: #F0EEEB;
+    --cream-dark: #e2dfdb;
+    --near-black: #030303;
+    --bg: #faf9f7;
+    --card-bg: #ffffff;
+    --card-border: rgba(8, 77, 65, 0.1);
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(8,77,65,0.06);
+    --input-bg: #f5f4f2;
+    --input-border: #d8d5d0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555550;
+    --text-muted: #8a8880;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --focus-ring: rgba(8, 77, 65, 0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Top brand bar */
+  .brand-bar {
+    background: var(--green-100);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .brand-bar .logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--saffron);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+    color: var(--green-100);
+    letter-spacing: -1px;
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* Tab navigation */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    margin: 24px 0 28px;
+    border-bottom: 2px solid var(--cream-dark);
+  }
+
+  .tab-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+    font-family: inherit;
+  }
+
+  .tab-btn:hover {
+    color: var(--text-secondary);
+  }
+
+  .tab-btn.active {
+    color: var(--green-100);
+    border-bottom-color: var(--green-100);
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+
+  /* Section header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .section-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--green-100);
+    margin-bottom: 6px;
+  }
+
+  .section-header p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 26px;
+    margin-bottom: 18px;
+    box-shadow: var(--card-shadow);
+  }
+
+  .card-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--green-90);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Form elements */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .tooltip-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgba(8, 77, 65, 0.08);
+    color: var(--green-90);
+    font-size: 9px;
+    font-weight: 700;
+    cursor: help;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .tooltip-trigger .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--green-100);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    width: 240px;
+    line-height: 1.5;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    pointer-events: none;
+    transition: opacity 0.15s, visibility 0.15s;
+  }
+
+  .tooltip-trigger .tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--green-100);
+  }
+
+  .tooltip-trigger:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  input[type="number"], input[type="text"] {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    -moz-appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input:focus {
+    border-color: var(--green-80);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+
+  .input-prefix {
+    position: relative;
+  }
+
+  .input-prefix::before {
+    content: '$';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 14px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .input-prefix input {
+    padding-left: 24px;
+  }
+
+  /* Searchable select */
+  .city-search-wrapper {
+    position: relative;
+  }
+
+  .city-search-wrapper input {
+    padding-right: 32px;
+  }
+
+  .city-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 50;
+    display: none;
+  }
+
+  .city-dropdown.open {
+    display: block;
+  }
+
+  .city-option {
+    padding: 9px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.1s;
+  }
+
+  .city-option:hover, .city-option.highlighted {
+    background: rgba(8, 77, 65, 0.06);
+  }
+
+  .city-option .city-name {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .city-option .city-index {
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  /* Toggle switch */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .toggle-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+    user-select: none;
+  }
+
+  .toggle-label.active {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #ccc;
+    border-radius: 24px;
+    transition: background 0.25s;
+  }
+
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.25s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+
+  .toggle input:checked + .toggle-slider {
+    background: var(--green-80);
+  }
+
+  .toggle input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  .toggle-sm {
+    width: 36px;
+    height: 20px;
+  }
+
+  .toggle-sm .toggle-slider::before {
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+  }
+
+  .toggle-sm input:checked + .toggle-slider::before {
+    transform: translateX(16px);
+  }
+
+  /* Vesting timeline visual */
+  .vesting-visual {
+    margin-top: 14px;
+    padding: 14px;
+    background: var(--input-bg);
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .vesting-bar-container {
+    display: flex;
+    gap: 3px;
+    height: 28px;
+    margin-bottom: 6px;
+  }
+
+  .vesting-segment {
+    flex: 1;
+    border-radius: 4px;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: transparent;
+    transition: background 0.3s;
+  }
+
+  .vesting-segment.cliff {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--cream-dark),
+      var(--cream-dark) 3px,
+      #d0cdc8 3px,
+      #d0cdc8 6px
+    );
+  }
+
+  .vesting-segment.vested {
+    background: linear-gradient(135deg, var(--green-80), var(--green-60));
+    color: #fff;
+  }
+
+  .vesting-labels {
+    display: flex;
+    gap: 3px;
+  }
+
+  .vesting-labels span {
+    flex: 1;
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  /* Valuation slider */
+  .slider-section {
+    text-align: center;
+  }
+
+  .valuation-display {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: var(--green-100);
+    margin: 6px 0 20px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .slider-wrapper {
+    position: relative;
+    padding: 0 4px;
+    margin-bottom: 8px;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg,
+      var(--green-100) 0%,
+      var(--green-60) 40%,
+      var(--saffron) 100%
+    );
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg,
+      var(--green-100) 0%,
+      var(--green-60) 40%,
+      var(--saffron) 100%
+    );
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--green-100);
+    cursor: grab;
+    margin-top: -9px;
+    box-shadow: 0 2px 8px rgba(8, 77, 65, 0.25);
+    transition: box-shadow 0.2s, transform 0.1s;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--green-100);
+    cursor: grab;
+    box-shadow: 0 2px 8px rgba(8, 77, 65, 0.25);
+  }
+
+  input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.12);
+    box-shadow: 0 2px 16px rgba(8, 77, 65, 0.35);
+    cursor: grabbing;
+  }
+
+  .slider-markers {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0 0;
+  }
+
+  .slider-marker {
+    font-size: 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    user-select: none;
+    font-weight: 500;
+  }
+
+  .slider-marker:hover {
+    color: var(--green-100);
+    background: rgba(8, 77, 65, 0.06);
+  }
+
+  /* Collapsible */
+  .collapsible-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 0;
+  }
+
+  .collapsible-header .chevron {
+    transition: transform 0.25s;
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+
+  .collapsible-header.open .chevron {
+    transform: rotate(180deg);
+  }
+
+  .collapsible-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .collapsible-body.open {
+    max-height: 400px;
+    padding-top: 16px;
+  }
+
+  .assumption-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* Results */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .result-item {
+    background: var(--input-bg);
+    border-radius: 10px;
+    padding: 16px 14px;
+    border: 1px solid rgba(0,0,0,0.04);
+    text-align: center;
+  }
+
+  .result-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .result-value {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+  }
+
+  .result-value.highlight {
+    color: var(--green-100);
+  }
+
+  .result-value.accent {
+    color: var(--green-80);
+  }
+
+  .result-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Vesting table */
+  .vesting-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 24px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .vesting-table th {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--cream-dark);
+  }
+
+  .vesting-table td {
+    padding: 9px 10px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--cream);
+    color: var(--text-secondary);
+  }
+
+  .vesting-table tr:last-child td {
+    border-bottom: none;
+    font-weight: 600;
+    color: var(--green-100);
+  }
+
+  .vesting-table .cliff-row td {
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* Bar chart */
+  .chart-container { padding: 4px 0 0; }
+
+  .chart-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .chart-label {
+    width: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .chart-bar-track {
+    flex: 1;
+    height: 30px;
+    background: var(--input-bg);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .chart-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+
+  .chart-bar-fill.bar-1 { background: linear-gradient(90deg, #084D41, #0d7a68); }
+  .chart-bar-fill.bar-2 { background: linear-gradient(90deg, #0a6354, #10917c); }
+  .chart-bar-fill.bar-3 { background: linear-gradient(90deg, #0d7a68, #14a890); }
+  .chart-bar-fill.bar-4 { background: linear-gradient(90deg, #10917c, #5ec4a8); }
+  .chart-bar-fill.bar-5 { background: linear-gradient(90deg, #c5950f, #f7c33c); }
+
+  .chart-bar-value-external {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-left: 8px;
+    flex-shrink: 0;
+    min-width: 72px;
+  }
+
+  /* Tax section */
+  .tax-section {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--cream);
+  }
+
+  .tax-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 13px;
+  }
+
+  .tax-row .tax-label { color: var(--text-secondary); }
+  .tax-row .tax-value { font-weight: 600; color: var(--danger); font-variant-numeric: tabular-nums; }
+  .tax-row.net .tax-label { color: var(--text-primary); font-weight: 600; }
+  .tax-row.net .tax-value { color: var(--success); font-size: 15px; }
+
+  /* ─── Cost of Living Section ─── */
+  .col-hero {
+    background: linear-gradient(135deg, var(--green-100) 0%, var(--green-80) 100%);
+    border-radius: 14px;
+    padding: 36px 28px;
+    margin-bottom: 18px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .col-hero::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(208,245,133,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .col-hero h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    position: relative;
+  }
+
+  .col-hero p {
+    font-size: 14px;
+    opacity: 0.85;
+    max-width: 400px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .col-inputs {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 10px;
+  }
+
+  .col-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    color: var(--green-80);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .col-fixed-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green-100);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+
+  .col-fixed-city {
+    background: linear-gradient(135deg, rgba(8,77,65,0.06), rgba(8,77,65,0.02));
+    border: 2px solid var(--green-100);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-100);
+  }
+
+  /* COL Result Cards */
+  .col-result-hero {
+    text-align: center;
+    padding: 28px 20px;
+    margin-bottom: 18px;
+  }
+
+  .col-percentage {
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .col-percentage.cheaper {
+    color: var(--success);
+  }
+
+  .col-percentage.pricier {
+    color: var(--danger);
+  }
+
+  .col-direction-text {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .col-direction-text strong {
+    color: var(--green-100);
+  }
+
+  /* Salary comparison */
+  .salary-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .salary-box {
+    background: var(--input-bg);
+    border-radius: 10px;
+    padding: 18px 16px;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .salary-box.austin {
+    background: linear-gradient(135deg, rgba(8,77,65,0.06), rgba(208,245,133,0.12));
+    border: 1px solid rgba(8,77,65,0.15);
+  }
+
+  .salary-box-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .salary-box-value {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+  }
+
+  .salary-box.austin .salary-box-value {
+    color: var(--green-100);
+  }
+
+  .salary-box-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Category breakdown bars */
+  .col-category-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .col-cat-label {
+    width: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .col-cat-bar-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .col-cat-bar-track {
+    flex: 1;
+    height: 24px;
+    background: var(--input-bg);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .col-cat-bar-track .baseline {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--text-muted);
+    opacity: 0.3;
+  }
+
+  .col-cat-bar-fill {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    border-radius: 3px;
+    transition: left 0.4s, width 0.4s;
+  }
+
+  .col-cat-bar-fill.cheaper {
+    background: linear-gradient(90deg, var(--green-80), var(--green-60));
+  }
+
+  .col-cat-bar-fill.pricier {
+    background: linear-gradient(90deg, var(--saffron-dark), var(--saffron));
+  }
+
+  .col-cat-pct {
+    width: 48px;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    text-align: left;
+  }
+
+  .col-cat-pct.cheaper { color: var(--success); }
+  .col-cat-pct.pricier { color: var(--danger); }
+
+  /* Offer input for COL */
+  .offer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  /* What your money buys */
+  .purchasing-power-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--cream);
+  }
+
+  .purchasing-power-row:last-child {
+    border-bottom: none;
+  }
+
+  .pp-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(8,77,65,0.07);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .pp-content {
+    flex: 1;
+  }
+
+  .pp-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .pp-values {
+    display: flex;
+    gap: 16px;
+    margin-top: 2px;
+  }
+
+  .pp-val {
+    font-size: 14px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pp-val.origin { color: var(--text-muted); text-decoration: line-through; }
+  .pp-val.austin { color: var(--green-100); }
+
+  /* Disclaimer */
+  .disclaimer {
+    margin-top: 32px;
+    padding: 16px 20px;
+    background: var(--input-bg);
+    border-radius: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* Print button */
+  .print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(8, 77, 65, 0.06);
+    border: 1px solid rgba(8, 77, 65, 0.15);
+    border-radius: 8px;
+    color: var(--green-100);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: inherit;
+  }
+
+  .print-btn:hover {
+    background: rgba(8, 77, 65, 0.1);
+  }
+
+  .animating {
+    transition: transform 0.15s;
+    transform: scale(1.03);
+  }
+
+  .no-results {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .container { padding: 0 14px 48px; }
+    .section-header h1 { font-size: 22px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: 1fr; }
+    .valuation-display { font-size: 34px; }
+    .result-value { font-size: 20px; }
+    .chart-label { width: 42px; font-size: 11px; }
+    .slider-marker { font-size: 10px; padding: 3px 3px; }
+    .col-inputs { grid-template-columns: 1fr; }
+    .col-arrow { transform: rotate(90deg); padding: 0; }
+    .salary-compare { grid-template-columns: 1fr; }
+    .offer-grid { grid-template-columns: 1fr; }
+    .col-cat-label { width: 72px; font-size: 11px; }
+    .col-percentage { font-size: 42px; }
+    .tab-btn { padding: 10px 14px; font-size: 13px; }
+  }
+
+  @media print {
+    body { background: #fff; }
+    .brand-bar { background: #084D41; }
+    .tab-nav { display: none; }
+    .tab-panel { display: block !important; page-break-inside: avoid; }
+    .card { box-shadow: none; border: 1px solid #ddd; }
+    input[type="range"] { display: none; }
+    .slider-markers, .print-btn, .toggle, .city-dropdown { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Brand bar -->
+<div class="brand-bar">
+  <div class="logo-mark">BP</div>
+  <div class="logo-text">Base Power Company</div>
+</div>
+
+<div class="container">
+
+  <!-- Tab navigation -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('equity')">Equity Value Explorer</button>
+    <button class="tab-btn" onclick="switchTab('col')">Cost of Living Calculator</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB 1: EQUITY VALUE EXPLORER            -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel active" id="panel-equity">
+    <div class="section-header">
+      <h1>Equity Value Explorer</h1>
+      <p>Model the potential value of your equity offer across different company valuations.</p>
+    </div>
+
+    <!-- Equity Inputs -->
+    <div class="card">
+      <div class="card-title">Your Equity Details</div>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Equity Type</label>
+          <div class="toggle-row" style="margin-top:4px;">
+            <span class="toggle-label active" id="label-options" onclick="setEquityType(false)">Stock Options</span>
+            <label class="toggle">
+              <input type="checkbox" id="equityTypeToggle" onchange="handleEquityTypeChange()">
+              <span class="toggle-slider"></span>
+            </label>
+            <span class="toggle-label" id="label-rsus" onclick="setEquityType(true)">RSUs</span>
+          </div>
+        </div>
+        <!-- Options: number of shares -->
+        <div class="form-group" id="numSharesGroup">
+          <label>Number of Options
+            <span class="tooltip-trigger">?<span class="tooltip-text">The total number of stock options granted in your offer. Check your offer letter for this number.</span></span>
+          </label>
+          <input type="text" id="numShares" value="10,000" oninput="handleSharesInput(this)" inputmode="numeric">
+        </div>
+        <div class="form-group" id="strikePriceGroup">
+          <label>Strike Price
+            <span class="tooltip-trigger">?<span class="tooltip-text">The price you pay to exercise (buy) each option. This is set when your options are granted, typically at the current fair market value.</span></span>
+          </label>
+          <div class="input-prefix">
+            <input type="number" id="strikePrice" value="2.50" step="0.01" min="0" oninput="recalculate()">
+          </div>
+        </div>
+        <!-- RSUs: dollar amount -->
+        <div class="form-group" id="rsuDollarGroup" style="display:none;">
+          <label>RSU Grant Value
+            <span class="tooltip-trigger">?<span class="tooltip-text">The total dollar value of RSUs in your offer letter. The number of shares you receive is determined by dividing this amount by the share price at the time of grant.</span></span>
+          </label>
+          <div class="input-prefix">
+            <input type="text" id="rsuDollar" value="50,000" oninput="handleRsuDollarInput(this)" inputmode="numeric">
+          </div>
+        </div>
+        <div class="form-group" id="grantValuationGroup" style="display:none;">
+          <label>Grant-Time Valuation
+            <span class="tooltip-trigger">?<span class="tooltip-text">The company's valuation when your RSUs were granted. This determines how many shares your dollar grant converts to. Ask your recruiter for the current valuation.</span></span>
+          </label>
+          <select id="grantValuation" onchange="recalculate()" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:8px;background:var(--input-bg);font-size:14px;font-family:inherit;color:var(--text-primary);cursor:pointer;">
+            <option value="1">$1B</option>
+            <option value="2" selected>$2B</option>
+            <option value="3">$3B</option>
+            <option value="5">$5B</option>
+            <option value="7.5">$7.5B</option>
+            <option value="10">$10B</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Vesting Period (years)</label>
+          <input type="number" id="vestingYears" value="5" min="1" max="10" step="1" oninput="recalculate()">
+        </div>
+        <div class="form-group">
+          <label>Cliff (years)
+            <span class="tooltip-trigger">?<span class="tooltip-text">The cliff is the minimum time before any equity vests. Typically 1 year — if you leave before the cliff, you receive nothing.</span></span>
+          </label>
+          <input type="number" id="cliffYears" value="1" min="0" max="4" step="1" oninput="recalculate()">
+        </div>
+        <div class="form-group full-width">
+          <div class="vesting-visual">
+            <div class="vesting-bar-container" id="vestingBarContainer"></div>
+            <div class="vesting-labels" id="vestingLabels"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Valuation Slider -->
+    <div class="card slider-section">
+      <div class="card-title">Company Valuation</div>
+      <div class="valuation-display" id="valuationDisplay">$5B</div>
+      <div class="slider-wrapper">
+        <input type="range" id="valuationSlider" min="1" max="50" value="5" step="0.1" oninput="recalculate()">
+      </div>
+      <div class="slider-markers">
+        <span class="slider-marker" onclick="setValuation(1)">$1B</span>
+        <span class="slider-marker" onclick="setValuation(5)">$5B</span>
+        <span class="slider-marker" onclick="setValuation(10)">$10B</span>
+        <span class="slider-marker" onclick="setValuation(25)">$25B</span>
+        <span class="slider-marker" onclick="setValuation(50)">$50B</span>
+      </div>
+    </div>
+
+    <!-- Key Assumptions -->
+    <div class="card">
+      <div class="collapsible-header" id="assumptionsHeader" onclick="toggleCollapsible('assumptions')">
+        <div class="card-title" style="margin-bottom:0;">Key Assumptions</div>
+        <span class="chevron">&#9660;</span>
+      </div>
+      <div class="collapsible-body" id="assumptionsBody">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Total Shares Outstanding
+              <span class="tooltip-trigger">?<span class="tooltip-text">The total number of shares the company has issued. This determines what fraction of the company each share represents. Ask your recruiter for the current count.</span></span>
+            </label>
+            <input type="text" id="totalShares" value="100,000,000" oninput="handleTotalSharesInput(this)" inputmode="numeric">
+            <div class="assumption-note">Ask your recruiter for the current share count</div>
+          </div>
+          <div class="form-group">
+            <label>Liquidation Preference
+              <span class="tooltip-trigger">?<span class="tooltip-text">Investors with liquidation preferences get paid first in an exit. A "1x preference" means investors get their money back before common shareholders. "None" means all shares are treated equally.</span></span>
+            </label>
+            <div class="toggle-row" style="margin-top:4px;">
+              <span class="toggle-label active" id="label-nopref" onclick="setLiqPref(false)">None</span>
+              <label class="toggle">
+                <input type="checkbox" id="liqPrefToggle" onchange="handleLiqPrefChange()">
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label" id="label-1xpref" onclick="setLiqPref(true)">1x Pref</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+      <div class="card-title">Your Equity Value</div>
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="result-label">Price/Share</div>
+          <div class="result-value accent" id="pricePerShare">$0.05</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value highlight" id="fullyVestedValue">$250</div>
+          <div class="result-label" style="margin-top:4px;">Fully Vested Value</div>
+        </div>
+        <div class="result-item" id="netGainItem">
+          <div class="result-label">Net Gain</div>
+          <div class="result-value" id="netGainValue" style="color:var(--success);">$0</div>
+          <div class="result-sub" id="netGainSub">over exercise cost</div>
+        </div>
+        <div class="result-item" id="rsuGrantItem" style="display:none;">
+          <div class="result-label">RSU Grant</div>
+          <div class="result-value accent" id="rsuGrantValue">$50,000</div>
+          <div class="result-sub" id="rsuGrantSub">0 shares at $0/share</div>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="vesting-table">
+          <thead><tr><th>Year</th><th>% Vested</th><th>Shares Vested</th><th>Value</th></tr></thead>
+          <tbody id="vestingTableBody"></tbody>
+        </table>
+      </div>
+      <div class="tax-section" id="taxSection" style="display:none;">
+        <div style="margin-bottom:8px;">
+          <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);">Estimated Tax Impact (fully vested)</label>
+        </div>
+        <div class="tax-row">
+          <span class="tax-label">Federal Tax (~24%)</span>
+          <span class="tax-value" id="federalTax">-$0</span>
+        </div>
+        <div class="tax-row">
+          <span class="tax-label">State Tax (~5%)</span>
+          <span class="tax-value" id="stateTax">-$0</span>
+        </div>
+        <div class="tax-row net">
+          <span class="tax-label">After-Tax Value</span>
+          <span class="tax-value" id="afterTaxValue">$0</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
+        <div class="toggle-row">
+          <label style="font-size:12px;color:var(--text-muted);">Show Tax Estimate</label>
+          <label class="toggle toggle-sm">
+            <input type="checkbox" id="taxToggle" onchange="toggleTax()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comparison Chart -->
+    <div class="card">
+      <div class="card-title">Valuation Comparison</div>
+      <div class="chart-container" id="comparisonChart"></div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="print-btn" onclick="window.print()">Print / Save for Reference</button>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> This tool is for illustrative purposes only. Actual equity value depends on many factors including share class, liquidation preferences, dilution, and future financing. Consult your offer letter and ask your recruiter for details.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- TAB 2: COST OF LIVING CALCULATOR        -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-col">
+
+    <div class="col-hero">
+      <h2>Your Dollar Goes Further in Austin</h2>
+      <p>See how your offer's purchasing power compares when you move to Austin, TX.</p>
+    </div>
+
+    <!-- Location Inputs -->
+    <div class="card">
+      <div class="card-title">Compare Locations</div>
+      <div class="col-inputs">
+        <div class="form-group">
+          <label>Moving From</label>
+          <div class="city-search-wrapper">
+            <input type="text" id="colCitySearch" placeholder="Type a city..." oninput="handleCitySearch(this.value)" onfocus="handleCitySearch(this.value)" autocomplete="off">
+            <div class="city-dropdown" id="colCityDropdown"></div>
+          </div>
+        </div>
+        <div class="col-arrow">&#8594;</div>
+        <div class="form-group">
+          <div class="col-fixed-label">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 0.5L8.7 5.3L13.5 5.3L9.6 8.2L11.1 13L7 10.1L2.9 13L4.4 8.2L0.5 5.3L5.3 5.3L7 0.5Z" fill="#084D41"/></svg>
+            Moving To
+          </div>
+          <div class="col-fixed-city">Austin, TX</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main COL Result -->
+    <div class="card col-result-hero" id="colResultCard" style="display:none;">
+      <div class="col-percentage" id="colPercentage">-15%</div>
+      <div class="col-direction-text" id="colDirectionText">Austin is <strong>15% cheaper</strong> than San Francisco, CA</div>
+    </div>
+
+    <!-- Offer Details -->
+    <div class="card" id="colOfferCard" style="display:none;">
+      <div class="card-title">Your Offer</div>
+      <div class="offer-grid">
+        <div class="form-group">
+          <label>Base Salary
+            <span class="tooltip-trigger">?<span class="tooltip-text">Your annual base salary from your offer letter. This is used to calculate equivalent purchasing power.</span></span>
+          </label>
+          <div class="input-prefix">
+            <input type="text" id="colSalary" value="150,000" oninput="handleColSalaryInput(this)" inputmode="numeric">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Annual Bonus (if any)</label>
+          <div class="input-prefix">
+            <input type="text" id="colBonus" value="0" oninput="handleColBonusInput(this)" inputmode="numeric">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Salary Comparison -->
+    <div class="card" id="colSalaryCard" style="display:none;">
+      <div class="card-title">Purchasing Power Comparison</div>
+      <div class="salary-compare">
+        <div class="salary-box">
+          <div class="salary-box-label" id="colOriginLabel">San Francisco</div>
+          <div class="salary-box-value" id="colOriginSalary">$150,000</div>
+          <div class="salary-box-sub">feels like at your current city</div>
+        </div>
+        <div class="salary-box austin">
+          <div class="salary-box-label">Austin, TX</div>
+          <div class="salary-box-value" id="colAustinEquiv">$176,471</div>
+          <div class="salary-box-sub">equivalent purchasing power</div>
+        </div>
+      </div>
+
+      <!-- What your money buys -->
+      <div style="margin-top:8px;">
+        <div class="purchasing-power-row">
+          <div class="pp-icon">&#127968;</div>
+          <div class="pp-content">
+            <div class="pp-label">Monthly Rent (1BR)</div>
+            <div class="pp-values">
+              <div class="pp-val origin" id="ppRentOrigin">$3,200</div>
+              <div class="pp-val austin" id="ppRentAustin">$1,650</div>
+            </div>
+          </div>
+        </div>
+        <div class="purchasing-power-row">
+          <div class="pp-icon">&#127869;</div>
+          <div class="pp-content">
+            <div class="pp-label">Monthly Groceries (1 person)</div>
+            <div class="pp-values">
+              <div class="pp-val origin" id="ppFoodOrigin">$520</div>
+              <div class="pp-val austin" id="ppFoodAustin">$380</div>
+            </div>
+          </div>
+        </div>
+        <div class="purchasing-power-row">
+          <div class="pp-icon">&#9981;</div>
+          <div class="pp-content">
+            <div class="pp-label">Monthly Utilities</div>
+            <div class="pp-values">
+              <div class="pp-val origin" id="ppUtilOrigin">$180</div>
+              <div class="pp-val austin" id="ppUtilAustin">$155</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Breakdown -->
+    <div class="card" id="colCategoryCard" style="display:none;">
+      <div class="card-title">Category Breakdown</div>
+      <div id="colCategoryBars"></div>
+      <div style="text-align:center;margin-top:8px;">
+        <span style="font-size:10px;color:var(--text-muted);">&#9664; Austin cheaper&nbsp;&nbsp;|&nbsp;&nbsp;Austin pricier &#9654;</span>
+      </div>
+    </div>
+
+    <!-- No state income tax callout -->
+    <div class="card" id="colTaxCard" style="display:none;">
+      <div class="card-title">Texas Tax Advantage</div>
+      <div style="display:flex;align-items:flex-start;gap:14px;">
+        <div style="font-size:28px;flex-shrink:0;">&#127881;</div>
+        <div>
+          <div style="font-size:15px;font-weight:600;color:var(--green-100);margin-bottom:4px;">No state income tax in Texas</div>
+          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;" id="colTaxSavingsText">
+            Moving from California (13.3% top rate), you could save an estimated <strong>$19,950</strong> per year on state income taxes alone on a $150K salary.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="print-btn" onclick="window.print()">Print / Save for Reference</button>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> Cost of living data is approximate and based on aggregate index data. Actual costs vary by neighborhood, lifestyle, and personal spending. Tax information is general and not financial advice. Consult a tax professional for your specific situation.
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  if (tab === 'equity') {
+    document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    document.getElementById('panel-equity').classList.add('active');
+  } else {
+    document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    document.getElementById('panel-col').classList.add('active');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// EQUITY VALUE EXPLORER
+// ═══════════════════════════════════════════════════════════
+
+let eqState = {
+  numShares: 10000,
+  strikePrice: 2.50,
+  rsuDollar: 50000,
+  grantValuationB: 2,
+  isRSU: false,
+  vestingYears: 5,
+  cliffYears: 1,
+  valuationB: 5,
+  totalShares: 100000000,
+  liqPref: false,
+  showTax: false,
+};
+
+function fmt(n) {
+  if (n >= 1e9) return '$' + (n / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e4) return '$' + Math.round(n).toLocaleString('en-US');
+  if (n >= 100) return '$' + Math.round(n).toLocaleString('en-US');
+  if (n >= 1) return '$' + n.toFixed(2);
+  if (n >= 0.01) return '$' + n.toFixed(2);
+  if (n > 0) return '$' + n.toFixed(4);
+  return '$0';
+}
+
+function fmtCompact(n) {
+  if (n >= 1e9) return '$' + (n / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
+function fmtDollar(n) {
+  if (Math.abs(n) >= 1e3) return '$' + Math.round(n).toLocaleString('en-US');
+  if (Math.abs(n) >= 1) return '$' + n.toFixed(2);
+  if (Math.abs(n) > 0) return '$' + n.toFixed(4);
+  return '$0';
+}
+
+function fmtShares(n) { return Math.round(n).toLocaleString('en-US'); }
+function formatWithCommas(n) { return n.toLocaleString('en-US'); }
+
+function handleSharesInput(el) {
+  const raw = el.value.replace(/[^0-9]/g, '');
+  const num = parseInt(raw, 10) || 0;
+  const pos = el.selectionStart;
+  const oldLen = el.value.length;
+  el.value = num > 0 ? formatWithCommas(num) : '';
+  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
+  eqState.numShares = num;
+  recalculate();
+}
+
+function handleRsuDollarInput(el) {
+  const raw = el.value.replace(/[^0-9]/g, '');
+  const num = parseInt(raw, 10) || 0;
+  const pos = el.selectionStart;
+  const oldLen = el.value.length;
+  el.value = num > 0 ? formatWithCommas(num) : '';
+  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
+  eqState.rsuDollar = num;
+  recalculate();
+}
+
+function handleTotalSharesInput(el) {
+  const raw = el.value.replace(/[^0-9]/g, '');
+  const num = parseInt(raw, 10) || 0;
+  const pos = el.selectionStart;
+  const oldLen = el.value.length;
+  el.value = num > 0 ? formatWithCommas(num) : '';
+  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
+  eqState.totalShares = num;
+  recalculate();
+}
+
+function handleEquityTypeChange() {
+  eqState.isRSU = document.getElementById('equityTypeToggle').checked;
+  document.getElementById('label-options').classList.toggle('active', !eqState.isRSU);
+  document.getElementById('label-rsus').classList.toggle('active', eqState.isRSU);
+  document.getElementById('numSharesGroup').style.display = eqState.isRSU ? 'none' : 'flex';
+  document.getElementById('strikePriceGroup').style.display = eqState.isRSU ? 'none' : 'flex';
+  document.getElementById('rsuDollarGroup').style.display = eqState.isRSU ? 'flex' : 'none';
+  document.getElementById('grantValuationGroup').style.display = eqState.isRSU ? 'flex' : 'none';
+  document.getElementById('netGainItem').style.display = eqState.isRSU ? 'none' : 'flex';
+  document.getElementById('rsuGrantItem').style.display = eqState.isRSU ? 'flex' : 'none';
+  recalculate();
+}
+
+function setEquityType(isRSU) {
+  document.getElementById('equityTypeToggle').checked = isRSU;
+  handleEquityTypeChange();
+}
+
+function handleLiqPrefChange() {
+  eqState.liqPref = document.getElementById('liqPrefToggle').checked;
+  document.getElementById('label-nopref').classList.toggle('active', !eqState.liqPref);
+  document.getElementById('label-1xpref').classList.toggle('active', eqState.liqPref);
+  recalculate();
+}
+
+function setLiqPref(pref) {
+  document.getElementById('liqPrefToggle').checked = pref;
+  handleLiqPrefChange();
+}
+
+function setValuation(v) {
+  document.getElementById('valuationSlider').value = v;
+  recalculate();
+}
+
+function toggleCollapsible(id) {
+  const header = document.getElementById(id + 'Header');
+  const body = document.getElementById(id + 'Body');
+  header.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+function toggleTax() {
+  eqState.showTax = document.getElementById('taxToggle').checked;
+  document.getElementById('taxSection').style.display = eqState.showTax ? 'block' : 'none';
+  recalculate();
+}
+
+function calcEquityValue(valuationB, shares, strike, isRSU, totalShares, liqPref) {
+  const valDollars = valuationB * 1e9;
+  let effective = valDollars;
+  if (liqPref && valuationB < 10) {
+    effective = Math.max(0, valDollars - 1.3e9);
+  }
+  const pps = totalShares > 0 ? effective / totalShares : 0;
+  const cost = isRSU ? 0 : strike;
+  const vps = Math.max(0, pps - cost);
+  return { pricePerShare: pps, valuePerShare: vps, totalValue: vps * shares, exerciseTotal: isRSU ? 0 : strike * shares, netGain: vps * shares };
+}
+
+let animFrames = {};
+function animateValue(el, text) {
+  el.textContent = text;
+  el.classList.add('animating');
+  clearTimeout(animFrames[el.id]);
+  animFrames[el.id] = setTimeout(() => el.classList.remove('animating'), 150);
+}
+
+function recalculate() {
+  eqState.strikePrice = parseFloat(document.getElementById('strikePrice').value) || 0;
+  eqState.vestingYears = parseInt(document.getElementById('vestingYears').value) || 5;
+  eqState.cliffYears = parseInt(document.getElementById('cliffYears').value) || 0;
+  eqState.valuationB = parseFloat(document.getElementById('valuationSlider').value);
+
+  const v = eqState.valuationB;
+
+  // For RSUs, derive share count from dollar grant at grant-time valuation
+  let effectiveShares = eqState.numShares;
+  if (eqState.isRSU) {
+    eqState.grantValuationB = parseFloat(document.getElementById('grantValuation').value) || 2;
+    const grantValDollars = eqState.grantValuationB * 1e9;
+    const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
+    effectiveShares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
+  }
+
+  const { pricePerShare, totalValue, exerciseTotal, netGain } =
+    calcEquityValue(v, effectiveShares, eqState.strikePrice, eqState.isRSU, eqState.totalShares, eqState.liqPref);
+
+  const valDisplay = document.getElementById('valuationDisplay');
+  valDisplay.textContent = v >= 10 ? `$${Math.round(v)}B` : `$${v.toFixed(1).replace(/\.0$/, '')}B`;
+
+  animateValue(document.getElementById('pricePerShare'), fmtDollar(pricePerShare));
+  animateValue(document.getElementById('fullyVestedValue'), fmt(totalValue));
+
+  if (eqState.isRSU) {
+    const grantPPS = eqState.totalShares > 0 ? (eqState.grantValuationB * 1e9) / eqState.totalShares : 0;
+    animateValue(document.getElementById('rsuGrantValue'), fmt(eqState.rsuDollar));
+    document.getElementById('rsuGrantSub').textContent = `${fmtShares(effectiveShares)} shares at ${fmtDollar(grantPPS)}/share`;
+  } else {
+    const ngEl = document.getElementById('netGainValue');
+    animateValue(ngEl, fmt(netGain));
+    ngEl.style.color = netGain > 0 ? 'var(--success)' : netGain < 0 ? 'var(--danger)' : 'var(--text-muted)';
+    document.getElementById('netGainSub').textContent =
+      netGain > 0 ? `over ${fmt(exerciseTotal)} exercise cost` : 'over exercise cost';
+  }
+
+  renderVestingTable(pricePerShare, effectiveShares);
+  renderVestingBar();
+  renderComparisonChart();
+
+  if (eqState.showTax) {
+    const gain = Math.max(0, totalValue);
+    const fed = gain * 0.24;
+    const st = gain * 0.05;
+    document.getElementById('federalTax').textContent = '-' + fmt(fed);
+    document.getElementById('stateTax').textContent = '-' + fmt(st);
+    document.getElementById('afterTaxValue').textContent = fmt(gain - fed - st);
+  }
+}
+
+function renderVestingBar() {
+  const c = document.getElementById('vestingBarContainer');
+  const l = document.getElementById('vestingLabels');
+  let s = '', lb = '';
+  for (let y = 0; y < eqState.vestingYears; y++) {
+    const isCliff = y < eqState.cliffYears;
+    const pct = !isCliff ? Math.round(((y + 1) / eqState.vestingYears) * 100) : 0;
+    s += `<div class="vesting-segment ${isCliff ? 'cliff' : 'vested'}">${!isCliff ? pct + '%' : ''}</div>`;
+    lb += `<span>Yr ${y + 1}</span>`;
+  }
+  c.innerHTML = s;
+  l.innerHTML = lb;
+}
+
+function renderVestingTable(pps, effectiveShares) {
+  const tbody = document.getElementById('vestingTableBody');
+  const shares = effectiveShares !== undefined ? effectiveShares : eqState.numShares;
+  const strike = eqState.isRSU ? 0 : eqState.strikePrice;
+  const vps = Math.max(0, pps - strike);
+  let rows = '';
+  for (let y = 0; y <= eqState.vestingYears; y++) {
+    if (y === 0) { rows += `<tr class="cliff-row"><td>Year 0</td><td>0%</td><td>0</td><td>$0</td></tr>`; continue; }
+    if (y < eqState.cliffYears) { rows += `<tr class="cliff-row"><td>Year ${y}</td><td>0%</td><td>0</td><td>$0 (cliff)</td></tr>`; continue; }
+    const pct = y / eqState.vestingYears;
+    const vestedShares = Math.round(shares * pct);
+    const val = vestedShares * vps;
+    const last = y === eqState.vestingYears;
+    rows += `<tr><td>Year ${y}${last ? ' (fully vested)' : ''}</td><td>${Math.round(pct * 100)}%</td><td>${fmtShares(vestedShares)}</td><td>${fmt(val)}</td></tr>`;
+  }
+  tbody.innerHTML = rows;
+}
+
+function renderComparisonChart() {
+  const ms = [2, 5, 10, 25, 50];
+  const vals = ms.map(v => {
+    let shares = eqState.numShares;
+    if (eqState.isRSU) {
+      // Share count is fixed at grant time, not at each future valuation
+      const grantValDollars = eqState.grantValuationB * 1e9;
+      const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
+      shares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
+    }
+    return calcEquityValue(v, shares, eqState.strikePrice, eqState.isRSU, eqState.totalShares, eqState.liqPref).totalValue;
+  });
+  const max = Math.max(...vals, 1);
+  const c = document.getElementById('comparisonChart');
+  let h = '';
+  ms.forEach((m, i) => {
+    const w = Math.max(2, (vals[i] / max) * 100);
+    const txt = fmtCompact(vals[i]);
+    const small = w < 25;
+    h += `<div class="chart-bar-row"><div class="chart-label">$${m}B</div><div class="chart-bar-track"><div class="chart-bar-fill bar-${i + 1}" style="width:${w}%;">${!small ? txt : ''}</div></div>${small ? `<div class="chart-bar-value-external">${txt}</div>` : '<div class="chart-bar-value-external"></div>'}</div>`;
+  });
+  c.innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════
+// COST OF LIVING CALCULATOR
+// ═══════════════════════════════════════════════════════════
+
+// COL indices relative to national average = 100
+// Sources: BestPlaces, Numbeo, C2ER aggregate data
+const CITIES = [
+  { name: "San Francisco, CA", overall: 178, housing: 334, grocery: 110, utilities: 97, transport: 130, healthcare: 112, stateIncomeTax: 13.3 },
+  { name: "New York, NY", overall: 187, housing: 348, grocery: 117, utilities: 107, transport: 120, healthcare: 110, stateIncomeTax: 10.9 },
+  { name: "Manhattan, NY", overall: 235, housing: 500, grocery: 125, utilities: 112, transport: 95, healthcare: 115, stateIncomeTax: 10.9 },
+  { name: "Brooklyn, NY", overall: 192, housing: 360, grocery: 118, utilities: 108, transport: 95, healthcare: 112, stateIncomeTax: 10.9 },
+  { name: "Los Angeles, CA", overall: 166, housing: 290, grocery: 108, utilities: 100, transport: 133, healthcare: 107, stateIncomeTax: 13.3 },
+  { name: "San Diego, CA", overall: 160, housing: 272, grocery: 106, utilities: 108, transport: 118, healthcare: 109, stateIncomeTax: 13.3 },
+  { name: "San Jose, CA", overall: 182, housing: 340, grocery: 112, utilities: 103, transport: 118, healthcare: 109, stateIncomeTax: 13.3 },
+  { name: "Seattle, WA", overall: 157, housing: 264, grocery: 110, utilities: 92, transport: 122, healthcare: 115, stateIncomeTax: 0 },
+  { name: "Boston, MA", overall: 152, housing: 249, grocery: 109, utilities: 115, transport: 115, healthcare: 118, stateIncomeTax: 5.0 },
+  { name: "Washington, DC", overall: 152, housing: 260, grocery: 107, utilities: 107, transport: 115, healthcare: 104, stateIncomeTax: 10.75 },
+  { name: "Denver, CO", overall: 129, housing: 176, grocery: 103, utilities: 93, transport: 105, healthcare: 108, stateIncomeTax: 4.4 },
+  { name: "Chicago, IL", overall: 107, housing: 108, grocery: 103, utilities: 96, transport: 112, healthcare: 104, stateIncomeTax: 4.95 },
+  { name: "Miami, FL", overall: 131, housing: 176, grocery: 107, utilities: 99, transport: 111, healthcare: 108, stateIncomeTax: 0 },
+  { name: "Portland, OR", overall: 130, housing: 176, grocery: 104, utilities: 88, transport: 115, healthcare: 112, stateIncomeTax: 9.9 },
+  { name: "Minneapolis, MN", overall: 109, housing: 120, grocery: 100, utilities: 95, transport: 107, healthcare: 104, stateIncomeTax: 9.85 },
+  { name: "Atlanta, GA", overall: 109, housing: 121, grocery: 102, utilities: 98, transport: 110, healthcare: 103, stateIncomeTax: 5.49 },
+  { name: "Nashville, TN", overall: 106, housing: 113, grocery: 97, utilities: 96, transport: 100, healthcare: 105, stateIncomeTax: 0 },
+  { name: "Raleigh, NC", overall: 102, housing: 107, grocery: 97, utilities: 94, transport: 98, healthcare: 106, stateIncomeTax: 4.5 },
+  { name: "Salt Lake City, UT", overall: 107, housing: 122, grocery: 98, utilities: 87, transport: 102, healthcare: 102, stateIncomeTax: 4.65 },
+  { name: "Philadelphia, PA", overall: 117, housing: 141, grocery: 107, utilities: 106, transport: 110, healthcare: 105, stateIncomeTax: 3.07 },
+  { name: "Pittsburgh, PA", overall: 93, housing: 77, grocery: 101, utilities: 103, transport: 102, healthcare: 99, stateIncomeTax: 3.07 },
+  { name: "Detroit, MI", overall: 88, housing: 62, grocery: 95, utilities: 102, transport: 110, healthcare: 100, stateIncomeTax: 4.25 },
+  { name: "Houston, TX", overall: 96, housing: 85, grocery: 96, utilities: 103, transport: 102, healthcare: 96, stateIncomeTax: 0 },
+  { name: "Dallas, TX", overall: 102, housing: 99, grocery: 97, utilities: 105, transport: 103, healthcare: 101, stateIncomeTax: 0 },
+  { name: "Phoenix, AZ", overall: 103, housing: 107, grocery: 97, utilities: 100, transport: 99, healthcare: 100, stateIncomeTax: 2.5 },
+  { name: "Columbus, OH", overall: 93, housing: 80, grocery: 98, utilities: 90, transport: 98, healthcare: 100, stateIncomeTax: 3.75 },
+  { name: "Charlotte, NC", overall: 100, housing: 100, grocery: 99, utilities: 96, transport: 98, healthcare: 106, stateIncomeTax: 4.5 },
+  { name: "Indianapolis, IN", overall: 90, housing: 71, grocery: 97, utilities: 94, transport: 100, healthcare: 100, stateIncomeTax: 3.05 },
+  { name: "Kansas City, MO", overall: 91, housing: 73, grocery: 97, utilities: 104, transport: 98, healthcare: 99, stateIncomeTax: 4.8 },
+  { name: "Tampa, FL", overall: 103, housing: 107, grocery: 103, utilities: 99, transport: 100, healthcare: 100, stateIncomeTax: 0 },
+  { name: "Sacramento, CA", overall: 137, housing: 196, grocery: 105, utilities: 99, transport: 115, healthcare: 105, stateIncomeTax: 13.3 },
+  { name: "Oakland, CA", overall: 168, housing: 302, grocery: 112, utilities: 100, transport: 120, healthcare: 110, stateIncomeTax: 13.3 },
+  { name: "Baltimore, MD", overall: 108, housing: 117, grocery: 103, utilities: 107, transport: 108, healthcare: 100, stateIncomeTax: 5.75 },
+];
+
+const AUSTIN = { name: "Austin, TX", overall: 111, housing: 131, grocery: 97, utilities: 99, transport: 100, healthcare: 98, stateIncomeTax: 0 };
+
+// Austin baseline costs (monthly)
+const AUSTIN_COSTS = { rent: 1650, grocery: 380, utilities: 155 };
+
+let colState = { selectedCity: null, salary: 150000, bonus: 0 };
+
+function handleCitySearch(query) {
+  const dd = document.getElementById('colCityDropdown');
+  if (!query || query.length < 1) { dd.classList.remove('open'); return; }
+  const q = query.toLowerCase();
+  const matches = CITIES.filter(c => c.name.toLowerCase().includes(q)).slice(0, 8);
+  if (matches.length === 0) {
+    dd.innerHTML = '<div class="no-results">No matching city found</div>';
+    dd.classList.add('open');
+    return;
+  }
+  dd.innerHTML = matches.map(c => {
+    const diff = ((c.overall - AUSTIN.overall) / AUSTIN.overall * 100);
+    const diffStr = diff > 0 ? `+${diff.toFixed(0)}% vs Austin` : `${diff.toFixed(0)}% vs Austin`;
+    return `<div class="city-option" onclick="selectCity('${c.name}')"><span class="city-name">${c.name}</span><span class="city-index">${diffStr}</span></div>`;
+  }).join('');
+  dd.classList.add('open');
+}
+
+function selectCity(name) {
+  const city = CITIES.find(c => c.name === name);
+  if (!city) return;
+  colState.selectedCity = city;
+  document.getElementById('colCitySearch').value = city.name;
+  document.getElementById('colCityDropdown').classList.remove('open');
+  showColResults();
+  recalculateCOL();
+}
+
+function showColResults() {
+  ['colResultCard', 'colOfferCard', 'colSalaryCard', 'colCategoryCard', 'colTaxCard'].forEach(id => {
+    document.getElementById(id).style.display = '';
+  });
+}
+
+function handleColSalaryInput(el) {
+  const raw = el.value.replace(/[^0-9]/g, '');
+  const num = parseInt(raw, 10) || 0;
+  const pos = el.selectionStart;
+  const oldLen = el.value.length;
+  el.value = num > 0 ? formatWithCommas(num) : '';
+  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
+  colState.salary = num;
+  recalculateCOL();
+}
+
+function handleColBonusInput(el) {
+  const raw = el.value.replace(/[^0-9]/g, '');
+  const num = parseInt(raw, 10) || 0;
+  const pos = el.selectionStart;
+  const oldLen = el.value.length;
+  el.value = num > 0 ? formatWithCommas(num) : '';
+  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
+  colState.bonus = num;
+  recalculateCOL();
+}
+
+function recalculateCOL() {
+  const city = colState.selectedCity;
+  if (!city) return;
+  const totalComp = colState.salary + colState.bonus;
+
+  // Overall difference
+  const diffPct = ((city.overall - AUSTIN.overall) / city.overall * 100);
+  const isCheaper = diffPct > 0;
+
+  // Percentage display
+  const pctEl = document.getElementById('colPercentage');
+  pctEl.textContent = `${Math.abs(diffPct).toFixed(0)}%`;
+  pctEl.className = 'col-percentage ' + (isCheaper ? 'cheaper' : 'pricier');
+
+  const dirEl = document.getElementById('colDirectionText');
+  if (isCheaper) {
+    dirEl.innerHTML = `Austin is <strong>${Math.abs(diffPct).toFixed(0)}% more affordable</strong> than ${city.name}`;
+  } else {
+    dirEl.innerHTML = `Austin is <strong>${Math.abs(diffPct).toFixed(0)}% more expensive</strong> than ${city.name}`;
+  }
+
+  // Salary purchasing power: salary in city X buys as much as (salary * city.overall / austin.overall) in Austin
+  const equivalentInAustin = Math.round(totalComp * (city.overall / AUSTIN.overall));
+  document.getElementById('colOriginLabel').textContent = city.name.split(',')[0];
+  document.getElementById('colOriginSalary').textContent = '$' + formatWithCommas(totalComp);
+  document.getElementById('colAustinEquiv').textContent = '$' + formatWithCommas(equivalentInAustin);
+
+  // Monthly cost estimates
+  const rentRatio = city.housing / AUSTIN.housing;
+  const foodRatio = city.grocery / AUSTIN.grocery;
+  const utilRatio = city.utilities / AUSTIN.utilities;
+
+  document.getElementById('ppRentOrigin').textContent = '$' + formatWithCommas(Math.round(AUSTIN_COSTS.rent * rentRatio));
+  document.getElementById('ppRentAustin').textContent = '$' + formatWithCommas(AUSTIN_COSTS.rent);
+  document.getElementById('ppFoodOrigin').textContent = '$' + formatWithCommas(Math.round(AUSTIN_COSTS.grocery * foodRatio));
+  document.getElementById('ppFoodAustin').textContent = '$' + formatWithCommas(AUSTIN_COSTS.grocery);
+  document.getElementById('ppUtilOrigin').textContent = '$' + formatWithCommas(Math.round(AUSTIN_COSTS.utilities * utilRatio));
+  document.getElementById('ppUtilAustin').textContent = '$' + formatWithCommas(AUSTIN_COSTS.utilities);
+
+  // Category breakdown bars
+  const categories = [
+    { name: 'Housing', cityVal: city.housing, austinVal: AUSTIN.housing },
+    { name: 'Grocery', cityVal: city.grocery, austinVal: AUSTIN.grocery },
+    { name: 'Utilities', cityVal: city.utilities, austinVal: AUSTIN.utilities },
+    { name: 'Transport', cityVal: city.transport, austinVal: AUSTIN.transport },
+    { name: 'Healthcare', cityVal: city.healthcare, austinVal: AUSTIN.healthcare },
+  ];
+
+  const barsEl = document.getElementById('colCategoryBars');
+  let barsHTML = '';
+  categories.forEach(cat => {
+    const diff = ((cat.cityVal - cat.austinVal) / cat.cityVal * 100);
+    const isGood = diff > 0; // Austin is cheaper
+    const barWidth = Math.min(48, Math.abs(diff) * 0.8);
+    const pctText = isGood ? `-${Math.abs(diff).toFixed(0)}%` : `+${Math.abs(diff).toFixed(0)}%`;
+
+    let barStyle;
+    if (isGood) {
+      barStyle = `right: 50%; width: ${barWidth}%;`;
+    } else {
+      barStyle = `left: 50%; width: ${barWidth}%;`;
+    }
+
+    barsHTML += `
+      <div class="col-category-row">
+        <div class="col-cat-label">${cat.name}</div>
+        <div class="col-cat-bar-area">
+          <div class="col-cat-bar-track">
+            <div class="baseline"></div>
+            <div class="col-cat-bar-fill ${isGood ? 'cheaper' : 'pricier'}" style="${barStyle}"></div>
+          </div>
+          <div class="col-cat-pct ${isGood ? 'cheaper' : 'pricier'}">${pctText}</div>
+        </div>
+      </div>
+    `;
+  });
+  barsEl.innerHTML = barsHTML;
+
+  // Tax savings
+  const taxCard = document.getElementById('colTaxCard');
+  if (city.stateIncomeTax > 0) {
+    taxCard.style.display = '';
+    const taxSavings = Math.round(colState.salary * (city.stateIncomeTax / 100));
+    const stateName = city.name.split(', ')[1] || '';
+    const stateNames = { CA: 'California', NY: 'New York', MA: 'Massachusetts', DC: 'Washington DC', CO: 'Colorado', IL: 'Illinois', OR: 'Oregon', MN: 'Minnesota', GA: 'Georgia', NC: 'North Carolina', UT: 'Utah', PA: 'Pennsylvania', MI: 'Michigan', AZ: 'Arizona', OH: 'Ohio', IN: 'Indiana', MO: 'Missouri', MD: 'Maryland' };
+    const fullState = stateNames[stateName] || stateName;
+    document.getElementById('colTaxSavingsText').innerHTML =
+      `Moving from ${fullState} (${city.stateIncomeTax}% top rate), you could save an estimated <strong>$${formatWithCommas(taxSavings)}</strong> per year on state income taxes alone on a $${formatWithCommas(colState.salary)} salary.`;
+  } else {
+    taxCard.style.display = 'none';
+  }
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  const dd = document.getElementById('colCityDropdown');
+  const search = document.getElementById('colCitySearch');
+  if (!dd.contains(e.target) && e.target !== search) {
+    dd.classList.remove('open');
+  }
+});
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderVestingBar();
+  recalculate();
+});
+</script>
+</body>
+</html>
