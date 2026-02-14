@@ -729,6 +729,7 @@
   .chart-bar-fill.bar-3 { background: linear-gradient(90deg, #0d7a68, #14a890); }
   .chart-bar-fill.bar-4 { background: linear-gradient(90deg, #10917c, #5ec4a8); }
   .chart-bar-fill.bar-5 { background: linear-gradient(90deg, #c5950f, #f7c33c); }
+  .chart-bar-fill.bar-6 { background: linear-gradient(90deg, #a8d45e, #d0f585); }
 
   .chart-bar-value-external {
     font-size: 12px;
@@ -1138,13 +1139,21 @@
   <div class="tab-panel active" id="panel-equity">
     <div class="section-header">
       <h1>Equity Value Explorer</h1>
-      <p>Model the potential value of your equity offer across different company valuations.</p>
+      <p>Enter your offer details to see your total compensation across different company valuations.</p>
     </div>
 
-    <!-- Equity Inputs -->
+    <!-- Offer Inputs -->
     <div class="card">
-      <div class="card-title">Your RSU Details</div>
+      <div class="card-title">Your Offer Details</div>
       <div class="form-grid">
+        <div class="form-group">
+          <label>Base Salary
+            <span class="tooltip-trigger">?<span class="tooltip-text">Your annual base salary from your offer letter.</span></span>
+          </label>
+          <div class="input-prefix">
+            <input type="text" id="baseSalary" value="150,000" oninput="handleSalaryInput(this)" inputmode="numeric">
+          </div>
+        </div>
         <div class="form-group">
           <label>RSU Grant Value
             <span class="tooltip-trigger">?<span class="tooltip-text">The total dollar value of RSUs in your offer letter. The number of shares you receive is determined by dividing this amount by the share price at the time of grant.</span></span>
@@ -1188,41 +1197,52 @@
 
     <!-- Valuation Slider -->
     <div class="card slider-section">
-      <div class="card-title">Company Valuation</div>
+      <div class="card-title">What could your equity be worth?</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Drag the slider to model your total compensation at different company valuations.</p>
       <div class="valuation-display" id="valuationDisplay">$4B</div>
       <div class="slider-wrapper">
-        <input type="range" id="valuationSlider" min="1" max="100" value="4" step="0.5" oninput="recalculate()">
+        <input type="range" id="valuationSlider" min="0" max="5" value="1" step="1" oninput="handleValuationSlider()">
       </div>
       <div class="slider-markers">
-        <span class="slider-marker" onclick="setValuation(1)">$1B</span>
-        <span class="slider-marker" onclick="setValuation(4)">$4B</span>
-        <span class="slider-marker" onclick="setValuation(10)">$10B</span>
-        <span class="slider-marker" onclick="setValuation(25)">$25B</span>
-        <span class="slider-marker" onclick="setValuation(50)">$50B</span>
-        <span class="slider-marker" onclick="setValuation(100)">$100B</span>
+        <span class="slider-marker" onclick="setValuationStep(0)">$1B</span>
+        <span class="slider-marker" onclick="setValuationStep(1)">$4B</span>
+        <span class="slider-marker" onclick="setValuationStep(2)">$10B</span>
+        <span class="slider-marker" onclick="setValuationStep(3)">$25B</span>
+        <span class="slider-marker" onclick="setValuationStep(4)">$50B</span>
+        <span class="slider-marker" onclick="setValuationStep(5)">$100B</span>
       </div>
     </div>
 
     <!-- Results -->
     <div class="card">
-      <div class="card-title">Your Equity Value</div>
-      <div class="results-grid">
-        <div class="result-item" id="rsuGrantItem">
-          <div class="result-label">RSU Grant</div>
+      <div class="card-title">Your Total Compensation</div>
+      <div class="results-grid" style="grid-template-columns: 1fr;">
+        <div class="result-item" style="text-align:center;">
+          <div class="result-value highlight" id="totalCompValue" style="font-size:36px;">$0</div>
+          <div class="result-label" style="margin-top:4px;">Total Annual Compensation at This Valuation</div>
+          <div class="result-sub" id="totalCompSub" style="margin-top:2px;">Base Salary + Annual RSU Vest Value</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;padding-top:20px;border-top:1px solid var(--cream-dark);">
+        <div class="result-item" style="text-align:center;">
+          <div class="result-label">Base Salary</div>
+          <div class="result-value accent" id="baseSalaryDisplay">$150,000</div>
+        </div>
+        <div class="result-item" style="text-align:center;">
+          <div class="result-label">Annual RSU Vest</div>
+          <div class="result-value accent" id="annualVestValue">$0</div>
+          <div class="result-sub" id="annualVestSub">of RSU grant per year</div>
+        </div>
+        <div class="result-item" id="rsuGrantItem" style="text-align:center;">
+          <div class="result-label">RSU Grant (total)</div>
           <div class="result-value accent" id="rsuGrantValue">$50,000</div>
           <div class="result-sub" id="rsuGrantSub">0 shares at $0/share</div>
-        </div>
-        <div class="result-item">
-          <div class="result-value highlight" id="fullyVestedValue">$0</div>
-          <div class="result-label" style="margin-top:4px;">Projected Fully Vested Value</div>
-        </div>
-        <div class="result-item">
-          <div class="result-label">Price/Share</div>
-          <div class="result-value accent" id="pricePerShare">$0</div>
         </div>
       </div>
       <!-- Hidden elements for JS compatibility -->
       <div id="netGainItem" style="display:none;"><div id="netGainValue"></div><div id="netGainSub"></div></div>
+      <div id="fullyVestedValue" style="display:none;"></div>
+      <div id="pricePerShare" style="display:none;"></div>
       <div style="overflow-x:auto;">
         <table class="vesting-table">
           <thead><tr><th>Year</th><th>% Vested</th><th>Shares Vested</th><th>Value</th></tr></thead>
@@ -1259,7 +1279,7 @@
 
     <!-- Comparison Chart -->
     <div class="card">
-      <div class="card-title">Valuation Comparison</div>
+      <div class="card-title">Annual Compensation by Valuation</div>
       <div class="chart-container" id="comparisonChart"></div>
     </div>
 
@@ -1436,7 +1456,10 @@ function switchTab(tab) {
 // EQUITY VALUE EXPLORER
 // ═══════════════════════════════════════════════════════════
 
+const VALUATION_STEPS = [1, 4, 10, 25, 50, 100];
+
 let eqState = {
+  baseSalary: 150000,
   rsuDollar: 50000,
   grantValuationB: 4,
   strikePrice: 11.50,
@@ -1488,16 +1511,27 @@ function handleRsuDollarInput(el) {
   recalculate();
 }
 
-function setValuation(v) {
-  document.getElementById('valuationSlider').value = v;
+function handleSalaryInput(el) {
+  const raw = el.value.replace(/[^0-9]/g, '');
+  const num = parseInt(raw, 10) || 0;
+  const pos = el.selectionStart;
+  const oldLen = el.value.length;
+  el.value = num > 0 ? formatWithCommas(num) : '';
+  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
+  eqState.baseSalary = num;
   recalculate();
 }
 
-function toggleCollapsible(id) {
-  const header = document.getElementById(id + 'Header');
-  const body = document.getElementById(id + 'Body');
-  header.classList.toggle('open');
-  body.classList.toggle('open');
+function handleValuationSlider() {
+  const step = parseInt(document.getElementById('valuationSlider').value);
+  eqState.valuationB = VALUATION_STEPS[step];
+  recalculate();
+}
+
+function setValuationStep(step) {
+  document.getElementById('valuationSlider').value = step;
+  eqState.valuationB = VALUATION_STEPS[step];
+  recalculate();
 }
 
 function toggleTax() {
@@ -1527,7 +1561,8 @@ function animateValue(el, text) {
 }
 
 function recalculate() {
-  eqState.valuationB = parseFloat(document.getElementById('valuationSlider').value);
+  const step = parseInt(document.getElementById('valuationSlider').value);
+  eqState.valuationB = VALUATION_STEPS[step] || 4;
   eqState.grantValuationB = parseFloat(document.getElementById('grantValuation').value) || 4;
 
   const v = eqState.valuationB;
@@ -1540,13 +1575,27 @@ function recalculate() {
   const { pricePerShare, totalValue } =
     calcEquityValue(v, effectiveShares, 0, true, eqState.totalShares, false);
 
+  // Annual vest = total equity value / vesting years (after cliff, but simplified as linear)
+  const annualVest = totalValue / eqState.vestingYears;
+  const totalComp = eqState.baseSalary + annualVest;
+
   const valDisplay = document.getElementById('valuationDisplay');
   valDisplay.textContent = v >= 10 ? `$${Math.round(v)}B` : `$${v.toFixed(1).replace(/\.0$/, '')}B`;
 
-  animateValue(document.getElementById('pricePerShare'), fmtDollar(pricePerShare));
-  animateValue(document.getElementById('fullyVestedValue'), fmt(totalValue));
+  // Total compensation
+  animateValue(document.getElementById('totalCompValue'), fmt(totalComp));
+  document.getElementById('totalCompSub').textContent = `${fmt(eqState.baseSalary)} salary + ${fmt(annualVest)}/yr equity`;
+
+  // Breakdown
+  animateValue(document.getElementById('baseSalaryDisplay'), fmt(eqState.baseSalary));
+  animateValue(document.getElementById('annualVestValue'), fmt(annualVest));
+  document.getElementById('annualVestSub').textContent = `${fmt(totalValue)} fully vested over 5 yrs`;
   animateValue(document.getElementById('rsuGrantValue'), fmt(eqState.rsuDollar));
   document.getElementById('rsuGrantSub').textContent = `${fmtShares(effectiveShares)} shares at ${fmtDollar(grantPPS)}/share`;
+
+  // Hidden elements for compatibility
+  document.getElementById('pricePerShare').textContent = fmtDollar(pricePerShare);
+  document.getElementById('fullyVestedValue').textContent = fmt(totalValue);
 
   renderVestingTable(pricePerShare, effectiveShares);
   renderVestingBar();
@@ -1595,11 +1644,14 @@ function renderVestingTable(pps, effectiveShares) {
 }
 
 function renderComparisonChart() {
-  const ms = [1, 4, 10, 25, 50, 100];
+  const ms = VALUATION_STEPS;
   const grantValDollars = eqState.grantValuationB * 1e9;
   const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
   const shares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
-  const vals = ms.map(v => calcEquityValue(v, shares, 0, true, eqState.totalShares, false).totalValue);
+  const vals = ms.map(v => {
+    const eq = calcEquityValue(v, shares, 0, true, eqState.totalShares, false).totalValue;
+    return eqState.baseSalary + (eq / eqState.vestingYears); // total annual comp
+  });
   const max = Math.max(...vals, 1);
   const c = document.getElementById('comparisonChart');
   let h = '';
