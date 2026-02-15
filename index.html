@@ -1156,7 +1156,7 @@
         </div>
         <div class="form-group">
           <label>RSU Grant Value
-            <span class="tooltip-trigger">?<span class="tooltip-text">The total dollar value of RSUs in your offer letter. The number of shares you receive is determined by dividing this amount by the share price at the time of grant.</span></span>
+            <span class="tooltip-trigger">?<span class="tooltip-text">The total dollar value of RSUs in your offer letter.</span></span>
           </label>
           <div class="input-prefix">
             <input type="text" id="rsuDollar" value="50,000" oninput="handleRsuDollarInput(this)" inputmode="numeric">
@@ -1164,7 +1164,7 @@
         </div>
         <div class="form-group">
           <label>Grant-Time Valuation
-            <span class="tooltip-trigger">?<span class="tooltip-text">The company's valuation when your RSUs were granted. This determines how many shares your dollar grant converts to. Ask your recruiter for the current valuation.</span></span>
+            <span class="tooltip-trigger">?<span class="tooltip-text">The company's valuation when your RSUs were granted. This determines how your equity grows as the company valuation increases.</span></span>
           </label>
           <select id="grantValuation" onchange="recalculate()" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:8px;background:var(--input-bg);font-size:14px;font-family:inherit;color:var(--text-primary);cursor:pointer;">
             <option value="1">$1B</option>
@@ -1186,14 +1186,8 @@
         </div>
       </div>
     </div>
-    <!-- Hidden inputs for JS compatibility -->
-    <input type="hidden" id="strikePrice" value="11.50">
     <input type="hidden" id="vestingYears" value="5">
     <input type="hidden" id="cliffYears" value="1">
-    <input type="hidden" id="numShares" value="0">
-    <input type="hidden" id="equityTypeToggle" value="on">
-    <input type="hidden" id="totalShares" value="100000000">
-    <input type="hidden" id="liqPrefToggle" value="">
 
     <!-- Valuation Slider -->
     <div class="card slider-section">
@@ -1225,7 +1219,7 @@
         <div class="result-item" style="text-align:center;">
           <div class="result-label">RSU Grant</div>
           <div class="result-value accent" id="rsuGrantValue">$50,000</div>
-          <div class="result-sub" id="rsuGrantSub">0 shares at $0/share</div>
+          <div class="result-sub" id="rsuGrantSub">granted at $4B valuation</div>
         </div>
         <div class="result-item" style="text-align:center;">
           <div class="result-label">Growth Multiple</div>
@@ -1233,13 +1227,9 @@
           <div class="result-sub" id="equityMultipleSub">return on grant value</div>
         </div>
       </div>
-      <!-- Hidden elements for JS compatibility -->
-      <div id="netGainItem" style="display:none;"><div id="netGainValue"></div><div id="netGainSub"></div></div>
-      <div id="fullyVestedValue" style="display:none;"></div>
-      <div id="pricePerShare" style="display:none;"></div>
       <div style="overflow-x:auto;">
         <table class="vesting-table">
-          <thead><tr><th>Year</th><th>% Vested</th><th>Shares Vested</th><th>Value</th></tr></thead>
+          <thead><tr><th>Year</th><th>% Vested</th><th>Value</th></tr></thead>
           <tbody id="vestingTableBody"></tbody>
         </table>
       </div>
@@ -1479,13 +1469,9 @@ let eqState = {
   baseSalary: 150000,
   rsuDollar: 50000,
   grantValuationB: 4,
-  strikePrice: 11.50,
-  isRSU: true,
   vestingYears: 5,
   cliffYears: 1,
   valuationB: 4,
-  totalShares: 100000000,
-  liqPref: false,
   showTax: false,
 };
 
@@ -1514,7 +1500,6 @@ function fmtDollar(n) {
   return '$0';
 }
 
-function fmtShares(n) { return Math.round(n).toLocaleString('en-US'); }
 function formatWithCommas(n) { return n.toLocaleString('en-US'); }
 
 function handleRsuDollarInput(el) {
@@ -1557,16 +1542,10 @@ function toggleTax() {
   recalculate();
 }
 
-function calcEquityValue(valuationB, shares, strike, isRSU, totalShares, liqPref) {
-  const valDollars = valuationB * 1e9;
-  let effective = valDollars;
-  if (liqPref && valuationB < 10) {
-    effective = Math.max(0, valDollars - 1.3e9);
-  }
-  const pps = totalShares > 0 ? effective / totalShares : 0;
-  const cost = isRSU ? 0 : strike;
-  const vps = Math.max(0, pps - cost);
-  return { pricePerShare: pps, valuePerShare: vps, totalValue: vps * shares, exerciseTotal: isRSU ? 0 : strike * shares, netGain: vps * shares };
+function calcEquityValue(valuationB) {
+  const multiple = eqState.grantValuationB > 0 ? valuationB / eqState.grantValuationB : 0;
+  const totalValue = eqState.rsuDollar * multiple;
+  return { totalValue: totalValue, multiple: multiple };
 }
 
 let animFrames = {};
@@ -1583,18 +1562,9 @@ function recalculate() {
   eqState.grantValuationB = parseFloat(document.getElementById('grantValuation').value) || 4;
 
   const v = eqState.valuationB;
-
-  // Derive share count from RSU dollar grant at grant-time valuation
-  const grantValDollars = eqState.grantValuationB * 1e9;
-  const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
-  const effectiveShares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
-
-  const { pricePerShare, totalValue } =
-    calcEquityValue(v, effectiveShares, 0, true, eqState.totalShares, false);
-
+  const { totalValue, multiple } = calcEquityValue(v);
   const annualVest = totalValue / eqState.vestingYears;
   const totalComp = eqState.baseSalary + annualVest;
-  const multiple = eqState.rsuDollar > 0 ? totalValue / eqState.rsuDollar : 0;
 
   const valDisplay = document.getElementById('valuationDisplay');
   valDisplay.textContent = v >= 10 ? `$${Math.round(v)}B` : `$${v.toFixed(1).replace(/\.0$/, '')}B`;
@@ -1606,7 +1576,7 @@ function recalculate() {
 
   // Equity details
   animateValue(document.getElementById('rsuGrantValue'), fmt(eqState.rsuDollar));
-  document.getElementById('rsuGrantSub').textContent = `${fmtShares(effectiveShares)} shares at ${fmtDollar(grantPPS)}/share`;
+  document.getElementById('rsuGrantSub').textContent = `granted at $${eqState.grantValuationB}B valuation`;
   animateValue(document.getElementById('equityMultiple'), multiple >= 10 ? Math.round(multiple) + 'x' : multiple.toFixed(1) + 'x');
   document.getElementById('equityMultipleSub').textContent = multiple >= 2 ? `${fmt(totalValue - eqState.rsuDollar)} gain on grant` : 'return on grant value';
 
@@ -1616,11 +1586,7 @@ function recalculate() {
   animateValue(document.getElementById('totalCompValue'), fmt(totalComp));
   document.getElementById('totalCompSub').textContent = `at $${v >= 10 ? Math.round(v) : v}B valuation · ${fmt(totalValue)} fully vested over 5 yrs`;
 
-  // Hidden elements for compatibility
-  document.getElementById('pricePerShare').textContent = fmtDollar(pricePerShare);
-  document.getElementById('fullyVestedValue').textContent = fmt(totalValue);
-
-  renderVestingTable(pricePerShare, effectiveShares);
+  renderVestingTable(totalValue);
   renderVestingBar();
   renderComparisonChart();
 
@@ -1648,32 +1614,23 @@ function renderVestingBar() {
   l.innerHTML = lb;
 }
 
-function renderVestingTable(pps, effectiveShares) {
+function renderVestingTable(totalValue) {
   const tbody = document.getElementById('vestingTableBody');
-  const shares = effectiveShares !== undefined ? effectiveShares : eqState.numShares;
-  const strike = eqState.isRSU ? 0 : eqState.strikePrice;
-  const vps = Math.max(0, pps - strike);
   let rows = '';
   for (let y = 0; y <= eqState.vestingYears; y++) {
-    if (y === 0) { rows += `<tr class="cliff-row"><td>Year 0</td><td>0%</td><td>0</td><td>$0</td></tr>`; continue; }
-    if (y < eqState.cliffYears) { rows += `<tr class="cliff-row"><td>Year ${y}</td><td>0%</td><td>0</td><td>$0 (cliff)</td></tr>`; continue; }
+    if (y === 0) { rows += `<tr class="cliff-row"><td>Year 0</td><td>0%</td><td>$0</td></tr>`; continue; }
+    if (y < eqState.cliffYears) { rows += `<tr class="cliff-row"><td>Year ${y}</td><td>0%</td><td>$0 (cliff)</td></tr>`; continue; }
     const pct = y / eqState.vestingYears;
-    const vestedShares = Math.round(shares * pct);
-    const val = vestedShares * vps;
+    const val = totalValue * pct;
     const last = y === eqState.vestingYears;
-    rows += `<tr><td>Year ${y}${last ? ' (fully vested)' : ''}</td><td>${Math.round(pct * 100)}%</td><td>${fmtShares(vestedShares)}</td><td>${fmt(val)}</td></tr>`;
+    rows += `<tr><td>Year ${y}${last ? ' (fully vested)' : ''}</td><td>${Math.round(pct * 100)}%</td><td>${fmt(val)}</td></tr>`;
   }
   tbody.innerHTML = rows;
 }
 
 function renderComparisonChart() {
   const ms = VALUATION_STEPS;
-  const grantValDollars = eqState.grantValuationB * 1e9;
-  const grantPPS = eqState.totalShares > 0 ? grantValDollars / eqState.totalShares : 0;
-  const shares = grantPPS > 0 ? Math.round(eqState.rsuDollar / grantPPS) : 0;
-  const vals = ms.map(v => {
-    return calcEquityValue(v, shares, 0, true, eqState.totalShares, false).totalValue;
-  });
+  const vals = ms.map(v => calcEquityValue(v).totalValue);
   const max = Math.max(...vals, 1);
   const c = document.getElementById('comparisonChart');
   let h = '';
