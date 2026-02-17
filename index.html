@@ -3,35 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Offer Explorer — Base Power Company</title>
+<title>Equity Calculator | Base Power Company</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
   :root {
-    --green-100: #084D41;
-    --green-90: #0a6354;
-    --green-80: #0d7a68;
-    --green-70: #10917c;
-    --green-60: #14a890;
-    --saffron: #f7c33c;
-    --saffron-dark: #e0a820;
-    --lime: #d0f585;
-    --lime-dark: #a8d45e;
-    --cream: #F0EEEB;
-    --cream-dark: #e2dfdb;
-    --near-black: #030303;
-    --bg: #faf9f7;
-    --card-bg: #ffffff;
-    --card-border: rgba(8, 77, 65, 0.1);
-    --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(8,77,65,0.06);
-    --input-bg: #f5f4f2;
-    --input-border: #d8d5d0;
-    --text-primary: #1a1a1a;
-    --text-secondary: #555550;
-    --text-muted: #8a8880;
-    --success: #16a34a;
-    --danger: #dc2626;
-    --focus-ring: rgba(8, 77, 65, 0.2);
+    --bg: #3d3b38;
+    --bg-card: #4a4845;
+    --bg-secondary: rgba(84, 82, 79, 0.5);
+    --border: #5e5c59;
+    --foreground: #f0eeeb;
+    --muted: #a8a6a3;
+    --accent: #77a45a;
+    --accent-dim: rgba(119, 164, 90, 0.15);
+    --highlight-row: #54524f;
+    --input-bg: #3d3b38;
+    --input-border: #5e5c59;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,63 +26,73 @@
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
-    color: var(--text-primary);
+    color: var(--foreground);
     line-height: 1.6;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Top brand bar */
-  .brand-bar {
-    background: var(--green-100);
-    padding: 14px 24px;
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(61, 59, 56, 0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+
+  header .inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
+    justify-content: space-between;
   }
 
-  .brand-bar .logo-svg {
-    height: 24px;
+  header img {
+    height: 32px;
     width: auto;
-    color: #fff;
   }
 
-  .container {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 0 20px 60px;
+  header .company-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--foreground);
   }
 
   /* Tab navigation */
   .tab-nav {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
     display: flex;
     gap: 0;
-    margin: 24px 0 28px;
-    border-bottom: 2px solid var(--cream-dark);
+    border-bottom: 1px solid var(--border);
   }
 
   .tab-btn {
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-muted);
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
     background: none;
     border: none;
     cursor: pointer;
     border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
+    margin-bottom: -1px;
     transition: color 0.2s, border-color 0.2s;
     font-family: inherit;
   }
 
   .tab-btn:hover {
-    color: var(--text-secondary);
+    color: var(--foreground);
   }
 
   .tab-btn.active {
-    color: var(--green-100);
-    border-bottom-color: var(--green-100);
+    color: var(--foreground);
+    border-bottom-color: var(--accent);
   }
 
   .tab-panel {
@@ -106,139 +103,173 @@
     display: block;
   }
 
-  /* Section header */
-  .section-header {
+  /* Hero section */
+  .hero-section {
+    background: rgba(74, 72, 69, 0.5);
+    padding: 64px 24px 72px;
+  }
+
+  .hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+
+  .hero-badge svg {
+    width: 18px;
+    height: 18px;
+    opacity: 0.8;
+  }
+
+  .hero-section h1 {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--foreground);
+    margin-bottom: 16px;
+    max-width: 500px;
+  }
+
+  .hero-section p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  /* Main content */
+  .content-section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 0;
+  }
+
+  /* Personalized name */
+  .personalized {
     text-align: center;
     margin-bottom: 32px;
   }
 
-  .section-header h1 {
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--green-100);
-    margin-bottom: 6px;
+  .personalized .label {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--muted);
+    margin-bottom: 8px;
   }
 
-  .section-header p {
-    color: var(--text-secondary);
-    font-size: 15px;
-    max-width: 480px;
-    margin: 0 auto;
+  .personalized .name {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--foreground);
   }
 
   /* Cards */
   .card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 14px;
-    padding: 26px;
-    margin-bottom: 18px;
-    box-shadow: var(--card-shadow);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    margin-bottom: 24px;
   }
 
   .card-title {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--green-90);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 4px;
+  }
+
+  .card-subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 0;
+  }
+
+  .card-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-body {
+    padding: 0;
+  }
+
+  .card-body.padded {
+    padding: 32px;
+  }
+
+  .card.no-padding {
+    padding: 0;
   }
 
   /* Form elements */
-  .form-grid {
+  .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 32px;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-  }
-
-  .form-group.full-width {
-    grid-column: 1 / -1;
+    gap: 8px;
   }
 
   label {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
-    color: var(--text-secondary);
+    color: var(--muted);
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
-  .tooltip-trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: rgba(8, 77, 65, 0.08);
-    color: var(--green-90);
-    font-size: 9px;
-    font-weight: 700;
-    cursor: help;
+  .input-wrap {
     position: relative;
-    flex-shrink: 0;
   }
 
-  .tooltip-trigger .tooltip-text {
-    visibility: hidden;
-    opacity: 0;
+  .input-wrap .prefix {
     position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--green-100);
-    color: #fff;
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 400;
-    width: 240px;
-    line-height: 1.5;
-    z-index: 100;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 16px;
     pointer-events: none;
-    transition: opacity 0.15s, visibility 0.15s;
   }
 
-  .tooltip-trigger .tooltip-text::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--green-100);
-  }
-
-  .tooltip-trigger:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  input[type="number"], input[type="text"] {
+  input[type="text"], input[type="number"] {
+    width: 100%;
     background: var(--input-bg);
     border: 1px solid var(--input-border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: var(--text-primary);
-    font-size: 14px;
+    border-radius: 6px;
+    padding: 12px 16px;
+    padding-left: 32px;
+    color: var(--foreground);
+    font-size: 16px;
     font-family: inherit;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
-    width: 100%;
     -moz-appearance: textfield;
+  }
+
+  input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(119, 164, 90, 0.2);
   }
 
   input[type="number"]::-webkit-inner-spin-button,
@@ -247,555 +278,290 @@
     margin: 0;
   }
 
-  input:focus {
-    border-color: var(--green-80);
-    box-shadow: 0 0 0 3px var(--focus-ring);
-  }
-
-  .input-prefix {
-    position: relative;
-  }
-
-  .input-prefix::before {
-    content: '$';
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 14px;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  .input-prefix input {
-    padding-left: 24px;
-  }
-
-  /* Searchable select */
-  .city-search-wrapper {
-    position: relative;
-  }
-
-  .city-search-wrapper input {
-    padding-right: 32px;
-  }
-
-  .city-dropdown {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    background: #fff;
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    max-height: 220px;
-    overflow-y: auto;
-    z-index: 50;
-    display: none;
-  }
-
-  .city-dropdown.open {
-    display: block;
-  }
-
-  .city-option {
-    padding: 9px 12px;
-    font-size: 13px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.1s;
-  }
-
-  .city-option:hover, .city-option.highlighted {
-    background: rgba(8, 77, 65, 0.06);
-  }
-
-  .city-option .city-name {
-    color: var(--text-primary);
-    font-weight: 500;
-  }
-
-  .city-option .city-index {
-    color: var(--text-muted);
+  .helper-text {
     font-size: 12px;
+    color: var(--muted);
   }
 
-  /* Toggle switch */
-  .toggle-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .toggle-label {
-    font-size: 13px;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: color 0.2s;
-    user-select: none;
-  }
-
-  .toggle-label.active {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
-  .toggle {
-    position: relative;
-    width: 44px;
-    height: 24px;
-    flex-shrink: 0;
-  }
-
-  .toggle input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-    position: absolute;
-  }
-
-  .toggle-slider {
-    position: absolute;
-    cursor: pointer;
-    inset: 0;
-    background: #ccc;
-    border-radius: 24px;
-    transition: background 0.25s;
-  }
-
-  .toggle-slider::before {
-    content: '';
-    position: absolute;
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background: #fff;
-    border-radius: 50%;
-    transition: transform 0.25s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-  }
-
-  .toggle input:checked + .toggle-slider {
-    background: var(--green-80);
-  }
-
-  .toggle input:checked + .toggle-slider::before {
-    transform: translateX(20px);
-  }
-
-  .toggle-sm {
-    width: 36px;
-    height: 20px;
-  }
-
-  .toggle-sm .toggle-slider::before {
-    height: 14px;
-    width: 14px;
-    left: 3px;
-    bottom: 3px;
-  }
-
-  .toggle-sm input:checked + .toggle-slider::before {
-    transform: translateX(16px);
-  }
-
-  /* Vesting timeline visual */
-  .vesting-visual {
-    margin-top: 14px;
-    padding: 14px;
-    background: var(--input-bg);
-    border-radius: 8px;
-    border: 1px solid rgba(0,0,0,0.04);
-  }
-
-  .vesting-bar-container {
-    display: flex;
-    gap: 3px;
-    height: 28px;
-    margin-bottom: 6px;
-  }
-
-  .vesting-segment {
-    flex: 1;
-    border-radius: 4px;
-    background: var(--cream-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 600;
-    color: transparent;
-    transition: background 0.3s;
-  }
-
-  .vesting-segment.cliff {
-    background: repeating-linear-gradient(
-      -45deg,
-      var(--cream-dark),
-      var(--cream-dark) 3px,
-      #d0cdc8 3px,
-      #d0cdc8 6px
-    );
-  }
-
-  .vesting-segment.vested {
-    background: linear-gradient(135deg, var(--green-80), var(--green-60));
-    color: #fff;
-  }
-
-  .vesting-labels {
-    display: flex;
-    gap: 3px;
-  }
-
-  .vesting-labels span {
-    flex: 1;
-    text-align: center;
-    font-size: 10px;
-    color: var(--text-muted);
-  }
-
-  /* Valuation slider */
-  .slider-section {
+  /* Valuation multiple display */
+  .multiple-display {
+    background: rgba(84, 82, 79, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
     text-align: center;
   }
 
-  .valuation-display {
-    font-size: 44px;
-    font-weight: 800;
-    letter-spacing: -1.5px;
-    color: var(--green-100);
-    margin: 6px 0 20px;
-    font-variant-numeric: tabular-nums;
+  .multiple-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--accent);
   }
 
-  .slider-wrapper {
-    position: relative;
-    padding: 0 4px;
-    margin-bottom: 8px;
+  /* Slider */
+  .slider-area {
+    margin-top: 16px;
   }
 
   input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 8px;
-    border-radius: 4px;
+    height: 6px;
+    border-radius: 3px;
     outline: none;
     cursor: pointer;
+    background: var(--border);
   }
 
   input[type="range"]::-webkit-slider-runnable-track {
-    height: 8px;
-    border-radius: 4px;
-    background: linear-gradient(90deg,
-      var(--green-100) 0%,
-      var(--green-60) 40%,
-      var(--saffron) 100%
-    );
-  }
-
-  input[type="range"]::-moz-range-track {
-    height: 8px;
-    border-radius: 4px;
-    background: linear-gradient(90deg,
-      var(--green-100) 0%,
-      var(--green-60) 40%,
-      var(--saffron) 100%
-    );
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
   }
 
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: #fff;
-    border: 3px solid var(--green-100);
+    background: var(--accent);
+    border: 2px solid var(--accent);
     cursor: grab;
-    margin-top: -9px;
-    box-shadow: 0 2px 8px rgba(8, 77, 65, 0.25);
-    transition: box-shadow 0.2s, transform 0.1s;
+    margin-top: -7px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
   }
 
   input[type="range"]::-moz-range-thumb {
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: #fff;
-    border: 3px solid var(--green-100);
+    background: var(--accent);
+    border: 2px solid var(--accent);
     cursor: grab;
-    box-shadow: 0 2px 8px rgba(8, 77, 65, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   }
 
-  input[type="range"]:active::-webkit-slider-thumb {
-    transform: scale(1.12);
-    box-shadow: 0 2px 16px rgba(8, 77, 65, 0.35);
-    cursor: grabbing;
-  }
-
-  .slider-markers {
+  .slider-labels {
     display: flex;
     justify-content: space-between;
-    padding: 8px 0 0;
-  }
-
-  .slider-marker {
-    font-size: 11px;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 3px 6px;
-    border-radius: 4px;
-    transition: color 0.2s, background 0.2s;
-    user-select: none;
-    font-weight: 500;
-  }
-
-  .slider-marker:hover {
-    color: var(--green-100);
-    background: rgba(8, 77, 65, 0.06);
-  }
-
-  /* Collapsible */
-  .collapsible-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    user-select: none;
-    padding: 4px 0;
-  }
-
-  .collapsible-header .chevron {
-    transition: transform 0.25s;
-    color: var(--text-muted);
+    margin-top: 8px;
     font-size: 12px;
+    color: var(--muted);
   }
 
-  .collapsible-header.open .chevron {
-    transform: rotate(180deg);
-  }
-
-  .collapsible-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, padding 0.3s ease;
-  }
-
-  .collapsible-body.open {
-    max-height: 400px;
-    padding-top: 16px;
-  }
-
-  .assumption-note {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 4px;
-    font-style: italic;
-  }
-
-  /* Results */
-  .results-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 22px;
-  }
-
-  .result-item {
-    background: var(--input-bg);
-    border-radius: 10px;
-    padding: 16px 14px;
-    border: 1px solid rgba(0,0,0,0.04);
+  /* Result area */
+  .result-area {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    margin-top: 24px;
     text-align: center;
   }
 
   .result-label {
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-muted);
-    margin-bottom: 4px;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 12px;
   }
 
-  .result-value {
-    font-size: 24px;
+  .result-big-value {
+    font-size: 60px;
     font-weight: 700;
-    letter-spacing: -0.5px;
+    color: var(--accent);
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 12px;
     font-variant-numeric: tabular-nums;
-    color: var(--text-primary);
   }
 
-  .result-value.highlight {
-    color: var(--green-100);
+  .result-gain {
+    font-size: 16px;
+    color: var(--foreground);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
 
-  .result-value.accent {
-    color: var(--green-80);
+  .result-gain svg {
+    color: var(--accent);
   }
 
-  .result-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
-
-  /* Vesting table */
-  .vesting-table {
+  /* Valuation Scenarios Table */
+  .scenarios-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 0 0 24px;
     font-variant-numeric: tabular-nums;
   }
 
-  .vesting-table th {
-    font-size: 10px;
-    font-weight: 700;
+  .scenarios-table th {
+    font-size: 12px;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--text-muted);
-    padding: 8px 10px;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+    padding: 12px 24px;
     text-align: left;
-    border-bottom: 2px solid var(--cream-dark);
+    border-bottom: 1px solid var(--border);
   }
 
-  .vesting-table td {
-    padding: 9px 10px;
-    font-size: 13px;
-    border-bottom: 1px solid var(--cream);
-    color: var(--text-secondary);
-  }
-
-  .vesting-table tr:last-child td {
-    border-bottom: none;
-    font-weight: 600;
-    color: var(--green-100);
-  }
-
-  .vesting-table .cliff-row td {
-    color: var(--text-muted);
-    font-style: italic;
-  }
-
-  /* Bar chart */
-  .chart-container { padding: 4px 0 0; }
-
-  .chart-bar-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-
-  .chart-label {
-    width: 50px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
+  .scenarios-table th:last-child {
     text-align: right;
-    flex-shrink: 0;
   }
 
-  .chart-bar-track {
-    flex: 1;
-    height: 30px;
-    background: var(--input-bg);
-    border-radius: 6px;
-    overflow: hidden;
-  }
-
-  .chart-bar-fill {
-    height: 100%;
-    border-radius: 6px;
-    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #fff;
-    white-space: nowrap;
-    min-width: fit-content;
-  }
-
-  .chart-bar-fill.bar-1 { background: linear-gradient(90deg, #084D41, #0d7a68); }
-  .chart-bar-fill.bar-2 { background: linear-gradient(90deg, #0a6354, #10917c); }
-  .chart-bar-fill.bar-3 { background: linear-gradient(90deg, #0d7a68, #14a890); }
-  .chart-bar-fill.bar-4 { background: linear-gradient(90deg, #10917c, #5ec4a8); }
-  .chart-bar-fill.bar-5 { background: linear-gradient(90deg, #c5950f, #f7c33c); }
-  .chart-bar-fill.bar-6 { background: linear-gradient(90deg, #a8d45e, #d0f585); }
-
-  .chart-bar-value-external {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-left: 8px;
-    flex-shrink: 0;
-    min-width: 72px;
-  }
-
-  /* Tax section */
-  .tax-section {
-    margin-top: 18px;
-    padding-top: 18px;
-    border-top: 1px solid var(--cream);
-  }
-
-  .tax-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
-    font-size: 13px;
-  }
-
-  .tax-row .tax-label { color: var(--text-secondary); }
-  .tax-row .tax-value { font-weight: 600; color: var(--danger); font-variant-numeric: tabular-nums; }
-  .tax-row.net .tax-label { color: var(--text-primary); font-weight: 600; }
-  .tax-row.net .tax-value { color: var(--success); font-size: 15px; }
-
-  /* ─── Cost of Living Section ─── */
-  .col-hero {
-    background: linear-gradient(135deg, var(--green-100) 0%, var(--green-80) 100%);
-    border-radius: 14px;
-    padding: 36px 28px;
-    margin-bottom: 18px;
+  .scenarios-table th:nth-child(2) {
     text-align: center;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
   }
 
-  .col-hero::before {
-    content: '';
-    position: absolute;
-    top: -30%;
-    right: -10%;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(208,245,133,0.12) 0%, transparent 70%);
-    pointer-events: none;
+  .scenarios-table td {
+    padding: 14px 24px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--foreground);
+  }
+
+  .scenarios-table td:nth-child(2) {
+    text-align: center;
+  }
+
+  .scenarios-table td:last-child {
+    text-align: right;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .scenarios-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .scenarios-table tr.highlighted {
+    background: var(--highlight-row);
+  }
+
+  .scenarios-table td.gain-zero {
+    color: var(--muted);
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    text-align: center;
+    margin: 24px 0 48px;
+    padding: 0 24px;
+  }
+
+  .disclaimer p {
+    font-size: 10px;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: rgba(74, 72, 69, 0.5);
+    padding: 64px 24px;
+    text-align: center;
+  }
+
+  .cta-section h2 {
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--foreground);
+    margin-bottom: 12px;
+  }
+
+  .cta-section p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 24px;
+    line-height: 1.6;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: var(--foreground);
+    color: var(--bg);
+    padding: 12px 32px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+  }
+
+  .cta-button:hover {
+    opacity: 0.9;
+  }
+
+  /* Footer */
+  footer {
+    padding: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  footer .inner {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer img {
+    height: 20px;
+    width: auto;
+    opacity: 0.6;
+  }
+
+  footer .confidential {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* Animations */
+  .animating {
+    transition: transform 0.15s;
+    transform: scale(1.02);
+  }
+
+  /* ─── Cost of Living (dark theme overrides) ─── */
+  .col-hero {
+    background: linear-gradient(135deg, rgba(119, 164, 90, 0.15) 0%, rgba(84, 82, 79, 0.5) 100%);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 36px 28px;
+    margin-bottom: 24px;
+    text-align: center;
+    color: var(--foreground);
   }
 
   .col-hero h2 {
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 6px;
-    position: relative;
   }
 
   .col-hero p {
     font-size: 14px;
-    opacity: 0.85;
+    color: var(--muted);
     max-width: 400px;
     margin: 0 auto;
-    position: relative;
   }
 
   .col-inputs {
@@ -811,7 +577,7 @@
     align-items: center;
     justify-content: center;
     padding-bottom: 10px;
-    color: var(--green-80);
+    color: var(--accent);
     font-size: 20px;
     font-weight: 700;
   }
@@ -819,7 +585,7 @@
   .col-fixed-label {
     font-size: 13px;
     font-weight: 600;
-    color: var(--green-100);
+    color: var(--accent);
     display: flex;
     align-items: center;
     gap: 6px;
@@ -827,20 +593,19 @@
   }
 
   .col-fixed-city {
-    background: linear-gradient(135deg, rgba(8,77,65,0.06), rgba(8,77,65,0.02));
-    border: 2px solid var(--green-100);
-    border-radius: 8px;
+    background: var(--accent-dim);
+    border: 2px solid var(--accent);
+    border-radius: 6px;
     padding: 10px 12px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--green-100);
+    color: var(--accent);
   }
 
-  /* COL Result Cards */
   .col-result-hero {
     text-align: center;
     padding: 28px 20px;
-    margin-bottom: 18px;
+    margin-bottom: 24px;
   }
 
   .col-percentage {
@@ -851,25 +616,17 @@
     margin-bottom: 4px;
   }
 
-  .col-percentage.cheaper {
-    color: var(--success);
-  }
-
-  .col-percentage.pricier {
-    color: var(--danger);
-  }
+  .col-percentage.cheaper { color: var(--accent); }
+  .col-percentage.pricier { color: #e07c5a; }
 
   .col-direction-text {
     font-size: 15px;
-    color: var(--text-secondary);
+    color: var(--muted);
     font-weight: 500;
   }
 
-  .col-direction-text strong {
-    color: var(--green-100);
-  }
+  .col-direction-text strong { color: var(--accent); }
 
-  /* Salary comparison */
   .salary-compare {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -878,16 +635,16 @@
   }
 
   .salary-box {
-    background: var(--input-bg);
-    border-radius: 10px;
+    background: rgba(84, 82, 79, 0.4);
+    border-radius: 8px;
     padding: 18px 16px;
     text-align: center;
-    border: 1px solid rgba(0,0,0,0.04);
+    border: 1px solid var(--border);
   }
 
   .salary-box.austin {
-    background: linear-gradient(135deg, rgba(8,77,65,0.06), rgba(208,245,133,0.12));
-    border: 1px solid rgba(8,77,65,0.15);
+    background: var(--accent-dim);
+    border: 1px solid rgba(119, 164, 90, 0.3);
   }
 
   .salary-box-label {
@@ -895,7 +652,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: var(--text-muted);
+    color: var(--muted);
     margin-bottom: 4px;
   }
 
@@ -904,113 +661,37 @@
     font-weight: 700;
     letter-spacing: -0.5px;
     font-variant-numeric: tabular-nums;
-    color: var(--text-primary);
+    color: var(--foreground);
   }
 
-  .salary-box.austin .salary-box-value {
-    color: var(--green-100);
-  }
+  .salary-box.austin .salary-box-value { color: var(--accent); }
 
   .salary-box-sub {
     font-size: 11px;
-    color: var(--text-muted);
+    color: var(--muted);
     margin-top: 2px;
   }
 
-  /* Category breakdown bars */
-  .col-category-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-
-  .col-cat-label {
-    width: 100px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  .col-cat-bar-area {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .col-cat-bar-track {
-    flex: 1;
-    height: 24px;
-    background: var(--input-bg);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .col-cat-bar-track .baseline {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: var(--text-muted);
-    opacity: 0.3;
-  }
-
-  .col-cat-bar-fill {
-    position: absolute;
-    top: 2px;
-    bottom: 2px;
-    border-radius: 3px;
-    transition: left 0.4s, width 0.4s;
-  }
-
-  .col-cat-bar-fill.cheaper {
-    background: linear-gradient(90deg, var(--green-80), var(--green-60));
-  }
-
-  .col-cat-bar-fill.pricier {
-    background: linear-gradient(90deg, var(--saffron-dark), var(--saffron));
-  }
-
-  .col-cat-pct {
-    width: 48px;
-    font-size: 12px;
-    font-weight: 600;
-    flex-shrink: 0;
-    text-align: left;
-  }
-
-  .col-cat-pct.cheaper { color: var(--success); }
-  .col-cat-pct.pricier { color: var(--danger); }
-
-  /* Offer input for COL */
   .offer-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
   }
 
-  /* What your money buys */
   .purchasing-power-row {
     display: flex;
     align-items: center;
     gap: 16px;
     padding: 14px 0;
-    border-bottom: 1px solid var(--cream);
+    border-bottom: 1px solid var(--border);
   }
 
-  .purchasing-power-row:last-child {
-    border-bottom: none;
-  }
+  .purchasing-power-row:last-child { border-bottom: none; }
 
   .pp-icon {
     width: 36px;
     height: 36px;
-    background: rgba(8,77,65,0.07);
+    background: var(--accent-dim);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -1019,14 +700,12 @@
     flex-shrink: 0;
   }
 
-  .pp-content {
-    flex: 1;
-  }
+  .pp-content { flex: 1; }
 
   .pp-label {
     font-size: 13px;
     font-weight: 500;
-    color: var(--text-secondary);
+    color: var(--muted);
   }
 
   .pp-values {
@@ -1041,30 +720,141 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .pp-val.origin { color: var(--text-muted); text-decoration: line-through; }
-  .pp-val.austin { color: var(--green-100); }
+  .pp-val.origin { color: var(--muted); text-decoration: line-through; }
+  .pp-val.austin { color: var(--accent); }
 
-  /* Disclaimer */
-  .disclaimer {
+  .col-category-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .col-cat-label {
+    width: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .col-cat-bar-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .col-cat-bar-track {
+    flex: 1;
+    height: 24px;
+    background: rgba(84, 82, 79, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .col-cat-bar-track .baseline {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--muted);
+    opacity: 0.3;
+  }
+
+  .col-cat-bar-fill {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    border-radius: 3px;
+    transition: left 0.4s, width 0.4s;
+  }
+
+  .col-cat-bar-fill.cheaper { background: var(--accent); }
+  .col-cat-bar-fill.pricier { background: #e07c5a; }
+
+  .col-cat-pct {
+    width: 48px;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    text-align: left;
+  }
+
+  .col-cat-pct.cheaper { color: var(--accent); }
+  .col-cat-pct.pricier { color: #e07c5a; }
+
+  .city-search-wrapper { position: relative; }
+
+  .city-search-wrapper input {
+    padding-left: 16px;
+    padding-right: 32px;
+  }
+
+  .city-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 50;
+    display: none;
+  }
+
+  .city-dropdown.open { display: block; }
+
+  .city-option {
+    padding: 9px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.1s;
+    color: var(--foreground);
+  }
+
+  .city-option:hover, .city-option.highlighted {
+    background: rgba(119, 164, 90, 0.1);
+  }
+
+  .city-option .city-name { font-weight: 500; }
+  .city-option .city-index { color: var(--muted); font-size: 12px; }
+
+  .no-results {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .col-disclaimer {
     margin-top: 32px;
     padding: 16px 20px;
-    background: var(--input-bg);
+    background: rgba(84, 82, 79, 0.3);
     border-radius: 8px;
     font-size: 11px;
-    color: var(--text-muted);
+    color: var(--muted);
     line-height: 1.7;
   }
 
-  /* Print button */
-  .print-btn {
+  .col-print-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
-    background: rgba(8, 77, 65, 0.06);
-    border: 1px solid rgba(8, 77, 65, 0.15);
-    border-radius: 8px;
-    color: var(--green-100);
+    background: var(--accent-dim);
+    border: 1px solid rgba(119, 164, 90, 0.3);
+    border-radius: 6px;
+    color: var(--accent);
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
@@ -1072,237 +862,164 @@
     font-family: inherit;
   }
 
-  .print-btn:hover {
-    background: rgba(8, 77, 65, 0.1);
-  }
+  .col-print-btn:hover { background: rgba(119, 164, 90, 0.25); }
 
-  .animating {
-    transition: transform 0.15s;
-    transform: scale(1.03);
-  }
-
-  .no-results {
-    padding: 10px 12px;
-    font-size: 13px;
-    color: var(--text-muted);
-    text-align: center;
+  .card-title-small {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--accent);
+    margin-bottom: 18px;
   }
 
   /* Responsive */
   @media (max-width: 640px) {
-    .container { padding: 0 14px 48px; }
-    .section-header h1 { font-size: 22px; }
-    .form-grid { grid-template-columns: 1fr; }
-    .results-grid { grid-template-columns: 1fr; }
-    .valuation-display { font-size: 34px; }
-    .result-value { font-size: 20px; }
-    .chart-label { width: 42px; font-size: 11px; }
-    .slider-marker { font-size: 10px; padding: 3px 3px; }
+    .hero-section h1 { font-size: 32px; }
+    .hero-section { padding: 40px 24px 48px; }
+    .personalized .name { font-size: 28px; }
+    .form-row { grid-template-columns: 1fr; }
+    .result-big-value { font-size: 42px; }
+    .scenarios-table th, .scenarios-table td { padding: 10px 12px; font-size: 13px; }
     .col-inputs { grid-template-columns: 1fr; }
     .col-arrow { transform: rotate(90deg); padding: 0; }
     .salary-compare { grid-template-columns: 1fr; }
     .offer-grid { grid-template-columns: 1fr; }
     .col-cat-label { width: 72px; font-size: 11px; }
     .col-percentage { font-size: 42px; }
-    .tab-btn { padding: 10px 14px; font-size: 13px; }
+    .tab-btn { padding: 10px 14px; font-size: 12px; }
+    .cta-section h2 { font-size: 24px; }
   }
 
   @media print {
-    body { background: #fff; }
-    .brand-bar { background: #084D41; }
+    header { position: static; }
     .tab-nav { display: none; }
-    .tab-panel { display: block !important; page-break-inside: avoid; }
-    .card { box-shadow: none; border: 1px solid #ddd; }
+    .tab-panel { display: block !important; }
+    .cta-section { display: none; }
     input[type="range"] { display: none; }
-    .slider-markers, .print-btn, .toggle, .city-dropdown { display: none; }
+    .slider-labels { display: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- Brand bar -->
-<div class="brand-bar">
-  <svg class="logo-svg" viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#bp)"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.1091 9.75295C14.7055 9.22349 15.0977 8.52569 15.0977 7.70842C15.0977 5.83223 13.6551 4.58325 11.1811 4.58325H5.15301C4.81185 4.58325 4.53516 4.86292 4.53516 5.20774V14.7896C4.53516 15.1344 4.81185 15.4141 5.15301 15.4141H11.5921C13.6417 15.4141 15.5087 14.3715 15.5087 12.2889C15.5087 11.1078 14.9795 10.2634 14.1064 9.75023L14.1091 9.75295ZM7.42024 6.77169C7.42024 6.71467 7.46591 6.66851 7.52232 6.66851H11.2321C11.8983 6.66851 12.3657 7.08393 12.3657 7.71114C12.3657 8.33834 11.952 8.75377 11.2321 8.75377H7.52232C7.46591 8.75377 7.42024 8.70761 7.42024 8.65059V6.7744V6.77169ZM11.13 13.3316H7.52232C7.46591 13.3316 7.42024 13.2854 7.42024 13.2284V10.9368C7.42024 10.8797 7.46591 10.8336 7.52232 10.8336H11.13C12.0998 10.8336 12.7794 11.2517 12.7794 12.0826C12.7794 12.9134 12.1804 13.3316 11.13 13.3316Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M26.3827 4.58325H21.1686C19.4869 4.58325 18.0175 5.72634 17.585 7.36631L15.6697 14.6294C15.5649 15.0258 15.8604 15.4168 16.2687 15.4168H17.9745C18.2539 15.4168 18.5011 15.2267 18.5709 14.9525L19.0867 12.9949C19.0974 12.9487 19.1404 12.9188 19.1861 12.9188H24.016C24.0724 12.9188 24.1181 12.965 24.1181 13.022V14.7923C24.1181 15.1371 24.3948 15.4168 24.736 15.4168H26.3853C26.7265 15.4168 27.0032 15.1371 27.0032 14.7923V5.20774C27.0032 4.86292 26.7265 4.58325 26.3853 4.58325H26.3827ZM24.1154 10.7277C24.1154 10.7847 24.0698 10.8309 24.0133 10.8309H19.7878C19.7206 10.8309 19.6696 10.7657 19.6884 10.7005L20.4271 7.9012C20.6205 7.17082 21.2733 6.66308 22.0201 6.66308H24.0133C24.0698 6.66308 24.1154 6.70924 24.1154 6.76625V10.725V10.7277Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M27.9922 12.6528C27.9922 13.3859 28.422 14.1814 29.2413 14.7136C30.0606 15.2403 30.8612 15.4141 31.8793 15.4141H34.4098C36.137 15.4141 37.1041 15.2023 37.816 14.662C38.5305 14.1162 38.8878 13.3044 38.8878 12.2971C38.8878 10.391 37.3163 9.53302 33.8295 8.86509C32.2043 8.55556 30.6892 8.41165 30.6436 7.55637C30.6167 7.07035 30.9417 6.66036 31.9142 6.66036H34.8342C35.3365 6.66036 35.6911 6.78255 35.9786 7.19797C36.0699 7.33373 36.1102 7.55909 36.1263 7.76273C36.1451 8.01795 36.3546 8.21616 36.6072 8.21616H38.1222C38.4285 8.21616 38.6756 7.96636 38.6783 7.65683C38.6783 7.57538 38.6783 7.48306 38.6783 7.3826C38.6783 6.58977 38.2162 5.78608 37.3969 5.25933C36.583 4.72716 35.3365 4.58325 34.3184 4.58325H32.4783C30.7456 4.58325 29.7651 4.83576 29.056 5.38151C28.3468 5.92455 27.9922 6.69838 27.9922 7.70842C27.9922 11.526 36.1236 10.4345 36.1236 12.4871C36.1236 13.0953 35.4762 13.3316 34.7429 13.3316H31.8121C31.0707 13.3316 30.657 12.984 30.657 12.46C30.657 12.46 30.7027 11.8246 30.0338 11.8246H28.5483C28.242 11.8246 27.9922 12.0771 27.9922 12.3867C27.9922 12.4654 27.9922 12.555 27.9922 12.6528Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M49.4663 5.20774V6.0413C49.4663 6.38613 49.1896 6.66579 48.8484 6.66579H42.9735C42.9171 6.66579 42.8714 6.71195 42.8714 6.76897V8.64516C42.8714 8.70218 42.9171 8.74834 42.9735 8.74834H48.0237C48.3649 8.74834 48.6416 9.028 48.6416 9.37283V10.2064C48.6416 10.5512 48.3649 10.8309 48.0237 10.8309H42.9735C42.9171 10.8309 42.8714 10.877 42.8714 10.9341V13.2257C42.8714 13.2827 42.9171 13.3288 42.9735 13.3288H48.8484C49.1896 13.3288 49.4663 13.6085 49.4663 13.9533V14.7869C49.4663 15.1317 49.1896 15.4114 48.8484 15.4114H40.6042C40.263 15.4114 39.9863 15.1317 39.9863 14.7869V5.20774C39.9863 4.86292 40.263 4.58325 40.6042 4.58325H48.8484C49.1896 4.58325 49.4663 4.86292 49.4663 5.20774Z" fill="currentColor"/><path d="M48.8477 0H5.15232C2.30753 0 0 2.33234 0 5.20771V14.7923C0 17.6677 2.30753 20 5.15232 20H48.8477C51.6925 20 54 17.6677 54 14.7923V5.20771C54 2.33234 51.6925 0 48.8477 0ZM51.9396 14.7923C51.9396 16.5164 50.5535 17.9175 48.8477 17.9175H5.15232C3.44384 17.9175 2.06039 16.5191 2.06039 14.7923V5.20771C2.06039 3.48086 3.44384 2.08254 5.15232 2.08254H48.8477C50.5535 2.08254 51.9396 3.48357 51.9396 5.20771V14.7896V14.7923Z" fill="currentColor"/></g><defs><clipPath id="bp"><rect width="54" height="20" fill="currentColor"/></clipPath></defs></svg>
+<!-- Header -->
+<header>
+  <div class="inner">
+    <svg viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;color:#f0eeeb;"><g clip-path="url(#bp)"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.1091 9.75295C14.7055 9.22349 15.0977 8.52569 15.0977 7.70842C15.0977 5.83223 13.6551 4.58325 11.1811 4.58325H5.15301C4.81185 4.58325 4.53516 4.86292 4.53516 5.20774V14.7896C4.53516 15.1344 4.81185 15.4141 5.15301 15.4141H11.5921C13.6417 15.4141 15.5087 14.3715 15.5087 12.2889C15.5087 11.1078 14.9795 10.2634 14.1064 9.75023L14.1091 9.75295ZM7.42024 6.77169C7.42024 6.71467 7.46591 6.66851 7.52232 6.66851H11.2321C11.8983 6.66851 12.3657 7.08393 12.3657 7.71114C12.3657 8.33834 11.952 8.75377 11.2321 8.75377H7.52232C7.46591 8.75377 7.42024 8.70761 7.42024 8.65059V6.7744V6.77169ZM11.13 13.3316H7.52232C7.46591 13.3316 7.42024 13.2854 7.42024 13.2284V10.9368C7.42024 10.8797 7.46591 10.8336 7.52232 10.8336H11.13C12.0998 10.8336 12.7794 11.2517 12.7794 12.0826C12.7794 12.9134 12.1804 13.3316 11.13 13.3316Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M26.3827 4.58325H21.1686C19.4869 4.58325 18.0175 5.72634 17.585 7.36631L15.6697 14.6294C15.5649 15.0258 15.8604 15.4168 16.2687 15.4168H17.9745C18.2539 15.4168 18.5011 15.2267 18.5709 14.9525L19.0867 12.9949C19.0974 12.9487 19.1404 12.9188 19.1861 12.9188H24.016C24.0724 12.9188 24.1181 12.965 24.1181 13.022V14.7923C24.1181 15.1371 24.3948 15.4168 24.736 15.4168H26.3853C26.7265 15.4168 27.0032 15.1371 27.0032 14.7923V5.20774C27.0032 4.86292 26.7265 4.58325 26.3853 4.58325H26.3827ZM24.1154 10.7277C24.1154 10.7847 24.0698 10.8309 24.0133 10.8309H19.7878C19.7206 10.8309 19.6696 10.7657 19.6884 10.7005L20.4271 7.9012C20.6205 7.17082 21.2733 6.66308 22.0201 6.66308H24.0133C24.0698 6.66308 24.1154 6.70924 24.1154 6.76625V10.725V10.7277Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M27.9922 12.6528C27.9922 13.3859 28.422 14.1814 29.2413 14.7136C30.0606 15.2403 30.8612 15.4141 31.8793 15.4141H34.4098C36.137 15.4141 37.1041 15.2023 37.816 14.662C38.5305 14.1162 38.8878 13.3044 38.8878 12.2971C38.8878 10.391 37.3163 9.53302 33.8295 8.86509C32.2043 8.55556 30.6892 8.41165 30.6436 7.55637C30.6167 7.07035 30.9417 6.66036 31.9142 6.66036H34.8342C35.3365 6.66036 35.6911 6.78255 35.9786 7.19797C36.0699 7.33373 36.1102 7.55909 36.1263 7.76273C36.1451 8.01795 36.3546 8.21616 36.6072 8.21616H38.1222C38.4285 8.21616 38.6756 7.96636 38.6783 7.65683C38.6783 7.57538 38.6783 7.48306 38.6783 7.3826C38.6783 6.58977 38.2162 5.78608 37.3969 5.25933C36.583 4.72716 35.3365 4.58325 34.3184 4.58325H32.4783C30.7456 4.58325 29.7651 4.83576 29.056 5.38151C28.3468 5.92455 27.9922 6.69838 27.9922 7.70842C27.9922 11.526 36.1236 10.4345 36.1236 12.4871C36.1236 13.0953 35.4762 13.3316 34.7429 13.3316H31.8121C31.0707 13.3316 30.657 12.984 30.657 12.46C30.657 12.46 30.7027 11.8246 30.0338 11.8246H28.5483C28.242 11.8246 27.9922 12.0771 27.9922 12.3867C27.9922 12.4654 27.9922 12.555 27.9922 12.6528Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M49.4663 5.20774V6.0413C49.4663 6.38613 49.1896 6.66579 48.8484 6.66579H42.9735C42.9171 6.66579 42.8714 6.71195 42.8714 6.76897V8.64516C42.8714 8.70218 42.9171 8.74834 42.9735 8.74834H48.0237C48.3649 8.74834 48.6416 9.028 48.6416 9.37283V10.2064C48.6416 10.5512 48.3649 10.8309 48.0237 10.8309H42.9735C42.9171 10.8309 42.8714 10.877 42.8714 10.9341V13.2257C42.8714 13.2827 42.9171 13.3288 42.9735 13.3288H48.8484C49.1896 13.3288 49.4663 13.6085 49.4663 13.9533V14.7869C49.4663 15.1317 49.1896 15.4114 48.8484 15.4114H40.6042C40.263 15.4114 39.9863 15.1317 39.9863 14.7869V5.20774C39.9863 4.86292 40.263 4.58325 40.6042 4.58325H48.8484C49.1896 4.58325 49.4663 4.86292 49.4663 5.20774Z" fill="currentColor"/><path d="M48.8477 0H5.15232C2.30753 0 0 2.33234 0 5.20771V14.7923C0 17.6677 2.30753 20 5.15232 20H48.8477C51.6925 20 54 17.6677 54 14.7923V5.20771C54 2.33234 51.6925 0 48.8477 0ZM51.9396 14.7923C51.9396 16.5164 50.5535 17.9175 48.8477 17.9175H5.15232C3.44384 17.9175 2.06039 16.5191 2.06039 14.7923V5.20771C2.06039 3.48086 3.44384 2.08254 5.15232 2.08254H48.8477C50.5535 2.08254 51.9396 3.48357 51.9396 5.20771V14.7896V14.7923Z" fill="currentColor"/></g><defs><clipPath id="bp"><rect width="54" height="20" fill="currentColor"/></clipPath></defs></svg>
+    <span class="company-name">Base Power Company</span>
+  </div>
+</header>
+
+<!-- Tab navigation -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('equity')">Equity Calculator</button>
+  <button class="tab-btn" onclick="switchTab('col')">Cost of Living</button>
 </div>
 
-<div class="container">
+<!-- ═══════════════════════════════════════ -->
+<!-- TAB 1: EQUITY CALCULATOR               -->
+<!-- ═══════════════════════════════════════ -->
+<div class="tab-panel active" id="panel-equity">
 
-  <!-- Tab navigation -->
-  <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('equity')">Equity Value Explorer</button>
-    <button class="tab-btn" onclick="switchTab('col')">Cost of Living Calculator</button>
-  </div>
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Your Equity Offer
+      </div>
+      <h1>Build and benefit with Base</h1>
+      <p>At Base, we believe in sharing our success with the team that makes it possible. Use this calculator to explore what your equity stake could be worth as we scale.</p>
+    </div>
+  </section>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- TAB 1: EQUITY VALUE EXPLORER            -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="tab-panel active" id="panel-equity">
-    <div class="section-header">
-      <h1>Equity Value Explorer</h1>
-      <p>Enter your offer details to see your total compensation across different company valuations.</p>
+  <!-- Calculator -->
+  <section class="content-section">
+
+    <!-- Personalized name (populated via URL params) -->
+    <div class="personalized" id="personalizedSection" style="display:none;">
+      <div class="label">Personalized for</div>
+      <div class="name" id="candidateName"></div>
     </div>
 
-    <!-- Offer Inputs -->
+    <!-- Input Card -->
     <div class="card">
-      <div class="card-title">Your Offer Details</div>
-      <div class="form-grid">
+      <div class="form-row">
         <div class="form-group">
-          <label>Base Salary
-            <span class="tooltip-trigger">?<span class="tooltip-text">Your annual base salary from your offer letter.</span></span>
-          </label>
-          <div class="input-prefix">
-            <input type="text" id="baseSalary" value="150,000" oninput="handleSalaryInput(this)" inputmode="numeric">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>RSU Grant Value
-            <span class="tooltip-trigger">?<span class="tooltip-text">The total dollar value of RSUs in your offer letter.</span></span>
-          </label>
-          <div class="input-prefix">
+          <label>Your RSU Grant Amount</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
             <input type="text" id="rsuDollar" value="50,000" oninput="handleRsuDollarInput(this)" inputmode="numeric">
           </div>
+          <div class="helper-text">Enter the dollar value of your RSU grant</div>
         </div>
         <div class="form-group">
-          <label>Grant-Time Valuation
-            <span class="tooltip-trigger">?<span class="tooltip-text">The company's valuation when your RSUs were granted. This determines how your equity grows as the company valuation increases.</span></span>
-          </label>
-          <select id="grantValuation" onchange="recalculate()" style="width:100%;padding:10px 12px;border:1px solid var(--input-border);border-radius:8px;background:var(--input-bg);font-size:14px;font-family:inherit;color:var(--text-primary);cursor:pointer;">
-            <option value="1">$1B</option>
-            <option value="2">$2B</option>
-            <option value="4" selected>$4B</option>
-            <option value="5">$5B</option>
-            <option value="10">$10B</option>
-          </select>
-        </div>
-        <div class="form-group full-width">
-          <div style="display:flex;gap:24px;font-size:13px;color:var(--text-secondary);">
-            <span><strong>Vesting:</strong> 5 years</span>
-            <span><strong>Cliff:</strong> 1 year</span>
+          <label>Valuation Multiple</label>
+          <div class="multiple-display">
+            <span class="multiple-value" id="multipleDisplay">5x</span>
           </div>
-          <div class="vesting-visual" style="margin-top:8px;">
-            <div class="vesting-bar-container" id="vestingBarContainer"></div>
-            <div class="vesting-labels" id="vestingLabels"></div>
+          <div class="slider-area">
+            <input type="range" id="multipleSlider" min="1" max="25" value="5" step="1" oninput="handleMultipleSlider()">
+            <div class="slider-labels">
+              <span>1x</span>
+              <span>25x</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <input type="hidden" id="vestingYears" value="5">
-    <input type="hidden" id="cliffYears" value="1">
 
-    <!-- Valuation Slider -->
-    <div class="card slider-section">
-      <div class="card-title">What could your equity be worth?</div>
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Drag the slider to see how your RSU grant grows at different company valuations.</p>
-      <div class="valuation-display" id="valuationDisplay">$4B</div>
-      <div class="slider-wrapper">
-        <input type="range" id="valuationSlider" min="0" max="5" value="1" step="1" oninput="handleValuationSlider()">
-      </div>
-      <div class="slider-markers">
-        <span class="slider-marker" onclick="setValuationStep(0)">$1B</span>
-        <span class="slider-marker" onclick="setValuationStep(1)">$4B</span>
-        <span class="slider-marker" onclick="setValuationStep(2)">$10B</span>
-        <span class="slider-marker" onclick="setValuationStep(3)">$25B</span>
-        <span class="slider-marker" onclick="setValuationStep(4)">$50B</span>
-        <span class="slider-marker" onclick="setValuationStep(5)">$100B</span>
+      <!-- Result -->
+      <div class="result-area">
+        <div class="result-label" id="resultLabel">Potential Equity Value at 5x</div>
+        <div class="result-big-value" id="resultValue">$250,000</div>
+        <div class="result-gain" id="resultGain">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          <span id="resultGainText">$200,000 potential gain</span>
+        </div>
       </div>
     </div>
 
-    <!-- Equity Value Results -->
-    <div class="card">
-      <div class="card-title">Your Equity Potential</div>
-      <div style="text-align:center;padding:8px 0 16px;">
-        <div class="result-label" style="margin-bottom:4px;">Projected RSU Value (Fully Vested)</div>
-        <div class="result-value highlight" id="equityHeroValue" style="font-size:40px;">$0</div>
-        <div class="result-sub" id="equityHeroSub" style="margin-top:4px;font-size:13px;">Your $50,000 grant could be worth this at the selected valuation</div>
+    <!-- Valuation Scenarios Table -->
+    <div class="card no-padding">
+      <div class="card-header">
+        <div class="card-title">Valuation Scenarios</div>
+        <div class="card-subtitle">See how your equity could grow at different valuation multiples.</div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding-top:16px;border-top:1px solid var(--cream-dark);">
-        <div class="result-item" style="text-align:center;">
-          <div class="result-label">RSU Grant</div>
-          <div class="result-value accent" id="rsuGrantValue">$50,000</div>
-          <div class="result-sub" id="rsuGrantSub">granted at $4B valuation</div>
-        </div>
-        <div class="result-item" style="text-align:center;">
-          <div class="result-label">Growth Multiple</div>
-          <div class="result-value accent" id="equityMultiple">1.0x</div>
-          <div class="result-sub" id="equityMultipleSub">return on grant value</div>
-        </div>
-      </div>
-      <div style="overflow-x:auto;">
-        <table class="vesting-table">
-          <thead><tr><th>Year</th><th>% Vested</th><th>Value</th></tr></thead>
-          <tbody id="vestingTableBody"></tbody>
+      <div class="card-body">
+        <table class="scenarios-table">
+          <thead>
+            <tr><th>Multiple</th><th>Equity Value</th><th>Potential Gain</th></tr>
+          </thead>
+          <tbody id="scenariosBody"></tbody>
         </table>
       </div>
-      <div class="tax-section" id="taxSection" style="display:none;">
-        <div style="margin-bottom:8px;">
-          <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);">Estimated Tax Impact (fully vested)</label>
-        </div>
-        <div class="tax-row">
-          <span class="tax-label">Federal Tax (~24%)</span>
-          <span class="tax-value" id="federalTax">-$0</span>
-        </div>
-        <div class="tax-row">
-          <span class="tax-label">State Tax (~5%)</span>
-          <span class="tax-value" id="stateTax">-$0</span>
-        </div>
-        <div class="tax-row net">
-          <span class="tax-label">After-Tax Value</span>
-          <span class="tax-value" id="afterTaxValue">$0</span>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
-        <div class="toggle-row">
-          <label style="font-size:12px;color:var(--text-muted);">Show Tax Estimate</label>
-          <label class="toggle toggle-sm">
-            <input type="checkbox" id="taxToggle" onchange="toggleTax()">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
     </div>
 
-    <!-- Total Comp Summary -->
-    <div class="card" style="background:var(--cream);border:1px solid var(--cream-dark);">
-      <div class="card-title" style="font-size:13px;text-transform:uppercase;letter-spacing:0.6px;">Total Annual Compensation</div>
-      <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:8px;text-align:center;">
-        <div>
-          <div style="font-size:12px;color:var(--text-muted);margin-bottom:2px;">Base Salary</div>
-          <div style="font-size:20px;font-weight:700;color:var(--text-primary);" id="baseSalaryDisplay">$150,000</div>
-        </div>
-        <div style="font-size:18px;color:var(--text-muted);font-weight:300;">+</div>
-        <div>
-          <div style="font-size:12px;color:var(--text-muted);margin-bottom:2px;">Annual RSU Vest</div>
-          <div style="font-size:20px;font-weight:700;color:var(--green-100);" id="annualVestValue">$0</div>
-        </div>
-        <div style="font-size:18px;color:var(--text-muted);font-weight:300;">=</div>
-        <div>
-          <div style="font-size:12px;color:var(--text-muted);margin-bottom:2px;">Total Comp/Year</div>
-          <div style="font-size:22px;font-weight:800;color:var(--green-100);" id="totalCompValue">$0</div>
-        </div>
-      </div>
-      <div id="totalCompSub" style="text-align:center;font-size:11px;color:var(--text-muted);margin-top:8px;">at current slider valuation</div>
-      <div id="annualVestSub" style="display:none;"></div>
-    </div>
-
-    <!-- Comparison Chart -->
-    <div class="card">
-      <div class="card-title">Equity Value by Company Valuation</div>
-      <div class="chart-container" id="comparisonChart"></div>
-    </div>
-
-    <div style="text-align:center;">
-      <button class="print-btn" onclick="window.print()">Print / Save for Reference</button>
-    </div>
-
+    <!-- Disclaimer -->
     <div class="disclaimer">
-      <strong>Disclaimer:</strong> This tool is for illustrative purposes only. Actual equity value depends on many factors including share class, liquidation preferences, dilution, and future financing. Consult your offer letter and ask your recruiter for details.
+      <p>*This calculator is for illustrative purposes only. Actual equity value depends on many factors including company performance, market conditions, vesting schedules, and share dilution. The assumptions made above are entirely controlled by you, and do not represent any guarantees from Base Power Company.</p>
     </div>
-  </div>
 
-  <!-- ═══════════════════════════════════════ -->
-  <!-- TAB 2: COST OF LIVING CALCULATOR        -->
-  <!-- ═══════════════════════════════════════ -->
-  <div class="tab-panel" id="panel-col">
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Ready to power the future?</h2>
+    <p>Join our mission to build infrastructure that impacts millions. Your work at Base will help modernize the grid and deliver affordable, reliable energy.</p>
+    <div style="padding-top:16px;">
+      <a href="https://www.basepowercompany.com/" target="_blank" class="cta-button">Learn more about Base</a>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- TAB 2: COST OF LIVING CALCULATOR       -->
+<!-- ═══════════════════════════════════════ -->
+<div class="tab-panel" id="panel-col">
+
+  <section class="content-section" style="padding-bottom:48px;">
 
     <div class="col-hero">
       <h2>Your Dollar Goes Further in Austin</h2>
@@ -1311,19 +1028,19 @@
 
     <!-- Location Inputs -->
     <div class="card">
-      <div class="card-title">Compare Locations</div>
+      <div class="card-title-small">Compare Locations</div>
       <div class="col-inputs">
         <div class="form-group">
           <label>Moving From</label>
           <div class="city-search-wrapper">
-            <input type="text" id="colCitySearch" placeholder="Type a city..." oninput="handleCitySearch(this.value)" onfocus="handleCitySearch(this.value)" autocomplete="off">
+            <input type="text" id="colCitySearch" placeholder="Type a city..." oninput="handleCitySearch(this.value)" onfocus="handleCitySearch(this.value)" autocomplete="off" style="padding-left:16px;">
             <div class="city-dropdown" id="colCityDropdown"></div>
           </div>
         </div>
         <div class="col-arrow">&#8594;</div>
         <div class="form-group">
           <div class="col-fixed-label">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 0.5L8.7 5.3L13.5 5.3L9.6 8.2L11.1 13L7 10.1L2.9 13L4.4 8.2L0.5 5.3L5.3 5.3L7 0.5Z" fill="#084D41"/></svg>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 0.5L8.7 5.3L13.5 5.3L9.6 8.2L11.1 13L7 10.1L2.9 13L4.4 8.2L0.5 5.3L5.3 5.3L7 0.5Z" fill="currentColor"/></svg>
             Moving To
           </div>
           <div class="col-fixed-city">Austin, TX</div>
@@ -1339,19 +1056,19 @@
 
     <!-- Offer Details -->
     <div class="card" id="colOfferCard" style="display:none;">
-      <div class="card-title">Your Offer</div>
+      <div class="card-title-small">Your Offer</div>
       <div class="offer-grid">
         <div class="form-group">
-          <label>Base Salary
-            <span class="tooltip-trigger">?<span class="tooltip-text">Your annual base salary from your offer letter. This is used to calculate equivalent purchasing power.</span></span>
-          </label>
-          <div class="input-prefix">
+          <label>Base Salary</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
             <input type="text" id="colSalary" value="150,000" oninput="handleColSalaryInput(this)" inputmode="numeric">
           </div>
         </div>
         <div class="form-group">
           <label>Annual Bonus (if any)</label>
-          <div class="input-prefix">
+          <div class="input-wrap">
+            <span class="prefix">$</span>
             <input type="text" id="colBonus" value="0" oninput="handleColBonusInput(this)" inputmode="numeric">
           </div>
         </div>
@@ -1360,7 +1077,7 @@
 
     <!-- Salary Comparison -->
     <div class="card" id="colSalaryCard" style="display:none;">
-      <div class="card-title">Purchasing Power Comparison</div>
+      <div class="card-title-small">Purchasing Power Comparison</div>
       <div class="salary-compare">
         <div class="salary-box">
           <div class="salary-box-label" id="colOriginLabel">San Francisco</div>
@@ -1373,8 +1090,6 @@
           <div class="salary-box-sub">equivalent purchasing power</div>
         </div>
       </div>
-
-      <!-- What your money buys -->
       <div style="margin-top:8px;">
         <div class="purchasing-power-row">
           <div class="pp-icon">&#127968;</div>
@@ -1411,21 +1126,21 @@
 
     <!-- Category Breakdown -->
     <div class="card" id="colCategoryCard" style="display:none;">
-      <div class="card-title">Category Breakdown</div>
+      <div class="card-title-small">Category Breakdown</div>
       <div id="colCategoryBars"></div>
       <div style="text-align:center;margin-top:8px;">
-        <span style="font-size:10px;color:var(--text-muted);">&#9664; Austin cheaper&nbsp;&nbsp;|&nbsp;&nbsp;Austin pricier &#9654;</span>
+        <span style="font-size:10px;color:var(--muted);">&#9664; Austin cheaper&nbsp;&nbsp;|&nbsp;&nbsp;Austin pricier &#9654;</span>
       </div>
     </div>
 
-    <!-- No state income tax callout -->
+    <!-- Tax card -->
     <div class="card" id="colTaxCard" style="display:none;">
-      <div class="card-title">Texas Tax Advantage</div>
+      <div class="card-title-small">Texas Tax Advantage</div>
       <div style="display:flex;align-items:flex-start;gap:14px;">
         <div style="font-size:28px;flex-shrink:0;">&#127881;</div>
         <div>
-          <div style="font-size:15px;font-weight:600;color:var(--green-100);margin-bottom:4px;">No state income tax in Texas</div>
-          <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;" id="colTaxSavingsText">
+          <div style="font-size:15px;font-weight:600;color:var(--accent);margin-bottom:4px;">No state income tax in Texas</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6;" id="colTaxSavingsText">
             Moving from California (13.3% top rate), you could save an estimated <strong>$19,950</strong> per year on state income taxes alone on a $150K salary.
           </div>
         </div>
@@ -1433,15 +1148,23 @@
     </div>
 
     <div style="text-align:center;">
-      <button class="print-btn" onclick="window.print()">Print / Save for Reference</button>
+      <button class="col-print-btn" onclick="window.print()">Print / Save for Reference</button>
     </div>
 
-    <div class="disclaimer">
+    <div class="col-disclaimer">
       <strong>Disclaimer:</strong> Cost of living data is approximate and based on aggregate index data. Actual costs vary by neighborhood, lifestyle, and personal spending. Tax information is general and not financial advice. Consult a tax professional for your specific situation.
     </div>
-  </div>
 
+  </section>
 </div>
+
+<!-- Footer -->
+<footer>
+  <div class="inner">
+    <svg viewBox="0 0 54 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:20px;width:auto;color:var(--muted);opacity:0.5;"><g clip-path="url(#bp2)"><path fill-rule="evenodd" clip-rule="evenodd" d="M14.1091 9.75295C14.7055 9.22349 15.0977 8.52569 15.0977 7.70842C15.0977 5.83223 13.6551 4.58325 11.1811 4.58325H5.15301C4.81185 4.58325 4.53516 4.86292 4.53516 5.20774V14.7896C4.53516 15.1344 4.81185 15.4141 5.15301 15.4141H11.5921C13.6417 15.4141 15.5087 14.3715 15.5087 12.2889C15.5087 11.1078 14.9795 10.2634 14.1064 9.75023L14.1091 9.75295ZM7.42024 6.77169C7.42024 6.71467 7.46591 6.66851 7.52232 6.66851H11.2321C11.8983 6.66851 12.3657 7.08393 12.3657 7.71114C12.3657 8.33834 11.952 8.75377 11.2321 8.75377H7.52232C7.46591 8.75377 7.42024 8.70761 7.42024 8.65059V6.7744V6.77169ZM11.13 13.3316H7.52232C7.46591 13.3316 7.42024 13.2854 7.42024 13.2284V10.9368C7.42024 10.8797 7.46591 10.8336 7.52232 10.8336H11.13C12.0998 10.8336 12.7794 11.2517 12.7794 12.0826C12.7794 12.9134 12.1804 13.3316 11.13 13.3316Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M26.3827 4.58325H21.1686C19.4869 4.58325 18.0175 5.72634 17.585 7.36631L15.6697 14.6294C15.5649 15.0258 15.8604 15.4168 16.2687 15.4168H17.9745C18.2539 15.4168 18.5011 15.2267 18.5709 14.9525L19.0867 12.9949C19.0974 12.9487 19.1404 12.9188 19.1861 12.9188H24.016C24.0724 12.9188 24.1181 12.965 24.1181 13.022V14.7923C24.1181 15.1371 24.3948 15.4168 24.736 15.4168H26.3853C26.7265 15.4168 27.0032 15.1371 27.0032 14.7923V5.20774C27.0032 4.86292 26.7265 4.58325 26.3853 4.58325H26.3827ZM24.1154 10.7277C24.1154 10.7847 24.0698 10.8309 24.0133 10.8309H19.7878C19.7206 10.8309 19.6696 10.7657 19.6884 10.7005L20.4271 7.9012C20.6205 7.17082 21.2733 6.66308 22.0201 6.66308H24.0133C24.0698 6.66308 24.1154 6.70924 24.1154 6.76625V10.725V10.7277Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M27.9922 12.6528C27.9922 13.3859 28.422 14.1814 29.2413 14.7136C30.0606 15.2403 30.8612 15.4141 31.8793 15.4141H34.4098C36.137 15.4141 37.1041 15.2023 37.816 14.662C38.5305 14.1162 38.8878 13.3044 38.8878 12.2971C38.8878 10.391 37.3163 9.53302 33.8295 8.86509C32.2043 8.55556 30.6892 8.41165 30.6436 7.55637C30.6167 7.07035 30.9417 6.66036 31.9142 6.66036H34.8342C35.3365 6.66036 35.6911 6.78255 35.9786 7.19797C36.0699 7.33373 36.1102 7.55909 36.1263 7.76273C36.1451 8.01795 36.3546 8.21616 36.6072 8.21616H38.1222C38.4285 8.21616 38.6756 7.96636 38.6783 7.65683C38.6783 7.57538 38.6783 7.48306 38.6783 7.3826C38.6783 6.58977 38.2162 5.78608 37.3969 5.25933C36.583 4.72716 35.3365 4.58325 34.3184 4.58325H32.4783C30.7456 4.58325 29.7651 4.83576 29.056 5.38151C28.3468 5.92455 27.9922 6.69838 27.9922 7.70842C27.9922 11.526 36.1236 10.4345 36.1236 12.4871C36.1236 13.0953 35.4762 13.3316 34.7429 13.3316H31.8121C31.0707 13.3316 30.657 12.984 30.657 12.46C30.657 12.46 30.7027 11.8246 30.0338 11.8246H28.5483C28.242 11.8246 27.9922 12.0771 27.9922 12.3867C27.9922 12.4654 27.9922 12.555 27.9922 12.6528Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M49.4663 5.20774V6.0413C49.4663 6.38613 49.1896 6.66579 48.8484 6.66579H42.9735C42.9171 6.66579 42.8714 6.71195 42.8714 6.76897V8.64516C42.8714 8.70218 42.9171 8.74834 42.9735 8.74834H48.0237C48.3649 8.74834 48.6416 9.028 48.6416 9.37283V10.2064C48.6416 10.5512 48.3649 10.8309 48.0237 10.8309H42.9735C42.9171 10.8309 42.8714 10.877 42.8714 10.9341V13.2257C42.8714 13.2827 42.9171 13.3288 42.9735 13.3288H48.8484C49.1896 13.3288 49.4663 13.6085 49.4663 13.9533V14.7869C49.4663 15.1317 49.1896 15.4114 48.8484 15.4114H40.6042C40.263 15.4114 39.9863 15.1317 39.9863 14.7869V5.20774C39.9863 4.86292 40.263 4.58325 40.6042 4.58325H48.8484C49.1896 4.58325 49.4663 4.86292 49.4663 5.20774Z" fill="currentColor"/><path d="M48.8477 0H5.15232C2.30753 0 0 2.33234 0 5.20771V14.7923C0 17.6677 2.30753 20 5.15232 20H48.8477C51.6925 20 54 17.6677 54 14.7923V5.20771C54 2.33234 51.6925 0 48.8477 0ZM51.9396 14.7923C51.9396 16.5164 50.5535 17.9175 48.8477 17.9175H5.15232C3.44384 17.9175 2.06039 16.5191 2.06039 14.7923V5.20771C2.06039 3.48086 3.44384 2.08254 5.15232 2.08254H48.8477C50.5535 2.08254 51.9396 3.48357 51.9396 5.20771V14.7896V14.7923Z" fill="currentColor"/></g><defs><clipPath id="bp2"><rect width="54" height="20" fill="currentColor"/></clipPath></defs></svg>
+    <span class="confidential">Confidential</span>
+  </div>
+</footer>
 
 <script>
 // ═══════════════════════════════════════════════════════════
@@ -1460,19 +1183,17 @@ function switchTab(tab) {
 }
 
 // ═══════════════════════════════════════════════════════════
-// EQUITY VALUE EXPLORER
+// EQUITY CALCULATOR
 // ═══════════════════════════════════════════════════════════
 
-const VALUATION_STEPS = [1, 4, 10, 25, 50, 100];
+const SCENARIO_MULTIPLES = [1, 2, 3, 5, 10, 15, 20];
 
 let eqState = {
-  baseSalary: 150000,
   rsuDollar: 50000,
+  multiple: 5,
   grantValuationB: 4,
   vestingYears: 5,
   cliffYears: 1,
-  valuationB: 4,
-  showTax: false,
 };
 
 function fmt(n) {
@@ -1481,23 +1202,12 @@ function fmt(n) {
   if (n >= 1e4) return '$' + Math.round(n).toLocaleString('en-US');
   if (n >= 100) return '$' + Math.round(n).toLocaleString('en-US');
   if (n >= 1) return '$' + n.toFixed(2);
-  if (n >= 0.01) return '$' + n.toFixed(2);
   if (n > 0) return '$' + n.toFixed(4);
   return '$0';
 }
 
-function fmtCompact(n) {
-  if (n >= 1e9) return '$' + (n / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
-  if (n >= 1e6) return '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
-  if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+function fmtWhole(n) {
   return '$' + Math.round(n).toLocaleString('en-US');
-}
-
-function fmtDollar(n) {
-  if (Math.abs(n) >= 1e3) return '$' + Math.round(n).toLocaleString('en-US');
-  if (Math.abs(n) >= 1) return '$' + n.toFixed(2);
-  if (Math.abs(n) > 0) return '$' + n.toFixed(4);
-  return '$0';
 }
 
 function formatWithCommas(n) { return n.toLocaleString('en-US'); }
@@ -1513,39 +1223,10 @@ function handleRsuDollarInput(el) {
   recalculate();
 }
 
-function handleSalaryInput(el) {
-  const raw = el.value.replace(/[^0-9]/g, '');
-  const num = parseInt(raw, 10) || 0;
-  const pos = el.selectionStart;
-  const oldLen = el.value.length;
-  el.value = num > 0 ? formatWithCommas(num) : '';
-  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
-  eqState.baseSalary = num;
+function handleMultipleSlider() {
+  const val = parseInt(document.getElementById('multipleSlider').value);
+  eqState.multiple = val;
   recalculate();
-}
-
-function handleValuationSlider() {
-  const step = parseInt(document.getElementById('valuationSlider').value);
-  eqState.valuationB = VALUATION_STEPS[step];
-  recalculate();
-}
-
-function setValuationStep(step) {
-  document.getElementById('valuationSlider').value = step;
-  eqState.valuationB = VALUATION_STEPS[step];
-  recalculate();
-}
-
-function toggleTax() {
-  eqState.showTax = document.getElementById('taxToggle').checked;
-  document.getElementById('taxSection').style.display = eqState.showTax ? 'block' : 'none';
-  recalculate();
-}
-
-function calcEquityValue(valuationB) {
-  const multiple = eqState.grantValuationB > 0 ? valuationB / eqState.grantValuationB : 0;
-  const totalValue = eqState.rsuDollar * multiple;
-  return { totalValue: totalValue, multiple: multiple };
 }
 
 let animFrames = {};
@@ -1557,98 +1238,41 @@ function animateValue(el, text) {
 }
 
 function recalculate() {
-  const step = parseInt(document.getElementById('valuationSlider').value);
-  eqState.valuationB = VALUATION_STEPS[step] || 4;
-  eqState.grantValuationB = parseFloat(document.getElementById('grantValuation').value) || 4;
+  const m = eqState.multiple;
+  const totalValue = eqState.rsuDollar * m;
+  const gain = totalValue - eqState.rsuDollar;
 
-  const v = eqState.valuationB;
-  const { totalValue, multiple } = calcEquityValue(v);
-  const annualVest = totalValue / eqState.vestingYears;
-  const totalComp = eqState.baseSalary + annualVest;
+  // Multiple display
+  document.getElementById('multipleDisplay').textContent = m + 'x';
 
-  const valDisplay = document.getElementById('valuationDisplay');
-  valDisplay.textContent = v >= 10 ? `$${Math.round(v)}B` : `$${v.toFixed(1).replace(/\.0$/, '')}B`;
+  // Result area
+  document.getElementById('resultLabel').textContent = `Potential Equity Value at ${m}x`;
+  animateValue(document.getElementById('resultValue'), fmtWhole(totalValue));
+  document.getElementById('resultGainText').textContent = gain > 0 ? `${fmtWhole(gain)} potential gain` : 'No gain at 1x';
 
-  // Equity hero
-  animateValue(document.getElementById('equityHeroValue'), fmt(totalValue));
-  document.getElementById('equityHeroSub').textContent =
-    `Your ${fmt(eqState.rsuDollar)} grant could be worth this at a $${v >= 10 ? Math.round(v) : v}B valuation`;
-
-  // Equity details
-  animateValue(document.getElementById('rsuGrantValue'), fmt(eqState.rsuDollar));
-  document.getElementById('rsuGrantSub').textContent = `granted at $${eqState.grantValuationB}B valuation`;
-  animateValue(document.getElementById('equityMultiple'), multiple >= 10 ? Math.round(multiple) + 'x' : multiple.toFixed(1) + 'x');
-  document.getElementById('equityMultipleSub').textContent = multiple >= 2 ? `${fmt(totalValue - eqState.rsuDollar)} gain on grant` : 'return on grant value';
-
-  // Total comp summary
-  animateValue(document.getElementById('baseSalaryDisplay'), fmt(eqState.baseSalary));
-  animateValue(document.getElementById('annualVestValue'), fmt(annualVest));
-  animateValue(document.getElementById('totalCompValue'), fmt(totalComp));
-  document.getElementById('totalCompSub').textContent = `at $${v >= 10 ? Math.round(v) : v}B valuation · ${fmt(totalValue)} fully vested over 5 yrs`;
-
-  renderVestingTable(totalValue);
-  renderVestingBar();
-  renderComparisonChart();
-
-  if (eqState.showTax) {
-    const gain = Math.max(0, totalValue);
-    const fed = gain * 0.24;
-    const st = gain * 0.05;
-    document.getElementById('federalTax').textContent = '-' + fmt(fed);
-    document.getElementById('stateTax').textContent = '-' + fmt(st);
-    document.getElementById('afterTaxValue').textContent = fmt(gain - fed - st);
-  }
+  // Scenarios table
+  renderScenarios();
 }
 
-function renderVestingBar() {
-  const c = document.getElementById('vestingBarContainer');
-  const l = document.getElementById('vestingLabels');
-  let s = '', lb = '';
-  for (let y = 0; y < eqState.vestingYears; y++) {
-    const isCliff = y < eqState.cliffYears;
-    const pct = !isCliff ? Math.round(((y + 1) / eqState.vestingYears) * 100) : 0;
-    s += `<div class="vesting-segment ${isCliff ? 'cliff' : 'vested'}">${!isCliff ? pct + '%' : ''}</div>`;
-    lb += `<span>Yr ${y + 1}</span>`;
-  }
-  c.innerHTML = s;
-  l.innerHTML = lb;
-}
-
-function renderVestingTable(totalValue) {
-  const tbody = document.getElementById('vestingTableBody');
+function renderScenarios() {
+  const tbody = document.getElementById('scenariosBody');
+  const m = eqState.multiple;
   let rows = '';
-  for (let y = 0; y <= eqState.vestingYears; y++) {
-    if (y === 0) { rows += `<tr class="cliff-row"><td>Year 0</td><td>0%</td><td>$0</td></tr>`; continue; }
-    if (y < eqState.cliffYears) { rows += `<tr class="cliff-row"><td>Year ${y}</td><td>0%</td><td>$0 (cliff)</td></tr>`; continue; }
-    const pct = y / eqState.vestingYears;
-    const val = totalValue * pct;
-    const last = y === eqState.vestingYears;
-    rows += `<tr><td>Year ${y}${last ? ' (fully vested)' : ''}</td><td>${Math.round(pct * 100)}%</td><td>${fmt(val)}</td></tr>`;
-  }
-  tbody.innerHTML = rows;
-}
-
-function renderComparisonChart() {
-  const ms = VALUATION_STEPS;
-  const vals = ms.map(v => calcEquityValue(v).totalValue);
-  const max = Math.max(...vals, 1);
-  const c = document.getElementById('comparisonChart');
-  let h = '';
-  ms.forEach((m, i) => {
-    const w = Math.max(2, (vals[i] / max) * 100);
-    const txt = fmtCompact(vals[i]);
-    const small = w < 25;
-    h += `<div class="chart-bar-row"><div class="chart-label">$${m}B</div><div class="chart-bar-track"><div class="chart-bar-fill bar-${i + 1}" style="width:${w}%;">${!small ? txt : ''}</div></div>${small ? `<div class="chart-bar-value-external">${txt}</div>` : '<div class="chart-bar-value-external"></div>'}</div>`;
+  SCENARIO_MULTIPLES.forEach(mult => {
+    const val = eqState.rsuDollar * mult;
+    const gain = val - eqState.rsuDollar;
+    const isHighlighted = mult === m;
+    const gainText = gain > 0 ? `+${fmtWhole(gain)}` : '+$0';
+    const gainClass = gain === 0 ? ' class="gain-zero"' : '';
+    rows += `<tr${isHighlighted ? ' class="highlighted"' : ''}><td>${mult}x</td><td>${fmtWhole(val)}</td><td${gainClass}>${gainText}</td></tr>`;
   });
-  c.innerHTML = h;
+  tbody.innerHTML = rows;
 }
 
 // ═══════════════════════════════════════════════════════════
 // COST OF LIVING CALCULATOR
 // ═══════════════════════════════════════════════════════════
 
-// COL indices relative to national average = 100
-// Sources: BestPlaces, Numbeo, C2ER aggregate data
 const CITIES = [
   { name: "San Francisco, CA", overall: 178, housing: 334, grocery: 110, utilities: 97, transport: 130, healthcare: 112, stateIncomeTax: 13.3 },
   { name: "New York, NY", overall: 187, housing: 348, grocery: 117, utilities: 107, transport: 120, healthcare: 110, stateIncomeTax: 10.9 },
@@ -1686,8 +1310,6 @@ const CITIES = [
 ];
 
 const AUSTIN = { name: "Austin, TX", overall: 111, housing: 131, grocery: 97, utilities: 99, transport: 100, healthcare: 98, stateIncomeTax: 0 };
-
-// Austin baseline costs (monthly)
 const AUSTIN_COSTS = { rent: 1650, grocery: 380, utilities: 155 };
 
 let colState = { selectedCity: null, salary: 150000, bonus: 0 };
@@ -1753,11 +1375,9 @@ function recalculateCOL() {
   if (!city) return;
   const totalComp = colState.salary + colState.bonus;
 
-  // Overall difference
   const diffPct = ((city.overall - AUSTIN.overall) / city.overall * 100);
   const isCheaper = diffPct > 0;
 
-  // Percentage display
   const pctEl = document.getElementById('colPercentage');
   pctEl.textContent = `${Math.abs(diffPct).toFixed(0)}%`;
   pctEl.className = 'col-percentage ' + (isCheaper ? 'cheaper' : 'pricier');
@@ -1769,13 +1389,11 @@ function recalculateCOL() {
     dirEl.innerHTML = `Austin is <strong>${Math.abs(diffPct).toFixed(0)}% more expensive</strong> than ${city.name}`;
   }
 
-  // Salary purchasing power: salary in city X buys as much as (salary * city.overall / austin.overall) in Austin
   const equivalentInAustin = Math.round(totalComp * (city.overall / AUSTIN.overall));
   document.getElementById('colOriginLabel').textContent = city.name.split(',')[0];
   document.getElementById('colOriginSalary').textContent = '$' + formatWithCommas(totalComp);
   document.getElementById('colAustinEquiv').textContent = '$' + formatWithCommas(equivalentInAustin);
 
-  // Monthly cost estimates
   const rentRatio = city.housing / AUSTIN.housing;
   const foodRatio = city.grocery / AUSTIN.grocery;
   const utilRatio = city.utilities / AUSTIN.utilities;
@@ -1787,7 +1405,6 @@ function recalculateCOL() {
   document.getElementById('ppUtilOrigin').textContent = '$' + formatWithCommas(Math.round(AUSTIN_COSTS.utilities * utilRatio));
   document.getElementById('ppUtilAustin').textContent = '$' + formatWithCommas(AUSTIN_COSTS.utilities);
 
-  // Category breakdown bars
   const categories = [
     { name: 'Housing', cityVal: city.housing, austinVal: AUSTIN.housing },
     { name: 'Grocery', cityVal: city.grocery, austinVal: AUSTIN.grocery },
@@ -1800,17 +1417,15 @@ function recalculateCOL() {
   let barsHTML = '';
   categories.forEach(cat => {
     const diff = ((cat.cityVal - cat.austinVal) / cat.cityVal * 100);
-    const isGood = diff > 0; // Austin is cheaper
+    const isGood = diff > 0;
     const barWidth = Math.min(48, Math.abs(diff) * 0.8);
     const pctText = isGood ? `-${Math.abs(diff).toFixed(0)}%` : `+${Math.abs(diff).toFixed(0)}%`;
-
     let barStyle;
     if (isGood) {
       barStyle = `right: 50%; width: ${barWidth}%;`;
     } else {
       barStyle = `left: 50%; width: ${barWidth}%;`;
     }
-
     barsHTML += `
       <div class="col-category-row">
         <div class="col-cat-label">${cat.name}</div>
@@ -1826,7 +1441,6 @@ function recalculateCOL() {
   });
   barsEl.innerHTML = barsHTML;
 
-  // Tax savings
   const taxCard = document.getElementById('colTaxCard');
   if (city.stateIncomeTax > 0) {
     taxCard.style.display = '';
@@ -1851,10 +1465,27 @@ document.addEventListener('click', function(e) {
 });
 
 // ═══════════════════════════════════════════════════════════
-// INIT
+// URL PARAMS & INIT
 // ═══════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-  renderVestingBar();
+  // Parse URL params
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get('name');
+  const grant = params.get('grant');
+
+  if (name) {
+    document.getElementById('personalizedSection').style.display = '';
+    document.getElementById('candidateName').textContent = name;
+  }
+
+  if (grant) {
+    const grantNum = parseInt(grant, 10) || 0;
+    if (grantNum > 0) {
+      eqState.rsuDollar = grantNum;
+      document.getElementById('rsuDollar').value = formatWithCommas(grantNum);
+    }
+  }
+
   recalculate();
 });
 </script>
