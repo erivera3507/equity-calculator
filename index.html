@@ -283,19 +283,84 @@
     color: var(--muted);
   }
 
-  /* Valuation multiple display */
-  .multiple-display {
-    background: rgba(84, 82, 79, 0.6);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px;
-    text-align: center;
+  /* Grant-Time Valuation fixed display */
+  .grant-valuation-display {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -0.5px;
   }
 
-  .multiple-value {
-    font-size: 30px;
-    font-weight: 700;
+  /* Vesting visual */
+  .vesting-visual {
+    margin-top: 14px;
+    padding: 14px;
+    background: rgba(84, 82, 79, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .vesting-bar-container {
+    display: flex;
+    gap: 3px;
+    height: 28px;
+    margin-bottom: 6px;
+  }
+
+  .vesting-segment {
+    flex: 1;
+    border-radius: 4px;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: transparent;
+    transition: background 0.3s;
+  }
+
+  .vesting-segment.cliff {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--border),
+      var(--border) 3px,
+      #4a4845 3px,
+      #4a4845 6px
+    );
+  }
+
+  .vesting-segment.vested {
+    background: linear-gradient(135deg, #5a8a3f, var(--accent));
+    color: #fff;
+  }
+
+  .vesting-labels {
+    display: flex;
+    gap: 3px;
+  }
+
+  .vesting-labels span {
+    flex: 1;
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  /* Valuation display */
+  .valuation-display {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
     color: var(--accent);
+    margin: 6px 0 20px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .slider-wrapper {
+    position: relative;
+    padding: 0 4px;
+    margin-bottom: 8px;
   }
 
   /* Slider */
@@ -307,53 +372,70 @@
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 6px;
-    border-radius: 3px;
+    height: 8px;
+    border-radius: 4px;
     outline: none;
     cursor: pointer;
-    background: var(--border);
   }
 
   input[type="range"]::-webkit-slider-runnable-track {
-    height: 6px;
-    border-radius: 3px;
-    background: var(--border);
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg,
+      #5a8a3f 0%,
+      var(--accent) 40%,
+      #d4a843 100%
+    );
   }
 
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: var(--accent);
-    border: 2px solid var(--accent);
+    background: var(--foreground);
+    border: 3px solid var(--accent);
     cursor: grab;
-    margin-top: -7px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    margin-top: -9px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
   input[type="range"]::-moz-range-track {
-    height: 6px;
-    border-radius: 3px;
-    background: var(--border);
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg,
+      #5a8a3f 0%,
+      var(--accent) 40%,
+      #d4a843 100%
+    );
   }
 
   input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
-    background: var(--accent);
-    border: 2px solid var(--accent);
+    background: var(--foreground);
+    border: 3px solid var(--accent);
     cursor: grab;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
 
-  .slider-labels {
+  .slider-labels, .slider-markers {
     display: flex;
     justify-content: space-between;
     margin-top: 8px;
     font-size: 12px;
     color: var(--muted);
+  }
+
+  .slider-markers span {
+    cursor: pointer;
+    padding: 4px 2px;
+    transition: color 0.2s;
+  }
+
+  .slider-markers span:hover {
+    color: var(--accent);
   }
 
   /* Result area */
@@ -451,6 +533,222 @@
 
   .scenarios-table td.gain-zero {
     color: var(--muted);
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    margin-top: 8px;
+    margin-bottom: 24px;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 18px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--foreground);
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+
+  .faq-question:hover {
+    background: rgba(84, 82, 79, 0.3);
+  }
+
+  .faq-question .faq-icon {
+    font-size: 18px;
+    color: var(--accent);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .faq-item.open .faq-question .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .faq-answer-inner {
+    padding: 0 24px 20px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .faq-answer-inner p {
+    margin-bottom: 10px;
+  }
+
+  .faq-answer-inner p:last-child {
+    margin-bottom: 0;
+  }
+
+  .faq-answer-inner strong {
+    color: var(--foreground);
+  }
+
+  /* Toggle switch */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: var(--border);
+    border-radius: 24px;
+    transition: background 0.25s;
+  }
+
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.25s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+
+  .toggle input:checked + .toggle-slider {
+    background: var(--accent);
+  }
+
+  .toggle input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  .toggle-sm {
+    width: 36px;
+    height: 20px;
+  }
+
+  .toggle-sm .toggle-slider::before {
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+  }
+
+  .toggle-sm input:checked + .toggle-slider::before {
+    transform: translateX(16px);
+  }
+
+  /* Tax section */
+  .tax-section {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+
+  .tax-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 13px;
+  }
+
+  .tax-row .tax-label { color: var(--muted); }
+  .tax-row .tax-value { font-weight: 600; color: #d47b6f; font-variant-numeric: tabular-nums; }
+  .tax-row.net .tax-label { color: var(--foreground); font-weight: 600; }
+  .tax-row.net .tax-value { color: var(--accent); font-size: 15px; }
+
+  /* Horizontal bar chart */
+  .chart-container { padding: 4px 0 0; }
+
+  .chart-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .chart-label {
+    width: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .chart-bar-track {
+    flex: 1;
+    height: 30px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .chart-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+
+  .chart-bar-fill.bar-1 { background: linear-gradient(90deg, #3a6b4f, #4a8a63); }
+  .chart-bar-fill.bar-2 { background: linear-gradient(90deg, #4a8a63, #5a9a73); }
+  .chart-bar-fill.bar-3 { background: linear-gradient(90deg, #5a9a73, #6aaa83); }
+  .chart-bar-fill.bar-4 { background: linear-gradient(90deg, #6aaa83, #7aba93); }
+  .chart-bar-fill.bar-5 { background: linear-gradient(90deg, #c5950f, #f7c33c); }
+  .chart-bar-fill.bar-6 { background: linear-gradient(90deg, #a8d45e, #d0f585); }
+
+  .chart-bar-value-external {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-left: 8px;
+    flex-shrink: 0;
+    min-width: 72px;
   }
 
   /* Disclaimer */
@@ -943,41 +1241,116 @@
       <div class="name" id="candidateName"></div>
     </div>
 
-    <!-- Input Card -->
+    <!-- Offer Details Card -->
     <div class="card">
+      <div class="card-title-small" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin-bottom:18px;">Your Offer Details</div>
       <div class="form-row">
         <div class="form-group">
-          <label>Your RSU Grant Amount</label>
+          <label>Base Salary</label>
+          <div class="input-wrap">
+            <span class="prefix">$</span>
+            <input type="text" id="baseSalary" value="150,000" oninput="handleSalaryInput(this)" inputmode="numeric">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>RSU Grant Value</label>
           <div class="input-wrap">
             <span class="prefix">$</span>
             <input type="text" id="rsuDollar" value="50,000" oninput="handleRsuDollarInput(this)" inputmode="numeric">
           </div>
-          <div class="helper-text">Enter the dollar value of your RSU grant</div>
-        </div>
-        <div class="form-group">
-          <label>Valuation Multiple</label>
-          <div class="multiple-display">
-            <span class="multiple-value" id="multipleDisplay">5x</span>
-          </div>
-          <div class="slider-area">
-            <input type="range" id="multipleSlider" min="1" max="25" value="5" step="1" oninput="handleMultipleSlider()">
-            <div class="slider-labels">
-              <span>1x</span>
-              <span>25x</span>
-            </div>
-          </div>
         </div>
       </div>
+      <div style="margin-top:20px;">
+        <label>Grant-Time Valuation</label>
+        <div class="grant-valuation-display" style="margin-top:6px;">$4B</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="display:flex;gap:24px;font-size:13px;color:var(--muted);">
+          <span><strong style="color:var(--foreground);">Vesting:</strong> 5 years</span>
+          <span><strong style="color:var(--foreground);">Cliff:</strong> 1 year</span>
+        </div>
+        <div class="vesting-visual" style="margin-top:8px;">
+          <div class="vesting-bar-container" id="vestingBarContainer"></div>
+          <div class="vesting-labels" id="vestingLabels"></div>
+        </div>
+      </div>
+    </div>
 
-      <!-- Result -->
-      <div class="result-area">
-        <div class="result-label" id="resultLabel">Potential Equity Value at 5x</div>
-        <div class="result-big-value" id="resultValue">$250,000</div>
-        <div class="result-gain" id="resultGain">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          <span id="resultGainText">$200,000 potential gain</span>
+    <!-- What Could Your Equity Be Worth? -->
+    <div class="card" style="text-align:center;">
+      <div class="card-title-small" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin-bottom:4px;">What could your equity be worth?</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:24px;">Drag the slider to see how your RSU grant grows at different valuation multiples.</p>
+      <div class="slider-area">
+        <div class="slider-wrapper">
+          <input type="range" id="multipleSlider" min="1" max="25" value="1" oninput="handleMultipleSlider()">
+        </div>
+        <div class="slider-labels">
+          <span>1x</span>
+          <span>25x</span>
         </div>
       </div>
+      <div class="valuation-display" id="multipleDisplay">1x</div>
+      <div class="result-area">
+        <div class="result-label" id="resultLabel">POTENTIAL EQUITY VALUE AT 1X</div>
+        <div class="result-big-value" id="resultValue">$50,000</div>
+        <div class="result-gain" id="resultGainText">No gain at 1x</div>
+      </div>
+    </div>
+
+    <!-- Total Annual Compensation -->
+    <div class="card">
+      <div class="card-title-small" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin-bottom:18px;">Total Annual Compensation</div>
+      <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:8px;text-align:center;">
+        <div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:2px;">Base Salary</div>
+          <div style="font-size:20px;font-weight:700;color:var(--foreground);" id="baseSalaryDisplay">$150,000</div>
+        </div>
+        <div style="font-size:18px;color:var(--muted);font-weight:300;">+</div>
+        <div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:2px;">Annual RSU Vest</div>
+          <div style="font-size:20px;font-weight:700;color:var(--accent);" id="annualVestValue">$10,000</div>
+        </div>
+        <div style="font-size:18px;color:var(--muted);font-weight:300;">=</div>
+        <div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:2px;">Total Comp/Year</div>
+          <div style="font-size:22px;font-weight:800;color:var(--accent);" id="totalCompValue">$160,000</div>
+        </div>
+      </div>
+      <div id="totalCompSub" style="text-align:center;font-size:11px;color:var(--muted);margin-top:8px;">at $4B valuation &middot; $50,000 fully vested over 5 yrs</div>
+
+      <!-- Tax estimate section -->
+      <div class="tax-section" id="taxSection" style="display:none;">
+        <div style="margin-bottom:8px;">
+          <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);">Estimated Tax Impact (fully vested)</label>
+        </div>
+        <div class="tax-row">
+          <span class="tax-label">Federal Tax (~24%)</span>
+          <span class="tax-value" id="federalTax">-$0</span>
+        </div>
+        <div class="tax-row">
+          <span class="tax-label">State Tax (~5%)</span>
+          <span class="tax-value" id="stateTax">-$0</span>
+        </div>
+        <div class="tax-row net">
+          <span class="tax-label">After-Tax Value</span>
+          <span class="tax-value" id="afterTaxValue">$0</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
+        <div class="toggle-row">
+          <label style="font-size:12px;color:var(--muted);">Show Tax Estimate</label>
+          <label class="toggle toggle-sm">
+            <input type="checkbox" id="taxToggle" onchange="toggleTax()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Equity Value by Company Valuation Chart -->
+    <div class="card">
+      <div class="card-title-small" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin-bottom:16px;">Equity Value by Company Valuation</div>
+      <div class="chart-container" id="comparisonChart"></div>
     </div>
 
     <!-- Valuation Scenarios Table -->
@@ -993,6 +1366,96 @@
           </thead>
           <tbody id="scenariosBody"></tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <div class="card-title-small" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin-bottom:16px;">Frequently Asked Questions</div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>What are RSUs and how do they work?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p><strong>Restricted Stock Units (RSUs)</strong> are a form of equity compensation that represent a promise to give you shares (or their cash equivalent) in the company once certain conditions are met — typically a vesting schedule tied to your continued employment.</p>
+            <p>Unlike stock options, RSUs don't require you to purchase shares at a set price. They have inherent value as long as the company has value. As the company grows and its valuation increases, the value of your RSUs grows proportionally.</p>
+            <p>At Base, your RSU grant is expressed as a dollar amount at the time of your offer. As the company's valuation increases beyond the grant-time valuation, your equity becomes worth more.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>How is my equity value calculated?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Your projected equity value is based on a simple growth multiple. If the company's valuation increases from the grant-time valuation (e.g., $4B) to a higher valuation (e.g., $10B), your equity grows by the same ratio — in this case, 2.5x.</p>
+            <p>For example, if your RSU grant is worth <strong>$50,000</strong> at a <strong>$4B valuation</strong>, and the company reaches a <strong>$10B valuation</strong>, your equity would be worth approximately <strong>$125,000</strong> (a 2.5x multiple).</p>
+            <p>This calculator models hypothetical scenarios. Actual outcomes depend on company performance, market conditions, and other factors.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>What's the difference between private RSUs and publicly traded stock?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p><strong>Publicly traded stock</strong> can be bought and sold freely on a stock exchange at any time. Its price is determined by the market in real time, and you can convert it to cash whenever markets are open.</p>
+            <p><strong>Private company RSUs</strong> represent equity in a company that is not yet publicly traded. Because there's no open market, the value is based on the company's most recent valuation (set during funding rounds or internal assessments). You typically can't sell private RSUs until a <strong>liquidity event</strong> occurs — such as an IPO, acquisition, or structured secondary sale.</p>
+            <p>The tradeoff: private RSUs carry more uncertainty, but they also offer significantly greater upside potential if the company grows substantially before going public.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>What does "vesting" mean?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p><strong>Vesting</strong> is the process by which you earn your equity over time. It's designed to reward long-term commitment to the company.</p>
+            <p>At Base, RSUs vest over a <strong>5-year schedule with a 1-year cliff</strong>. This means you don't earn any equity during your first year (the "cliff" period). After the cliff, 20% of your grant vests, and the remaining equity vests evenly over the following four years.</p>
+            <p>If you leave the company before the cliff, you forfeit all unvested RSUs. After the cliff, you keep any RSUs that have already vested.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>What is a liquidity event?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>A <strong>liquidity event</strong> is when a private company's equity becomes convertible to cash. The most common types include:</p>
+            <p><strong>IPO (Initial Public Offering):</strong> The company lists on a public stock exchange, allowing shareholders to sell their shares on the open market.</p>
+            <p><strong>Acquisition:</strong> Another company purchases the business, and equity holders receive cash, stock in the acquiring company, or a combination of both.</p>
+            <p><strong>Secondary sale:</strong> Some companies facilitate periodic buyback programs or secondary markets where employees can sell a portion of their vested shares before an IPO.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Are there tax implications for RSUs?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <p>Yes. For <strong>private company RSUs</strong>, the tax treatment depends on when and how you realize value from them. Generally, RSUs are taxed as ordinary income at the time they settle or become liquid — not when they vest.</p>
+            <p>At a public company, RSUs are typically taxed on the vesting date because the shares have a readily determinable market value. At a private company, taxation may be deferred until a liquidity event.</p>
+            <p>Tax rules vary significantly by jurisdiction and individual circumstances. We strongly recommend consulting a qualified tax advisor to understand how your specific equity compensation will be taxed.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1188,12 +1651,16 @@ function switchTab(tab) {
 
 const SCENARIO_MULTIPLES = [1, 2, 3, 5, 10, 15, 20];
 
+const CHART_VALUATIONS = [1, 4, 10, 25, 50, 100];
+const GRANT_VALUATION_B = 4;
+
 let eqState = {
+  baseSalary: 150000,
   rsuDollar: 50000,
-  multiple: 5,
-  grantValuationB: 4,
+  multiple: 1,
   vestingYears: 5,
   cliffYears: 1,
+  showTax: false,
 };
 
 function fmt(n) {
@@ -1210,7 +1677,25 @@ function fmtWhole(n) {
   return '$' + Math.round(n).toLocaleString('en-US');
 }
 
+function fmtCompact(n) {
+  if (n >= 1e9) return '$' + (n / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  return '$' + Math.round(n).toLocaleString('en-US');
+}
+
 function formatWithCommas(n) { return n.toLocaleString('en-US'); }
+
+function handleSalaryInput(el) {
+  const raw = el.value.replace(/[^0-9]/g, '');
+  const num = parseInt(raw, 10) || 0;
+  const pos = el.selectionStart;
+  const oldLen = el.value.length;
+  el.value = num > 0 ? formatWithCommas(num) : '';
+  el.setSelectionRange(Math.max(0, pos + (el.value.length - oldLen)), Math.max(0, pos + (el.value.length - oldLen)));
+  eqState.baseSalary = num;
+  recalculate();
+}
 
 function handleRsuDollarInput(el) {
   const raw = el.value.replace(/[^0-9]/g, '');
@@ -1224,8 +1709,13 @@ function handleRsuDollarInput(el) {
 }
 
 function handleMultipleSlider() {
-  const val = parseInt(document.getElementById('multipleSlider').value);
-  eqState.multiple = val;
+  eqState.multiple = parseInt(document.getElementById('multipleSlider').value);
+  recalculate();
+}
+
+function toggleTax() {
+  eqState.showTax = document.getElementById('taxToggle').checked;
+  document.getElementById('taxSection').style.display = eqState.showTax ? 'block' : 'none';
   recalculate();
 }
 
@@ -1241,32 +1731,110 @@ function recalculate() {
   const m = eqState.multiple;
   const totalValue = eqState.rsuDollar * m;
   const gain = totalValue - eqState.rsuDollar;
+  const annualVest = totalValue / eqState.vestingYears;
+  const totalComp = eqState.baseSalary + annualVest;
 
   // Multiple display
   document.getElementById('multipleDisplay').textContent = m + 'x';
 
   // Result area
-  document.getElementById('resultLabel').textContent = `Potential Equity Value at ${m}x`;
+  document.getElementById('resultLabel').textContent = `POTENTIAL EQUITY VALUE AT ${m}X`;
   animateValue(document.getElementById('resultValue'), fmtWhole(totalValue));
-  document.getElementById('resultGainText').textContent = gain > 0 ? `${fmtWhole(gain)} potential gain` : 'No gain at 1x';
 
-  // Scenarios table
+  const gainEl = document.getElementById('resultGainText');
+  if (gain > 0) {
+    gainEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +${fmtWhole(gain)} potential gain`;
+  } else {
+    gainEl.textContent = `No gain at ${m}x`;
+  }
+
+  // Total Annual Compensation
+  animateValue(document.getElementById('baseSalaryDisplay'), fmtWhole(eqState.baseSalary));
+  animateValue(document.getElementById('annualVestValue'), fmtWhole(annualVest));
+  animateValue(document.getElementById('totalCompValue'), fmtWhole(totalComp));
+  document.getElementById('totalCompSub').textContent = `at ${m}x valuation multiple \u00b7 ${fmtWhole(totalValue)} fully vested over ${eqState.vestingYears} yrs`;
+
+  // Tax estimate
+  if (eqState.showTax) {
+    const taxableGain = Math.max(0, totalValue);
+    const fed = taxableGain * 0.24;
+    const st = taxableGain * 0.05;
+    document.getElementById('federalTax').textContent = '-' + fmtWhole(fed);
+    document.getElementById('stateTax').textContent = '-' + fmtWhole(st);
+    document.getElementById('afterTaxValue').textContent = fmtWhole(taxableGain - fed - st);
+  }
+
+  // Tables, chart & vesting bar
   renderScenarios();
+  renderComparisonChart();
+  renderVestingBar();
+}
+
+function renderVestingBar() {
+  const c = document.getElementById('vestingBarContainer');
+  const l = document.getElementById('vestingLabels');
+  let s = '', lb = '';
+  for (let y = 0; y < eqState.vestingYears; y++) {
+    const isCliff = y < eqState.cliffYears;
+    const pct = !isCliff ? Math.round(((y + 1) / eqState.vestingYears) * 100) : 0;
+    s += `<div class="vesting-segment ${isCliff ? 'cliff' : 'vested'}">${!isCliff ? pct + '%' : ''}</div>`;
+    lb += `<span>Yr ${y + 1}</span>`;
+  }
+  c.innerHTML = s;
+  l.innerHTML = lb;
 }
 
 function renderScenarios() {
   const tbody = document.getElementById('scenariosBody');
-  const m = eqState.multiple;
   let rows = '';
-  SCENARIO_MULTIPLES.forEach(mult => {
-    const val = eqState.rsuDollar * mult;
+  SCENARIO_MULTIPLES.forEach(m => {
+    const val = eqState.rsuDollar * m;
     const gain = val - eqState.rsuDollar;
-    const isHighlighted = mult === m;
+    const isHighlighted = m === eqState.multiple;
     const gainText = gain > 0 ? `+${fmtWhole(gain)}` : '+$0';
-    const gainClass = gain === 0 ? ' class="gain-zero"' : '';
-    rows += `<tr${isHighlighted ? ' class="highlighted"' : ''}><td>${mult}x</td><td>${fmtWhole(val)}</td><td${gainClass}>${gainText}</td></tr>`;
+    const gainClass = gain <= 0 ? ' class="gain-zero"' : '';
+    rows += `<tr${isHighlighted ? ' class="highlighted"' : ''}><td>${m}x</td><td>${fmtWhole(val)}</td><td${gainClass}>${gainText}</td></tr>`;
   });
   tbody.innerHTML = rows;
+}
+
+function renderComparisonChart() {
+  const vals = CHART_VALUATIONS.map(v => {
+    const multiple = GRANT_VALUATION_B > 0 ? v / GRANT_VALUATION_B : 0;
+    return eqState.rsuDollar * multiple;
+  });
+  const max = Math.max(...vals, 1);
+  const c = document.getElementById('comparisonChart');
+  let h = '';
+  CHART_VALUATIONS.forEach((m, i) => {
+    const w = Math.max(2, (vals[i] / max) * 100);
+    const txt = fmtCompact(vals[i]);
+    const small = w < 25;
+    h += `<div class="chart-bar-row"><div class="chart-label">$${m}B</div><div class="chart-bar-track"><div class="chart-bar-fill bar-${i + 1}" style="width:${w}%;">${!small ? txt : ''}</div></div>${small ? `<div class="chart-bar-value-external">${txt}</div>` : '<div class="chart-bar-value-external"></div>'}</div>`;
+  });
+  c.innerHTML = h;
+}
+
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const answer = item.querySelector('.faq-answer');
+  const isOpen = item.classList.contains('open');
+
+  // Close all other FAQs
+  document.querySelectorAll('.faq-item.open').forEach(openItem => {
+    if (openItem !== item) {
+      openItem.classList.remove('open');
+      openItem.querySelector('.faq-answer').style.maxHeight = '0';
+    }
+  });
+
+  if (isOpen) {
+    item.classList.remove('open');
+    answer.style.maxHeight = '0';
+  } else {
+    item.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1472,6 +2040,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const name = params.get('name');
   const grant = params.get('grant');
+  const salary = params.get('salary');
 
   if (name) {
     document.getElementById('personalizedSection').style.display = '';
@@ -1483,6 +2052,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (grantNum > 0) {
       eqState.rsuDollar = grantNum;
       document.getElementById('rsuDollar').value = formatWithCommas(grantNum);
+    }
+  }
+
+  if (salary) {
+    const salaryNum = parseInt(salary, 10) || 0;
+    if (salaryNum > 0) {
+      eqState.baseSalary = salaryNum;
+      document.getElementById('baseSalary').value = formatWithCommas(salaryNum);
     }
   }
 
