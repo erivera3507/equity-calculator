@@ -1347,16 +1347,10 @@
       </div>
     </div>
 
-    <!-- Equity Value by Company Valuation Chart -->
-    <div class="card">
-      <div class="card-title-small" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin-bottom:16px;">Equity Value by Company Valuation</div>
-      <div class="chart-container" id="comparisonChart"></div>
-    </div>
-
     <!-- Valuation Scenarios Table -->
     <div class="card no-padding">
       <div class="card-header">
-        <div class="card-title">Valuation Scenarios</div>
+        <div class="card-title-small" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;color:var(--accent);margin-bottom:4px;">Valuation Scenarios</div>
         <div class="card-subtitle">See how your equity could grow at different valuation multiples.</div>
       </div>
       <div class="card-body">
@@ -1396,7 +1390,7 @@
           <div class="faq-answer-inner">
             <p>Your projected equity value is based on a simple growth multiple. If the company's valuation increases from the grant-time valuation (e.g., $4B) to a higher valuation (e.g., $10B), your equity grows by the same ratio — in this case, 2.5x.</p>
             <p>For example, if your RSU grant is worth <strong>$50,000</strong> at a <strong>$4B valuation</strong>, and the company reaches a <strong>$10B valuation</strong>, your equity would be worth approximately <strong>$125,000</strong> (a 2.5x multiple).</p>
-            <p>This calculator models hypothetical scenarios. Actual outcomes depend on company performance, market conditions, and other factors.</p>
+            <p><strong>Important note:</strong> This calculator does not factor in dilution, which can reduce your ownership percentage over time as the company raises additional funding rounds or issues new shares. Actual outcomes depend on company performance, market conditions, share dilution, and other factors. Consult your offer letter and ask your recruiter for details.</p>
           </div>
         </div>
       </div>
@@ -1764,9 +1758,8 @@ function recalculate() {
     document.getElementById('afterTaxValue').textContent = fmtWhole(taxableGain - fed - st);
   }
 
-  // Tables, chart & vesting bar
+  // Tables & vesting bar
   renderScenarios();
-  renderComparisonChart();
   renderVestingBar();
 }
 
