@@ -1320,20 +1320,43 @@
 
       <!-- Tax estimate section -->
       <div class="tax-section" id="taxSection" style="display:none;">
-        <div style="margin-bottom:8px;">
-          <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);">Estimated Tax Impact (fully vested)</label>
-        </div>
-        <div class="tax-row">
-          <span class="tax-label">Federal Tax (~24%)</span>
-          <span class="tax-value" id="federalTax">-$0</span>
-        </div>
-        <div class="tax-row">
-          <span class="tax-label">State Tax (~5%)</span>
-          <span class="tax-value" id="stateTax">-$0</span>
-        </div>
-        <div class="tax-row net">
-          <span class="tax-label">After-Tax Value</span>
-          <span class="tax-value" id="afterTaxValue">$0</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+          <!-- Equity Only -->
+          <div>
+            <div style="margin-bottom:8px;">
+              <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);">Equity Tax Estimate (fully vested)</label>
+            </div>
+            <div class="tax-row">
+              <span class="tax-label">Federal (~24%)</span>
+              <span class="tax-value" id="eqFederalTax">-$0</span>
+            </div>
+            <div class="tax-row">
+              <span class="tax-label">State (~5%)</span>
+              <span class="tax-value" id="eqStateTax">-$0</span>
+            </div>
+            <div class="tax-row net">
+              <span class="tax-label">After-Tax Equity</span>
+              <span class="tax-value" id="eqAfterTax">$0</span>
+            </div>
+          </div>
+          <!-- Total Comp -->
+          <div>
+            <div style="margin-bottom:8px;">
+              <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);">Total Comp Tax Estimate (annual)</label>
+            </div>
+            <div class="tax-row">
+              <span class="tax-label">Federal (~24%)</span>
+              <span class="tax-value" id="compFederalTax">-$0</span>
+            </div>
+            <div class="tax-row">
+              <span class="tax-label">State (~5%)</span>
+              <span class="tax-value" id="compStateTax">-$0</span>
+            </div>
+            <div class="tax-row net">
+              <span class="tax-label">After-Tax Comp</span>
+              <span class="tax-value" id="compAfterTax">$0</span>
+            </div>
+          </div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
@@ -1748,14 +1771,21 @@ function recalculate() {
   animateValue(document.getElementById('totalCompValue'), fmtWhole(totalComp));
   document.getElementById('totalCompSub').textContent = `at ${m}x valuation multiple \u00b7 ${fmtWhole(totalValue)} fully vested over ${eqState.vestingYears} yrs`;
 
-  // Tax estimate
+  // Tax estimates
   if (eqState.showTax) {
-    const taxableGain = Math.max(0, totalValue);
-    const fed = taxableGain * 0.24;
-    const st = taxableGain * 0.05;
-    document.getElementById('federalTax').textContent = '-' + fmtWhole(fed);
-    document.getElementById('stateTax').textContent = '-' + fmtWhole(st);
-    document.getElementById('afterTaxValue').textContent = fmtWhole(taxableGain - fed - st);
+    // Equity only (fully vested)
+    const eqFed = totalValue * 0.24;
+    const eqSt = totalValue * 0.05;
+    document.getElementById('eqFederalTax').textContent = '-' + fmtWhole(eqFed);
+    document.getElementById('eqStateTax').textContent = '-' + fmtWhole(eqSt);
+    document.getElementById('eqAfterTax').textContent = fmtWhole(totalValue - eqFed - eqSt);
+
+    // Total annual comp (salary + annual vest)
+    const compFed = totalComp * 0.24;
+    const compSt = totalComp * 0.05;
+    document.getElementById('compFederalTax').textContent = '-' + fmtWhole(compFed);
+    document.getElementById('compStateTax').textContent = '-' + fmtWhole(compSt);
+    document.getElementById('compAfterTax').textContent = fmtWhole(totalComp - compFed - compSt);
   }
 
   // Tables & vesting bar
