@@ -1293,7 +1293,7 @@
       <div class="result-area">
         <div class="result-label" id="resultLabel">POTENTIAL EQUITY VALUE AT 1X</div>
         <div class="result-big-value" id="resultValue">$50,000</div>
-        <div class="result-gain" id="resultGainText">No gain at 1x</div>
+        <div class="result-gain" id="resultGainText">$50,000 in RSU value at current valuation</div>
       </div>
     </div>
 
@@ -1318,56 +1318,6 @@
       </div>
       <div id="totalCompSub" style="text-align:center;font-size:11px;color:var(--muted);margin-top:8px;">at $4B valuation &middot; $50,000 fully vested over 5 yrs</div>
 
-      <!-- Tax estimate section -->
-      <div class="tax-section" id="taxSection" style="display:none;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-          <!-- Equity Only -->
-          <div>
-            <div style="margin-bottom:8px;">
-              <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);">Equity Tax Estimate (fully vested)</label>
-            </div>
-            <div class="tax-row">
-              <span class="tax-label">Federal (~24%)</span>
-              <span class="tax-value" id="eqFederalTax">-$0</span>
-            </div>
-            <div class="tax-row">
-              <span class="tax-label">State (~5%)</span>
-              <span class="tax-value" id="eqStateTax">-$0</span>
-            </div>
-            <div class="tax-row net">
-              <span class="tax-label">After-Tax Equity</span>
-              <span class="tax-value" id="eqAfterTax">$0</span>
-            </div>
-          </div>
-          <!-- Total Comp -->
-          <div>
-            <div style="margin-bottom:8px;">
-              <label style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);">Total Comp Tax Estimate (annual)</label>
-            </div>
-            <div class="tax-row">
-              <span class="tax-label">Federal (~24%)</span>
-              <span class="tax-value" id="compFederalTax">-$0</span>
-            </div>
-            <div class="tax-row">
-              <span class="tax-label">State (~5%)</span>
-              <span class="tax-value" id="compStateTax">-$0</span>
-            </div>
-            <div class="tax-row net">
-              <span class="tax-label">After-Tax Comp</span>
-              <span class="tax-value" id="compAfterTax">$0</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;">
-        <div class="toggle-row">
-          <label style="font-size:12px;color:var(--muted);">Show Tax Estimate</label>
-          <label class="toggle toggle-sm">
-            <input type="checkbox" id="taxToggle" onchange="toggleTax()">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-      </div>
     </div>
 
     <!-- Valuation Scenarios Table -->
@@ -1411,9 +1361,9 @@
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <p>Your projected equity value is based on a simple growth multiple. If the company's valuation increases from the grant-time valuation (e.g., $4B) to a higher valuation (e.g., $10B), your equity grows by the same ratio — in this case, 2.5x.</p>
-            <p>For example, if your RSU grant is worth <strong>$50,000</strong> at a <strong>$4B valuation</strong>, and the company reaches a <strong>$10B valuation</strong>, your equity would be worth approximately <strong>$125,000</strong> (a 2.5x multiple).</p>
-            <p><strong>Important note:</strong> This calculator does not factor in dilution, which can reduce your ownership percentage over time as the company raises additional funding rounds or issues new shares. Actual outcomes depend on company performance, market conditions, share dilution, and other factors. Consult your offer letter and ask your recruiter for details.</p>
+            <p>This calculator uses a simplified illustrative model to show how your grant could grow if the company's valuation increases. It is designed to provide a directional example — it is not a prediction or a full financial projection.</p>
+            <p>The model assumes your equity grows in direct proportion to the company's valuation. For example, if the company's valuation increases from the grant-time valuation (e.g., $4B) to a higher valuation (e.g., $10B), that represents a 2.5x increase. Under this simplified assumption, your equity value would also increase by 2.5x.</p>
+            <p><strong>Important:</strong> This is a simplified calculator model and does not reflect all real-world factors that affect equity value. It does not account for potential dilution from future fundraising rounds, additional share issuances, changes to the company's capital structure, taxes owed on RSUs at vesting, timing of liquidity events, or other variables that may impact the ultimate value you realize. Actual outcomes may differ materially. Please refer to your offer letter for details about your grant and consult your recruiter with any specific questions.</p>
           </div>
         </div>
       </div>
@@ -1468,9 +1418,9 @@
         </button>
         <div class="faq-answer">
           <div class="faq-answer-inner">
-            <p>Yes. For <strong>private company RSUs</strong>, the tax treatment depends on when and how you realize value from them. Generally, RSUs are taxed as ordinary income at the time they settle or become liquid — not when they vest.</p>
-            <p>At a public company, RSUs are typically taxed on the vesting date because the shares have a readily determinable market value. At a private company, taxation may be deferred until a liquidity event.</p>
-            <p>Tax rules vary significantly by jurisdiction and individual circumstances. We strongly recommend consulting a qualified tax advisor to understand how your specific equity compensation will be taxed.</p>
+            <p>Yes. Base Power Company uses <strong>single-trigger RSUs</strong>, which means your RSUs are taxed as ordinary income at the time they vest — not at a future liquidity event.</p>
+            <p>When your RSUs vest, the company will either <strong>withhold a portion of your shares</strong> to cover the applicable taxes or <strong>require you to pay the taxes directly</strong>. The taxable amount is based on the fair market value of the shares at the time of vesting.</p>
+            <p>Tax rules vary by jurisdiction and individual circumstances. We recommend consulting a qualified tax advisor to understand how your specific equity compensation will be taxed.</p>
           </div>
         </div>
       </div>
@@ -1677,7 +1627,6 @@ let eqState = {
   multiple: 1,
   vestingYears: 5,
   cliffYears: 1,
-  showTax: false,
 };
 
 function fmt(n) {
@@ -1730,11 +1679,6 @@ function handleMultipleSlider() {
   recalculate();
 }
 
-function toggleTax() {
-  eqState.showTax = document.getElementById('taxToggle').checked;
-  document.getElementById('taxSection').style.display = eqState.showTax ? 'block' : 'none';
-  recalculate();
-}
 
 let animFrames = {};
 function animateValue(el, text) {
@@ -1759,10 +1703,10 @@ function recalculate() {
   animateValue(document.getElementById('resultValue'), fmtWhole(totalValue));
 
   const gainEl = document.getElementById('resultGainText');
-  if (gain > 0) {
-    gainEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +${fmtWhole(gain)} potential gain`;
+  if (m === 1) {
+    gainEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> ${fmtWhole(totalValue)} in RSU value at current valuation`;
   } else {
-    gainEl.textContent = `No gain at ${m}x`;
+    gainEl.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +${fmtWhole(gain)} potential gain over current value`;
   }
 
   // Total Annual Compensation
@@ -1770,23 +1714,6 @@ function recalculate() {
   animateValue(document.getElementById('annualVestValue'), fmtWhole(annualVest));
   animateValue(document.getElementById('totalCompValue'), fmtWhole(totalComp));
   document.getElementById('totalCompSub').textContent = `at ${m}x valuation multiple \u00b7 ${fmtWhole(totalValue)} fully vested over ${eqState.vestingYears} yrs`;
-
-  // Tax estimates
-  if (eqState.showTax) {
-    // Equity only (fully vested)
-    const eqFed = totalValue * 0.24;
-    const eqSt = totalValue * 0.05;
-    document.getElementById('eqFederalTax').textContent = '-' + fmtWhole(eqFed);
-    document.getElementById('eqStateTax').textContent = '-' + fmtWhole(eqSt);
-    document.getElementById('eqAfterTax').textContent = fmtWhole(totalValue - eqFed - eqSt);
-
-    // Total annual comp (salary + annual vest)
-    const compFed = totalComp * 0.24;
-    const compSt = totalComp * 0.05;
-    document.getElementById('compFederalTax').textContent = '-' + fmtWhole(compFed);
-    document.getElementById('compStateTax').textContent = '-' + fmtWhole(compSt);
-    document.getElementById('compAfterTax').textContent = fmtWhole(totalComp - compFed - compSt);
-  }
 
   // Tables & vesting bar
   renderScenarios();
